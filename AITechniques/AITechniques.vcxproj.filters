@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="State-Driven">
+      <UniqueIdentifier>{3116245e-91f4-4761-90c2-047c8b628eed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="State-Driven\Public">
+      <UniqueIdentifier>{6c8eeaeb-0df0-45dc-b8b4-f4850920f4ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="State-Driven\Private">
+      <UniqueIdentifier>{e0762dcc-4763-4dc6-9414-1cd377379ed5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="State-Driven\Public\Common">
+      <UniqueIdentifier>{7bc86585-5518-4dc1-8f52-0b2c38d5d0b9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Code\Public\Miner.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\State.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\Locations.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\BaseGameEntity.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\MinerStates.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\Common\ConsoleUtils.h">
+      <Filter>State-Driven\Public\Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Code\Private\Miner.cpp">
+      <Filter>State-Driven\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Private\BaseGameEntity.cpp">
+      <Filter>State-Driven\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\main.cpp">
+      <Filter>State-Driven</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Private\MinerStates.cpp">
+      <Filter>State-Driven\Private</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
