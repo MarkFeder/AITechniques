@@ -68,7 +68,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <SourcePath>$(SourcePath)</SourcePath>
+    <IncludePath>$(SolutionDir)Code;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -112,14 +115,22 @@
   <ItemGroup>
     <ClInclude Include="..\Code\Public\BaseGameEntity.h" />
     <ClInclude Include="..\Code\Public\Common\ConsoleUtils.h" />
+    <ClInclude Include="..\Code\Public\Common\MessageDispatcher.h" />
+    <ClInclude Include="..\Code\Public\Common\MessageTypes.h" />
+    <ClInclude Include="..\Code\Public\Common\Telegram.h" />
+    <ClInclude Include="..\Code\Public\EntityManager.h" />
+    <ClInclude Include="..\Code\Public\EntityNames.h" />
     <ClInclude Include="..\Code\Public\Locations.h" />
     <ClInclude Include="..\Code\Public\Miner.h" />
     <ClInclude Include="..\Code\Public\MinerStates.h" />
     <ClInclude Include="..\Code\Public\State.h" />
+    <ClInclude Include="..\Code\Public\StateMachine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\main.cpp" />
     <ClCompile Include="..\Code\Private\BaseGameEntity.cpp" />
+    <ClCompile Include="..\Code\Private\Common\MessageDispatcher.cpp" />
+    <ClCompile Include="..\Code\Private\EntityManager.cpp" />
     <ClCompile Include="..\Code\Private\Miner.cpp" />
     <ClCompile Include="..\Code\Private\MinerStates.cpp" />
   </ItemGroup>

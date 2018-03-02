@@ -3,8 +3,9 @@
 #include "State.h"
 
 class Miner;
+struct Telegram;
 
-class EnterMineAndDigForNuggetState : public State
+class EnterMineAndDigForNuggetState : public State<Miner>
 {
 public:
 	EnterMineAndDigForNuggetState() = default;
@@ -21,9 +22,11 @@ public:
 	virtual void Execute(Miner* pMiner);
 
 	virtual void Exit(Miner* pMiner);
+
+	virtual bool OnMessage(Miner* pMiner, const Telegram& msg);
 };
 
-class VisitBankAndDepositGoldState : public State
+class VisitBankAndDepositGoldState : public State<Miner>
 {
 public:
 	VisitBankAndDepositGoldState() = default;
@@ -40,9 +43,11 @@ public:
 	virtual void Execute(Miner* pMiner);
 
 	virtual void Exit(Miner* pMiner);
+
+	virtual bool OnMessage(Miner* pMiner, const Telegram& msg);
 };
 
-class GoHomeAndSleepTilRestedState : public State
+class GoHomeAndSleepTilRestedState : public State<Miner>
 {
 public:
 	GoHomeAndSleepTilRestedState() = default;
@@ -59,4 +64,27 @@ public:
 	virtual void Execute(Miner* pMiner);
 
 	virtual void Exit(Miner* pMiner);
+
+	virtual bool OnMessage(Miner* pMiner, const Telegram& msg);
+};
+
+class QuenchThirstState : public State<Miner>
+{
+public:
+	QuenchThirstState() = default;
+
+	// Copy ctor and assignment are deleted
+	QuenchThirstState(const QuenchThirstState&) = delete;
+	QuenchThirstState& operator=(const QuenchThirstState&) = delete;
+
+	// Retrieves the single Instance
+	static QuenchThirstState* Instance();
+
+	virtual void Enter(Miner* pMiner);
+
+	virtual void Execute(Miner* pMiner);
+
+	virtual void Exit(Miner* pMiner);
+
+	virtual bool OnMessage(Miner* pMiner, const Telegram& msg);
 };

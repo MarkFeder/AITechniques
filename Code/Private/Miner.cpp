@@ -1,5 +1,7 @@
-#include "../Public/Miner.h"
-#include "../Public/State.h"
+#include "Public/Miner.h"
+#include "Public/State.h"
+#include "Public/MinerStates.h"
+
 #include <cassert>
 #include <iostream>
 #include <string>
@@ -10,34 +12,26 @@ Miner::Miner(int ID)
 	m_iGoldCarried{0},
 	m_iMoneyInBank{0},
 	m_iThirst{0},
-	m_iFatigue{0},
-	m_pCurrentState{nullptr}
-{}
+	m_iFatigue{0}
+{
+	// Setup Miner's state machine
+	m_pStateMachine = new StateMachine<Miner>(this);
+
+	m_pStateMachine->SetCurrentState(GoHomeAndSleepTilRestedState::Instance());
+	
+	// A global state has not been implemented for the Miner
+}
 
 void Miner::Update()
 {
-	m_iThirst += 1;
+	++m_iThirst;
 
-	if (m_pCurrentState)
-	{
-		m_pCurrentState->Execute(this);
-	}
+	m_pStateMachine->Update();
 }
 
-void Miner::ChangeState(State * pNewState)
+bool Miner::HandleMessage(const Telegram & msg)
 {
-	// make sure both states are both valid before attempting to call
-	// their methods
-	assert(m_pCurrentState && pNewState);
-
-	// call the exit method of the existing state
-	m_pCurrentState->Exit(this);
-
-	// change state to the new state
-	m_pCurrentState = pNewState;
-
-	// call the entry method of the new state
-	m_pCurrentState->Enter(this);
+	return m_pStateMachine->HandleMessage(msg);
 }
 
 void Miner::AddToGoldCarried(const int val)

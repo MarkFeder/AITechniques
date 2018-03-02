@@ -13,6 +13,9 @@
     <Filter Include="State-Driven\Public\Common">
       <UniqueIdentifier>{7bc86585-5518-4dc1-8f52-0b2c38d5d0b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="State-Driven\Private\Common">
+      <UniqueIdentifier>{a9602b20-ce66-4b40-b2e4-e323154109b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Code\Public\Miner.h">
@@ -33,6 +36,24 @@
     <ClInclude Include="..\Code\Public\Common\ConsoleUtils.h">
       <Filter>State-Driven\Public\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Public\StateMachine.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\EntityManager.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\Common\MessageDispatcher.h">
+      <Filter>State-Driven\Public\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\Common\MessageTypes.h">
+      <Filter>State-Driven\Public\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\Common\Telegram.h">
+      <Filter>State-Driven\Public\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\EntityNames.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Private\Miner.cpp">
@@ -46,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\Private\MinerStates.cpp">
       <Filter>State-Driven\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Private\EntityManager.cpp">
+      <Filter>State-Driven\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Private\Common\MessageDispatcher.cpp">
+      <Filter>State-Driven\Private\Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

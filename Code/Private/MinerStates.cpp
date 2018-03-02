@@ -1,6 +1,7 @@
-#include "../Public/MinerStates.h"
-#include "../Public/Miner.h"
-#include "../Public/Common/ConsoleUtils.h"
+#include "Public/MinerStates.h"
+#include "Public/Miner.h"
+#include "Public/Common/ConsoleUtils.h"
+#include "Public/Common/MessageTypes.h"
 
 #include <iostream>
 using std::cout;
@@ -52,12 +53,12 @@ void EnterMineAndDigForNuggetState::Execute(Miner* pMiner)
 	// If enough gold mined, go and put it in the bank
 	if (pMiner->ArePocketsFull())
 	{
-		pMiner->ChangeState(VisitBankAndDepositGoldState::Instance());
+		pMiner->GetFSM()->ChangeState(VisitBankAndDepositGoldState::Instance());
 	}
 
 	if (pMiner->Thirsty())
 	{
-		// pMiner->ChangeState(QuenchThirst::Instance());
+		pMiner->GetFSM()->ChangeState(QuenchThirstState::Instance());
 	}
 }
 
@@ -65,6 +66,12 @@ void EnterMineAndDigForNuggetState::Exit(Miner* pMiner)
 {
 	SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
 	cout << "\n" << ": " << "Ah'm leavin' the goldmine with mah pockets full o' sweet gold";
+}
+
+bool EnterMineAndDigForNuggetState::OnMessage(Miner * pMiner, const Telegram & msg)
+{
+	//send msg to global message handler
+	return false;
 }
 
 // ~EnterMineAndDigForNuggetState
@@ -106,12 +113,12 @@ void VisitBankAndDepositGoldState::Execute(Miner * pMiner)
 		SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
 		cout << "\n" << ": " << "WooHoo! Rich enough for now. Back home to mah li'lle lady";
 
-		pMiner->ChangeState(GoHomeAndSleepTilRestedState::Instance());
+		pMiner->GetFSM()->ChangeState(GoHomeAndSleepTilRestedState::Instance());
 	}
 	else
 	{
 		// Otherwise, get more gold
-		pMiner->ChangeState(EnterMineAndDigForNuggetState::Instance());
+		pMiner->GetFSM()->ChangeState(EnterMineAndDigForNuggetState::Instance());
 	}
 }
 
@@ -119,6 +126,12 @@ void VisitBankAndDepositGoldState::Exit(Miner * pMiner)
 {
 	SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
 	cout << "\n" << ": " << "Leavin' the bank";
+}
+
+bool VisitBankAndDepositGoldState::OnMessage(Miner * pMiner, const Telegram & msg)
+{
+	//send msg to global message handler
+	return false;
 }
 
 // ~VisitBankAndDepositGoldState
@@ -151,7 +164,7 @@ void GoHomeAndSleepTilRestedState::Execute(Miner * pMiner)
 		SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
 		cout << "\n" << ": " << "What a God darn Fantastic nap! Time to find more gold";
 		
-		pMiner->ChangeState(EnterMineAndDigForNuggetState::Instance());
+		pMiner->GetFSM()->ChangeState(EnterMineAndDigForNuggetState::Instance());
 	}
 	else
 	{
@@ -169,4 +182,81 @@ void GoHomeAndSleepTilRestedState::Exit(Miner * pMiner)
 	cout << "\n" << ": " << "Leaving the house";
 }
 
+bool GoHomeAndSleepTilRestedState::OnMessage(Miner* pMiner, const Telegram& msg)
+{
+	SetTextColor(BACKGROUND_RED | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
+	switch (msg.msg)
+	{
+		case EMessageType::EMT_StewReady:
+
+			//cout << "\nMessage handled by " << GetNameOfEntity(pMiner->ID()) 
+			//	<< " at time: " << Clock->GetCurrentTime();
+
+			SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
+
+			//cout << "\n" << GetNameOfEntity(pMiner->ID())
+			//	<< ": Okay Hun, ahm a comin'!";
+
+			// pMiner->GetFSM()->ChangeState(EatStew::Instance());
+
+			return true;
+
+		default:
+
+			return false;
+	}
+}
+
 // ~GoHomeAndSleepTilRestedState
+
+// QuenchThirstState
+
+QuenchThirstState * QuenchThirstState::Instance()
+{
+	static QuenchThirstState instance;
+
+	return &instance;
+}
+
+void QuenchThirstState::Enter(Miner * pMiner)
+{
+	if (pMiner->Location() != ELocationType::EL_Saloon)
+	{
+		pMiner->ChangeLocation(ELocationType::EL_Saloon);
+
+		SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
+		cout << "\n" << ": " << "Boy, ah sure is thusty! Walking to the saloon";
+	}
+}
+
+void QuenchThirstState::Execute(Miner * pMiner)
+{
+	if (pMiner->Thirsty())
+	{
+		pMiner->BuyAndDrinkWhiskey();
+
+		SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
+		cout << "\n" << ": " << "That's mighty fine sippin liquer";
+
+		pMiner->GetFSM()->ChangeState(EnterMineAndDigForNuggetState::Instance());
+	}
+	else
+	{
+		SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
+		cout << "\nERROR!\nERROR!\nERROR!";
+	}
+}
+
+void QuenchThirstState::Exit(Miner * pMiner)
+{
+	SetTextColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
+	cout << "\n"  << ": " << "Leaving the saloon, feelin' good";
+}
+
+bool QuenchThirstState::OnMessage(Miner * pMiner, const Telegram & msg)
+{
+	return false;
+}
+
+// ~QuenchThirstState

@@ -2,13 +2,9 @@
 
 #include "BaseGameEntity.h"
 #include "Locations.h"
-
+#include "StateMachine.h"
 
 // #define GET_PROPERTY(NameMethod, PropertyName, PropertyType) PropertyType Get##NameMethod() const { return PropertyName; }
-
-
-class State;
-
 
 // The amount of gold a miner must have before he feels comfortable
 const int ComfortLevel = 5;
@@ -19,13 +15,12 @@ const int ThirstLevel = 5;
 // Above this value, a miner is sleepy
 const int TirednessThreshold = 5;
 
-
 class Miner : public BaseGameEntity
 {
 private:
 
 	// A pointer to an instance of a State
-	State* m_pCurrentState;
+	StateMachine<Miner>* m_pStateMachine;
 
 	// The current location type
 	ELocationType m_location;
@@ -49,8 +44,11 @@ public:
 	// This must be implemented
 	void Update() override;
 
-	// This method changes the current state to the new state
-	void ChangeState(State* pNewState);
+	// This method handle received message
+	virtual bool HandleMessage(const Telegram& msg);
+
+	// This method retrieves the current state machine owned by the Miner
+	StateMachine<Miner>* GetFSM() const { return m_pStateMachine; }
 
 	// Performs operations related to Miner's location
 	ELocationType Location() const { return m_location; }
