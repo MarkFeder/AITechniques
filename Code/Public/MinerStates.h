@@ -88,3 +88,24 @@ public:
 
 	virtual bool OnMessage(Miner* pMiner, const Telegram& msg);
 };
+
+class EatStewState : public State<Miner>
+{
+public:
+	EatStewState() = default;
+
+	// Copy ctor and assignment are deleted
+	EatStewState(const EatStewState&) = delete;
+	EatStewState& operator=(const EatStewState&) = delete;
+
+	// Retrieves the single Instance
+	static EatStewState* Instance();
+
+	virtual void Enter(Miner* pMiner);
+
+	virtual void Execute(Miner* pMiner);
+
+	virtual void Exit(Miner* pMiner);
+
+	virtual bool OnMessage(Miner* pMiner, const Telegram& msg);
+};

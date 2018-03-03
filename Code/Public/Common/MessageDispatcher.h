@@ -11,7 +11,7 @@ const double SEND_MSG_INMEDIATELY = 0.0f;
 const int NO_ADDITIONAL_INFO = 0;
 
 // to make life easier ...
-// #define Dispatch MessageDispatcher::Instance()
+#define Dispatch MessageDispatcher::Instance()
 
 class MessageDispatcher
 {

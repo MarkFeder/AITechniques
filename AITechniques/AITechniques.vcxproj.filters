@@ -54,6 +54,18 @@
     <ClInclude Include="..\Code\Public\EntityNames.h">
       <Filter>State-Driven\Public</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Public\Common\CrudeTimer.h">
+      <Filter>State-Driven\Public\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\Elsa.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\ElsaStates.h">
+      <Filter>State-Driven\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Public\Common\Utils.h">
+      <Filter>State-Driven\Public\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Private\Miner.cpp">
@@ -73,6 +85,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\Private\Common\MessageDispatcher.cpp">
       <Filter>State-Driven\Private\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Private\Common\CrudeTimer.cpp">
+      <Filter>State-Driven\Private\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Private\Elsa.cpp">
+      <Filter>State-Driven\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Private\ElsaStates.cpp">
+      <Filter>State-Driven\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

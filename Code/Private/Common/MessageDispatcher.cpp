@@ -1,9 +1,10 @@
-#include "Public/Common/MessageDispatcher.h"
 #include "Public/BaseGameEntity.h"
+#include "Public/EntityNames.h"
 #include "Public/EntityManager.h"
-#include "Public/Common/MessageTypes.h"
 #include "Public/Locations.h"
-// #include "Public/EntityNames.h"
+#include "Public/Common/CrudeTimer.h"
+#include "Public/Common/MessageTypes.h"
+#include "Public/Common/MessageDispatcher.h"
 
 #include <iostream>
 #include <set>
@@ -54,9 +55,9 @@ void MessageDispatcher::DispatchCustomMessage(double delay, int sender, int rece
 	// If there is no delay, route telegram inmediately
 	if (delay <= 0.0f)
 	{
-		//cout << "\nInstant telegram dispatched at time: " << Clock->GetCurrentTime()
-		//	<< " by " << GetNameOfEntity(pSender->ID()) << " for " << GetNameOfEntity(pReceiver->ID())
-		//	<< ". Msg is " << EMsgTypeToStr(msg);
+		cout << "\nInstant telegram dispatched at time: " << Clock->GetElapsedTime()
+			<< " by " << GetNameOfEntity(pSender->ID()) << " for " << GetNameOfEntity(pReceiver->ID())
+			<< ". Msg is " << EMsgTypeToStr(msg);
 
 		// send the telegram to the recipient
 		Discharge(pReceiver, message);
@@ -64,17 +65,16 @@ void MessageDispatcher::DispatchCustomMessage(double delay, int sender, int rece
 	else
 	{
 		// Calculate the time when the telegram should be dispatched
-		// double currentTime = Clock->GetCurrentTime();
-		double currentTime = 5.0f;
+		double currentTime = Clock->GetElapsedTime();
 
 		message.dispatchTime = currentTime + delay;
 
 		// and put the message into the queue
 		priorityQueue.insert(message);
 
-		//cout << "\nDelayed telegram from " << GetNameOfEntity(pSender->ID()) << " recorded at time "
-		//	<< Clock->GetCurrentTime() << " for " << GetNameOfEntity(pReceiver->ID())
-		//	<< ". Msg is " << EMsgTypeToStr(msg);
+		cout << "\nDelayed telegram from " << GetNameOfEntity(pSender->ID()) << " recorded at time "
+			<< Clock->GetElapsedTime() << " for " << GetNameOfEntity(pReceiver->ID())
+			<< ". Msg is " << EMsgTypeToStr(msg);
 	}
 }
 
@@ -83,8 +83,7 @@ void MessageDispatcher::DispatchDelayedMessages()
 	SetTextColor(BACKGROUND_RED | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
 	// Get current time
-	// double currentTime = Clock->GetCurrentTime();
-	double currentTime = 0.0f;
+	double currentTime = Clock->GetElapsedTime();
 	
 	// Now peek at the queue to see if any telegrams need dispatching.
 	// Remove all telegrams from the front of the queue that have gone
@@ -99,8 +98,8 @@ void MessageDispatcher::DispatchDelayedMessages()
 		// Find the recipient
 		BaseGameEntity* pReceiver = EntityMgr->GetEntityFromID(telegram.receiver);
 
-		//cout << "\nQueued telegram ready for dispatch: Sent to "
-		//	<< GetNameOfEntity(pReceiver->ID()) << ". Msg is " << EMsgTypeToStr(telegram.msg);
+		cout << "\nQueued telegram ready for dispatch: Sent to "
+			<< GetNameOfEntity(pReceiver->ID()) << ". Msg is " << EMsgTypeToStr(telegram.msg);
 
 		// Send the telegram to the receipient
 		Discharge(pReceiver, telegram);

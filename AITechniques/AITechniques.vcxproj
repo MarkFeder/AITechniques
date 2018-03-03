@@ -115,9 +115,13 @@
   <ItemGroup>
     <ClInclude Include="..\Code\Public\BaseGameEntity.h" />
     <ClInclude Include="..\Code\Public\Common\ConsoleUtils.h" />
+    <ClInclude Include="..\Code\Public\Common\CrudeTimer.h" />
     <ClInclude Include="..\Code\Public\Common\MessageDispatcher.h" />
     <ClInclude Include="..\Code\Public\Common\MessageTypes.h" />
     <ClInclude Include="..\Code\Public\Common\Telegram.h" />
+    <ClInclude Include="..\Code\Public\Common\Utils.h" />
+    <ClInclude Include="..\Code\Public\Elsa.h" />
+    <ClInclude Include="..\Code\Public\ElsaStates.h" />
     <ClInclude Include="..\Code\Public\EntityManager.h" />
     <ClInclude Include="..\Code\Public\EntityNames.h" />
     <ClInclude Include="..\Code\Public\Locations.h" />
@@ -129,7 +133,10 @@
   <ItemGroup>
     <ClCompile Include="..\Code\main.cpp" />
     <ClCompile Include="..\Code\Private\BaseGameEntity.cpp" />
+    <ClCompile Include="..\Code\Private\Common\CrudeTimer.cpp" />
     <ClCompile Include="..\Code\Private\Common\MessageDispatcher.cpp" />
+    <ClCompile Include="..\Code\Private\Elsa.cpp" />
+    <ClCompile Include="..\Code\Private\ElsaStates.cpp" />
     <ClCompile Include="..\Code\Private\EntityManager.cpp" />
     <ClCompile Include="..\Code\Private\Miner.cpp" />
     <ClCompile Include="..\Code\Private\MinerStates.cpp" />
