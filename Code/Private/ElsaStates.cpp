@@ -4,6 +4,7 @@
 #include "Public/EntityNames.h"
 
 #include "Public/Common/MessageDispatcher.h"
+#include "Public/Common/MessageTypes.h"
 #include "Public/Common/Telegram.h"
 #include "Public/Common/CrudeTimer.h"
 
@@ -46,7 +47,7 @@ bool WifeGlobalState::OnMessage(Elsa * pWife, const Telegram& msg)
 			cout << "\n" << GetNameOfEntity(pWife->ID()) 
 				<< ": Hi honey. Let me make you some of mah fine country stew";
 
-			// pWife->GetFSM()->ChangeState(CookStew::Instance());
+			pWife->GetFSM()->ChangeState(CookStewState::Instance());
 
 			return true;
 	}
@@ -82,7 +83,7 @@ void VisitBathroomState::Exit(Elsa* pWife)
 	cout << "\n" << GetNameOfEntity(pWife->ID()) << ": Leavin' the Jon";
 }
 
-bool VisitBathroomState::OnMessage(Elsa * pWife, const Telegram & msg)
+bool VisitBathroomState::OnMessage(Elsa * pWife, const Telegram& msg)
 {
 	return false;
 }
@@ -116,7 +117,7 @@ void DoHouseWorkState::Execute(Elsa * pWife)
 	}
 }
 
-bool DoHouseWorkState::OnMessage(Elsa * pWife, const Telegram & msg)
+bool DoHouseWorkState::OnMessage(Elsa * pWife, const Telegram& msg)
 {
 	return false;
 }
@@ -137,7 +138,15 @@ void CookStewState::Enter(Elsa* pWife)
 	// If not already cooking, put the stew in the oven
 	if (!pWife->IsCooking())
 	{
+		cout << "\n" << GetNameOfEntity(pWife->ID())
+			<< ": Puttin' the stew in the oven";
 
+		// Send a delayed message to myself so that I know when to take 
+		// the stew out of the oven
+		Dispatch->DispatchCustomMessage(1.5, pWife->ID(), pWife->ID(), 
+			EMessageType::EMT_StewReady, NO_ADDITIONAL_INFO);
+
+		pWife->SetCooking(true);
 	}
 }
 
@@ -149,8 +158,28 @@ void CookStewState::Exit(Elsa* pWife)
 {
 }
 
-bool CookStewState::OnMessage(Elsa* pWife, const Telegram & msg)
+bool CookStewState::OnMessage(Elsa* pWife, const Telegram& msg)
 {
+	switch (msg.msg)
+	{
+		case EMessageType::EMT_StewReady:
+			
+			cout << "\nMessage received by " << GetNameOfEntity(pWife->ID())
+				<< " at time: " << Clock->GetElapsedTime();
+			
+			cout << "\n" << GetNameOfEntity(pWife->ID())
+				<< ": Stew ready! Let's eat";
+
+			// let know that stew is ready
+			Dispatch->DispatchCustomMessage(SEND_MSG_INMEDIATELY, pWife->ID(),
+				(int)EEntityName::EEN_MinerBob, EMessageType::EMT_StewReady, NO_ADDITIONAL_INFO);
+
+			pWife->SetCooking(false);
+			pWife->GetFSM()->ChangeState(DoHouseWorkState::Instance());
+
+			return true;
+	}
+
 	return false;
 }
 
