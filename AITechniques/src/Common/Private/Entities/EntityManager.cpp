@@ -1,5 +1,5 @@
-#include "Public/EntityManager.h"
-#include "Public/BaseGameEntity.h"
+#include "Common/Public/Entities/EntityManager.h"
+#include "Common/Public/Entities/BaseGameEntity.h"
 
 EntityManager* EntityManager::Instance()
 {

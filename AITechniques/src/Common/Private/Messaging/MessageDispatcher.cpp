@@ -1,10 +1,11 @@
-#include "Public/BaseGameEntity.h"
-#include "Public/EntityNames.h"
-#include "Public/EntityManager.h"
-#include "Public/Locations.h"
-#include "Public/Common/CrudeTimer.h"
-#include "Public/Common/MessageTypes.h"
-#include "Public/Common/MessageDispatcher.h"
+#include "Common/Public/Entities/BaseGameEntity.h"
+#include "Common/Public/Entities/EntityManager.h"
+#include "Common/Public/Entities/EntityNames.h"
+#include "Common/Public/Time/CrudeTimer.h"
+#include "Common/Public/Messaging/MessageTypes.h"
+#include "Common/Public/Messaging/MessageDispatcher.h"
+
+// #include "Common/Public/Locations.h"
 
 #include <iostream>
 #include <set>

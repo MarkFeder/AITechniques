@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Public/Common/Telegram.h"
+#include "Common/Public/Messaging/Telegram.h"
 
 class BaseGameEntity
 {

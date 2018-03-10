@@ -2,14 +2,14 @@
 
 #include <string>
 
-#include "State.h"
-#include "BaseGameEntity.h"
+#include "Common/Public/FSM/State.h"
+#include "Common/Public/FSM/StateMachine.h"
+#include "Common/Public/Entities/BaseGameEntity.h"
+#include "Common/Public/Misc/ConsoleUtils.h"
+#include "Common/Public/Misc/Utils.h"
 #include "Locations.h"
 #include "Miner.h"
-#include "StateMachine.h"
 #include "ElsaStates.h"
-#include "Common/ConsoleUtils.h"
-#include "Common/Utils.h"
 
 class Elsa : public BaseGameEntity
 {
@@ -40,6 +40,8 @@ public:
 	~Elsa() { delete m_pStateMachine; }
 
 	void Update();
+
+	virtual bool HandleMessage(const Telegram& msg);
 
 	StateMachine<Elsa>* GetFSM() const { return m_pStateMachine; }
 

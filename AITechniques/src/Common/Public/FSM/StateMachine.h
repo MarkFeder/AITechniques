@@ -4,7 +4,7 @@
 #include <string>
 
 #include "State.h"
-#include "Common/Telegram.h"
+#include "Common/Public/Messaging/Telegram.h"
 
 template<class entity_type>
 class StateMachine

@@ -1,12 +1,13 @@
-#include "Public/ElsaStates.h"
-#include "Public/Elsa.h"
-#include "Public/Locations.h"
-#include "Public/EntityNames.h"
+#include "State-Driven/Public/ElsaStates.h"
+#include "State-Driven/Public/Elsa.h"
+#include "State-Driven/Public/Locations.h"
+#include "Common/Public/Entities/EntityNames.h"
 
-#include "Public/Common/MessageDispatcher.h"
-#include "Public/Common/MessageTypes.h"
-#include "Public/Common/Telegram.h"
-#include "Public/Common/CrudeTimer.h"
+#include "Common/Public/Messaging/MessageDispatcher.h"
+#include "Common/Public/Messaging/MessageTypes.h"
+#include "Common/Public/Messaging/Telegram.h"
+
+#include "Common/Public/Time/CrudeTimer.h"
 
 #include <iostream>
 using std::cout;

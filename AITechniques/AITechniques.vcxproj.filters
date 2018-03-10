@@ -1,99 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="State-Driven">
-      <UniqueIdentifier>{3116245e-91f4-4761-90c2-047c8b628eed}</UniqueIdentifier>
+    <Filter Include="Private">
+      <UniqueIdentifier>{36725880-24cb-46da-b608-49931f48cf95}</UniqueIdentifier>
     </Filter>
-    <Filter Include="State-Driven\Public">
-      <UniqueIdentifier>{6c8eeaeb-0df0-45dc-b8b4-f4850920f4ad}</UniqueIdentifier>
+    <Filter Include="Private\Common">
+      <UniqueIdentifier>{09b63538-9a0a-4248-b025-1838292803a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="State-Driven\Private">
-      <UniqueIdentifier>{e0762dcc-4763-4dc6-9414-1cd377379ed5}</UniqueIdentifier>
+    <Filter Include="Public">
+      <UniqueIdentifier>{00539dcd-94c6-4f67-b9ab-62991e44cffa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="State-Driven\Public\Common">
-      <UniqueIdentifier>{7bc86585-5518-4dc1-8f52-0b2c38d5d0b9}</UniqueIdentifier>
+    <Filter Include="Public\Common">
+      <UniqueIdentifier>{7e59fb62-888b-4c5f-b711-17143f2ff050}</UniqueIdentifier>
     </Filter>
-    <Filter Include="State-Driven\Private\Common">
-      <UniqueIdentifier>{a9602b20-ce66-4b40-b2e4-e323154109b0}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Code\Public\Miner.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\State.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\Locations.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\BaseGameEntity.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\MinerStates.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\Common\ConsoleUtils.h">
-      <Filter>State-Driven\Public\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\StateMachine.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\EntityManager.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\Common\MessageDispatcher.h">
-      <Filter>State-Driven\Public\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\Common\MessageTypes.h">
-      <Filter>State-Driven\Public\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\Common\Telegram.h">
-      <Filter>State-Driven\Public\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\EntityNames.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\Common\CrudeTimer.h">
-      <Filter>State-Driven\Public\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\Elsa.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\ElsaStates.h">
-      <Filter>State-Driven\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Code\Public\Common\Utils.h">
-      <Filter>State-Driven\Public\Common</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Code\Private\Miner.cpp">
-      <Filter>State-Driven\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Private\BaseGameEntity.cpp">
-      <Filter>State-Driven\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\main.cpp">
-      <Filter>State-Driven</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Private\MinerStates.cpp">
-      <Filter>State-Driven\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Private\EntityManager.cpp">
-      <Filter>State-Driven\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Private\Common\MessageDispatcher.cpp">
-      <Filter>State-Driven\Private\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Private\Common\CrudeTimer.cpp">
-      <Filter>State-Driven\Private\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Private\Elsa.cpp">
-      <Filter>State-Driven\Private</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Private\ElsaStates.cpp">
-      <Filter>State-Driven\Private</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

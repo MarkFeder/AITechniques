@@ -1,6 +1,6 @@
-#include "Public/Miner.h"
-#include "Public/State.h"
-#include "Public/MinerStates.h"
+#include "State-Driven/Public/Miner.h"
+#include "State-Driven/Public/MinerStates.h"
+#include "Common/Public/FSM/State.h"
 
 #include <cassert>
 #include <iostream>

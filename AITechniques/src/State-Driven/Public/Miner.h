@@ -1,8 +1,8 @@
 #pragma once
 
-#include "BaseGameEntity.h"
+#include "Common/Public/Entities/BaseGameEntity.h"
+#include "Common/Public/FSM/StateMachine.h"
 #include "Locations.h"
-#include "StateMachine.h"
 
 // #define GET_PROPERTY(NameMethod, PropertyName, PropertyType) PropertyType Get##NameMethod() const { return PropertyName; }
 

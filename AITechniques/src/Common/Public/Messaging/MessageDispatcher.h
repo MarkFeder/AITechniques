@@ -1,7 +1,7 @@
 #pragma once
 
 #include <set>
-#include "ConsoleUtils.h"
+#include "Common/Public/Misc/ConsoleUtils.h"
 #include "Telegram.h"
 
 class BaseGameEntity;
