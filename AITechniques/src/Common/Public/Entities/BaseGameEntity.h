@@ -8,6 +8,9 @@ private:
 	// Every entity has an unique identifier number
 	int m_ID;
 
+	// Each entity has a generic flag
+	bool m_bTag;
+
 	// This is the next valid ID. Each time a BaseGameEntity is instantiated
 	// this value is always updated
 	static int m_iNextvalidID;
@@ -40,5 +43,10 @@ public:
 
 	// Get the current ID of this entity
 	int ID() const { return m_ID; }
+
+	// Get the current tag of this entity
+	bool IsTagged() { return m_bTag; }
+	void Tag() { m_bTag = true; }
+	void UnTag() { m_bTag = false; }
 };
 

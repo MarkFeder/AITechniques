@@ -27,6 +27,7 @@ inline bool IsNaN(T val)
 	return val != val;
 }
 
+// Converts input degrees to radians
 inline double DegsToRads(double degs)
 {
 	return TwoPi * (degs / 360.0);
@@ -52,6 +53,12 @@ inline bool InRange(double start, double end, double val)
 	}
 }
 
+// Returns true if two double values are equal or not
+inline bool IsEqual(double a, double b) { return (fabs(a - b) < 1E-12); }
+// Returns true if two real numbers are equal or not
+inline bool IsEqual(float a, float b) { return (fabs(a - b) < 1E-12); }
+
+// Returns the maximum of two values
 template <class T>
 T Maximum(const T& v1, const T& v2)
 {

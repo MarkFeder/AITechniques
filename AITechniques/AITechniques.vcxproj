@@ -18,6 +18,38 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Common\Private\2D\Vector2D.cpp" />
+    <ClCompile Include="src\Common\Private\Entities\BaseGameEntity.cpp" />
+    <ClCompile Include="src\Common\Private\Entities\EntityManager.cpp" />
+    <ClCompile Include="src\Common\Private\Messaging\MessageDispatcher.cpp" />
+    <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\State-Driven\Private\Elsa.cpp" />
+    <ClCompile Include="src\State-Driven\Private\ElsaStates.cpp" />
+    <ClCompile Include="src\State-Driven\Private\Miner.cpp" />
+    <ClCompile Include="src\State-Driven\Private\MinerStates.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Common\Public\2D\Vector2D.h" />
+    <ClInclude Include="src\Common\Public\Entities\BaseGameEntity.h" />
+    <ClInclude Include="src\Common\Public\Entities\EntityManager.h" />
+    <ClInclude Include="src\Common\Public\Entities\EntityNames.h" />
+    <ClInclude Include="src\Common\Public\Entities\MovingEntity.h" />
+    <ClInclude Include="src\Common\Public\FSM\State.h" />
+    <ClInclude Include="src\Common\Public\FSM\StateMachine.h" />
+    <ClInclude Include="src\Common\Public\Messaging\MessageDispatcher.h" />
+    <ClInclude Include="src\Common\Public\Messaging\MessageTypes.h" />
+    <ClInclude Include="src\Common\Public\Messaging\Telegram.h" />
+    <ClInclude Include="src\Common\Public\Misc\ConsoleUtils.h" />
+    <ClInclude Include="src\Common\Public\Misc\Utils.h" />
+    <ClInclude Include="src\Common\Public\Time\CrudeTimer.h" />
+    <ClInclude Include="src\State-Driven\Public\Elsa.h" />
+    <ClInclude Include="src\State-Driven\Public\ElsaStates.h" />
+    <ClInclude Include="src\State-Driven\Public\Locations.h" />
+    <ClInclude Include="src\State-Driven\Public\Miner.h" />
+    <ClInclude Include="src\State-Driven\Public\MinerStates.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7DC12076-F1E7-48E1-9A10-8548435C329D}</ProjectGuid>
     <RootNamespace>AITechniques</RootNamespace>
@@ -71,6 +103,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>$(SourcePath)</SourcePath>
     <IncludePath>$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)bin\Intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)Code;$(IncludePath)</IncludePath>
