@@ -22,6 +22,7 @@
     <ClCompile Include="src\Common\Private\2D\Vector2D.cpp" />
     <ClCompile Include="src\Common\Private\Entities\BaseGameEntity.cpp" />
     <ClCompile Include="src\Common\Private\Entities\EntityManager.cpp" />
+    <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
     <ClCompile Include="src\Common\Private\Messaging\MessageDispatcher.cpp" />
     <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -107,7 +108,10 @@
     <IntDir>$(ProjectDir)bin\Intermediate\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Code;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

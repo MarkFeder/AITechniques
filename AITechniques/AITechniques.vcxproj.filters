@@ -25,6 +25,7 @@
     <ClCompile Include="src\Common\Private\Messaging\MessageDispatcher.cpp" />
     <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
     <ClCompile Include="src\Common\Private\2D\Vector2D.cpp" />
+    <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />

@@ -24,6 +24,21 @@ inline void Vector2D::Normalize()
 	}
 }
 
+inline Vector2D Vec2DNormalize(const Vector2D &v)
+{
+	Vector2D vec = v;
+
+	double vector_length = vec.Length();
+
+	if (vector_length > std::numeric_limits<double>::epsilon())
+	{
+		vec.x /= vector_length;
+		vec.y /= vector_length;
+	}
+
+	return vec;
+}
+
 inline double Vector2D::Dot(const Vector2D & v2) const
 {
 	return x*v2.x + y*v2.y;
