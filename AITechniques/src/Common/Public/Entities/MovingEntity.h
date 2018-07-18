@@ -74,9 +74,13 @@ public:
 	// Get/Set heading vector of/to this entity
 	Vector2D Heading() const { return m_vHeading; }
 	inline void SetHeading(Vector2D newHeading);
-	bool RotateHeadingToFacePosition(Vector2D target);
 	
 	// Get/Set max turn rate of/to this entity
 	double MaxTurnRate() const { return m_dMaxTurnRate; }
 	void SetMaxTurnRate(double val) { m_dMaxTurnRate = val; }
+
+	// Given a target position, this method rotates the entity's heading and
+	// side vectors by an amount not greater than m_dMaxTurnRate until it directly
+	// faces the target
+	inline bool RotateHeadingToFacePosition(Vector2D target);
 };

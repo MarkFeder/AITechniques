@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Common\Private\2D\C2DMatrix.cpp" />
     <ClCompile Include="src\Common\Private\2D\Vector2D.cpp" />
     <ClCompile Include="src\Common\Private\Entities\BaseGameEntity.cpp" />
     <ClCompile Include="src\Common\Private\Entities\EntityManager.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="src\State-Driven\Private\MinerStates.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Common\Public\2D\C2DMatrix.h" />
     <ClInclude Include="src\Common\Public\2D\Vector2D.h" />
     <ClInclude Include="src\Common\Public\Entities\BaseGameEntity.h" />
     <ClInclude Include="src\Common\Public\Entities\EntityManager.h" />

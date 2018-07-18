@@ -26,6 +26,7 @@
     <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
     <ClCompile Include="src\Common\Private\2D\Vector2D.cpp" />
     <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
+    <ClCompile Include="src\Common\Private\2D\C2DMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />
@@ -46,5 +47,6 @@
     <ClInclude Include="src\Common\Public\Time\CrudeTimer.h" />
     <ClInclude Include="src\Common\Public\Entities\MovingEntity.h" />
     <ClInclude Include="src\Common\Public\2D\Vector2D.h" />
+    <ClInclude Include="src\Common\Public\2D\C2DMatrix.h" />
   </ItemGroup>
 </Project>
