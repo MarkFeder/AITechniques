@@ -24,7 +24,7 @@ inline void Vector2D::Normalize()
 	}
 }
 
-inline Vector2D Vec2DNormalize(const Vector2D &v)
+inline Vector2D Vec2DNormalize(const Vector2D& v)
 {
 	Vector2D vec = v;
 
@@ -39,7 +39,7 @@ inline Vector2D Vec2DNormalize(const Vector2D &v)
 	return vec;
 }
 
-inline double Vector2D::Dot(const Vector2D & v2) const
+inline double Vector2D::Dot(const Vector2D& v2) const
 {
 	return x*v2.x + y*v2.y;
 }
@@ -48,7 +48,7 @@ inline double Vector2D::Dot(const Vector2D & v2) const
 // minus if anticlockwise /Y axis pointing down, x axis to right)
 enum {clockwise = 1, anticlockwise = -1};
 
-inline int Vector2D::Sign(const Vector2D & v2) const
+inline int Vector2D::Sign(const Vector2D& v2) const
 {
 	return (y*v2.x > x*v2.y) ? anticlockwise : clockwise;
 }
@@ -67,7 +67,7 @@ inline void Vector2D::Truncate(double max)
 	}
 }
 
-inline double Vector2D::Distance(const Vector2D & v2) const
+inline double Vector2D::Distance(const Vector2D& v2) const
 {
 	double xSeparation = v2.x - x;
 	double ySeparation = v2.y - y;
@@ -76,7 +76,7 @@ inline double Vector2D::Distance(const Vector2D & v2) const
 	return sqrt(ySeparation * ySeparation + xSeparation * xSeparation);
 }
 
-inline double Vector2D::DistanceSq(const Vector2D & v2) const
+inline double Vector2D::DistanceSq(const Vector2D& v2) const
 {
 	double xSeparation = v2.x - x;
 	double ySeparation = v2.y - y;
@@ -85,7 +85,7 @@ inline double Vector2D::DistanceSq(const Vector2D & v2) const
 	return (ySeparation * ySeparation + xSeparation * xSeparation);
 }
 
-inline void Vector2D::Reflect(const Vector2D & norm)
+inline void Vector2D::Reflect(const Vector2D& norm)
 {
 	*this += 2.0 * this->Dot(norm) * norm.GetReverse();
 }

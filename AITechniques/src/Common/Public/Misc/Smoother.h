@@ -1,0 +1,53 @@
+#pragma once
+
+#include <vector>
+
+// Template class to help calculate the average value of a history
+// of values. This can only be used with types that have a 'zero' 
+// value and that the += and / operators overloaded
+template<class T>
+class Smoother
+{
+private:
+
+	// this holds the history
+	std::vector<T> m_History;
+
+	int m_iNextUpdateSlot;
+
+	// An example of the 'zero' value of the type to be smoothed.
+	// This could be something like Vector2D(0,0)
+	T m_ZeroValue;
+
+public:
+
+	// To instantiate a Smoother pass it the number of samples you want
+	// to use in the smoothing and a example of a 'zero' type
+	Smoother(int sampleSize, T zeroValue)
+		:m_History(sampleSize, zeroValue),
+		m_ZeroValue(zeroValue),
+		m_iNextUpdateSlot(0)
+	{}
+
+	// Each time you want to get a new average, feed it the most recent value
+	// and this method will return an average over the last sample size updates
+	T Update(const T& mostRecentValue)
+	{
+		m_History[m_iNextUpdateSlot++] = mostRecentValue;
+
+		// Make sure m_iNextUpdateSlot wraps around
+		if (m_iNextUpdateSlot == m_History.size())
+			m_iNextUpdateSlot = 0;
+
+		// Now calculate the average of the history list
+		T sum = m_ZeroValue;
+
+		std::vector<T>::iterator it = m_History.begin();
+		for (it; it != m_History.end(); ++it)
+		{
+			sum += *it;
+		}
+
+		return sum / (double)m_History.size();
+	}
+};

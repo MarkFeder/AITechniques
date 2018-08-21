@@ -33,8 +33,16 @@ protected:
 public:
 
 	// Only one constructor needed for `MovingEntity` class
-	MovingEntity(Vector2D position, double radius, Vector2D velocity, double maxSpeed,
-		Vector2D heading, double mass, Vector2D scale, double turnRate, double maxForce)
+	MovingEntity(
+		Vector2D position, 
+		double radius, 
+		Vector2D velocity, 
+		double maxSpeed,
+		Vector2D heading, 
+		double mass, 
+		Vector2D scale, 
+		double turnRate, 
+		double maxForce)
 		: BaseGameEntity(0, position, radius, scale),
 		m_vVelocity(m_vVelocity),
 		m_vHeading(heading),

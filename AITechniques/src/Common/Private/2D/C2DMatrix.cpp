@@ -47,7 +47,6 @@ inline void C2DMatrix::Translate(double x, double y)
 	MatrixMultiply(mat);
 }
 
-
 inline void C2DMatrix::Scale(double x, double y)
 {
 	Matrix mat;

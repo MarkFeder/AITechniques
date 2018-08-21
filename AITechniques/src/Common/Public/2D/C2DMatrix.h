@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include <vector>
-
 #include "Common/Public/Misc/Utils.h"
 #include "Common/Public/2D/Vector2D.h"
 

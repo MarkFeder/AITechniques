@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -31,9 +31,11 @@
     <ClCompile Include="src\State-Driven\Private\ElsaStates.cpp" />
     <ClCompile Include="src\State-Driven\Private\Miner.cpp" />
     <ClCompile Include="src\State-Driven\Private\MinerStates.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Common\Public\2D\C2DMatrix.h" />
+    <ClInclude Include="src\Common\Public\2D\Transformations.h" />
     <ClInclude Include="src\Common\Public\2D\Vector2D.h" />
     <ClInclude Include="src\Common\Public\Entities\BaseGameEntity.h" />
     <ClInclude Include="src\Common\Public\Entities\EntityManager.h" />
@@ -45,6 +47,7 @@
     <ClInclude Include="src\Common\Public\Messaging\MessageTypes.h" />
     <ClInclude Include="src\Common\Public\Messaging\Telegram.h" />
     <ClInclude Include="src\Common\Public\Misc\ConsoleUtils.h" />
+    <ClInclude Include="src\Common\Public\Misc\Smoother.h" />
     <ClInclude Include="src\Common\Public\Misc\Utils.h" />
     <ClInclude Include="src\Common\Public\Time\CrudeTimer.h" />
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />
@@ -52,36 +55,38 @@
     <ClInclude Include="src\State-Driven\Public\Locations.h" />
     <ClInclude Include="src\State-Driven\Public\Miner.h" />
     <ClInclude Include="src\State-Driven\Public\MinerStates.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\GameWorld.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\Vehicle.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7DC12076-F1E7-48E1-9A10-8548435C329D}</ProjectGuid>
     <RootNamespace>AITechniques</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

@@ -27,6 +27,7 @@
     <ClCompile Include="src\Common\Private\2D\Vector2D.cpp" />
     <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
     <ClCompile Include="src\Common\Private\2D\C2DMatrix.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />
@@ -48,5 +49,9 @@
     <ClInclude Include="src\Common\Public\Entities\MovingEntity.h" />
     <ClInclude Include="src\Common\Public\2D\Vector2D.h" />
     <ClInclude Include="src\Common\Public\2D\C2DMatrix.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\Vehicle.h" />
+    <ClInclude Include="src\Common\Public\Misc\Smoother.h" />
+    <ClInclude Include="src\Common\Public\2D\Transformations.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\GameWorld.h" />
   </ItemGroup>
 </Project>
