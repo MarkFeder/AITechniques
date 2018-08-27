@@ -27,12 +27,14 @@
     <ClCompile Include="src\Common\Private\Messaging\MessageDispatcher.cpp" />
     <ClCompile Include="src\Common\Private\Misc\IniFileLoaderBase.cpp" />
     <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
+    <ClCompile Include="src\Common\Private\Time\PrecisionTimer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\State-Driven\Private\Elsa.cpp" />
     <ClCompile Include="src\State-Driven\Private\ElsaStates.cpp" />
     <ClCompile Include="src\State-Driven\Private\Miner.cpp" />
     <ClCompile Include="src\State-Driven\Private\MinerStates.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\GameWorld.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\ParamLoader.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +57,7 @@
     <ClInclude Include="src\Common\Public\Misc\Smoother.h" />
     <ClInclude Include="src\Common\Public\Misc\Utils.h" />
     <ClInclude Include="src\Common\Public\Time\CrudeTimer.h" />
+    <ClInclude Include="src\Common\Public\Time\PrecisionTimer.h" />
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />
     <ClInclude Include="src\State-Driven\Public\ElsaStates.h" />
     <ClInclude Include="src\State-Driven\Public\Locations.h" />
