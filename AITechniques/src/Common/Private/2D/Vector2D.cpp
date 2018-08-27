@@ -39,6 +39,22 @@ inline Vector2D Vec2DNormalize(const Vector2D& v)
 	return vec;
 }
 
+inline double Vec2DDistance(const Vector2D& v1, const Vector2D& v2)
+{
+	double ySeparation = v2.y - v1.y;
+	double xSeparation = v2.x - v1.x;
+
+	return sqrt(ySeparation * ySeparation + xSeparation * xSeparation);
+}
+
+inline double Vec2DDistanceSq(const Vector2D& v1, const Vector2D& v2)
+{
+	double ySeparation = v2.y - v1.y;
+	double xSeparation = v2.x - v1.x;
+
+	return ySeparation * ySeparation + xSeparation * xSeparation;
+}
+
 inline double Vector2D::Dot(const Vector2D& v2) const
 {
 	return x*v2.x + y*v2.y;

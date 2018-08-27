@@ -7,7 +7,7 @@
 //#include "Common/Public/Time/PrecisionTimer.h"
 //#include "Common/Public/Misc/CellSpacePartition.h"
 #include "Common/Public/Entities/BaseGameEntity.h"
-//#include "Common/Public/Entities/EntityFunctionTemplates.h"
+#include "Common/Public/Entities/EntityTemplates.h"
 #include "Vehicle.h"
 
 class Obstacle;
@@ -73,16 +73,16 @@ public:
 
 	void Render();
 
-	//void NonPenetrationConstraint(Vehicle* v) { EnforceNonPenetrationConstraint(v, m_Vehicles); }
+	void NonPenetrationConstraint(Vehicle* v) { EnforceNonPenetrationConstraint(v, m_vehicles); }
 	
 	void TagVehiclesWithinViewRange(BaseGameEntity* pVehicle, double range)
 	{
-		//TagNeighbors(pVehicle, m_vehicles, range);
+		TagNeighbors(pVehicle, m_vehicles, range);
 	}
 
 	void TagObstaclesWithingViewRange(BaseGameEntity* pVehicle, double range)
 	{
-		//TagNeighbors(pVehicle, m_obstacles, range);
+		TagNeighbors(pVehicle, m_obstacles, range);
 	}
 
 	const std::vector<Wall2D>& Walls() { return m_Walls; }

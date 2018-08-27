@@ -25,21 +25,25 @@
     <ClCompile Include="src\Common\Private\Entities\EntityManager.cpp" />
     <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
     <ClCompile Include="src\Common\Private\Messaging\MessageDispatcher.cpp" />
+    <ClCompile Include="src\Common\Private\Misc\IniFileLoaderBase.cpp" />
     <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\State-Driven\Private\Elsa.cpp" />
     <ClCompile Include="src\State-Driven\Private\ElsaStates.cpp" />
     <ClCompile Include="src\State-Driven\Private\Miner.cpp" />
     <ClCompile Include="src\State-Driven\Private\MinerStates.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\GameWorld.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Common\Public\2D\C2DMatrix.h" />
+    <ClInclude Include="src\Common\Public\2D\Geometry.h" />
     <ClInclude Include="src\Common\Public\2D\Transformations.h" />
     <ClInclude Include="src\Common\Public\2D\Vector2D.h" />
     <ClInclude Include="src\Common\Public\Entities\BaseGameEntity.h" />
     <ClInclude Include="src\Common\Public\Entities\EntityManager.h" />
     <ClInclude Include="src\Common\Public\Entities\EntityNames.h" />
+    <ClInclude Include="src\Common\Public\Entities\EntityTemplates.h" />
     <ClInclude Include="src\Common\Public\Entities\MovingEntity.h" />
     <ClInclude Include="src\Common\Public\FSM\State.h" />
     <ClInclude Include="src\Common\Public\FSM\StateMachine.h" />
@@ -47,6 +51,7 @@
     <ClInclude Include="src\Common\Public\Messaging\MessageTypes.h" />
     <ClInclude Include="src\Common\Public\Messaging\Telegram.h" />
     <ClInclude Include="src\Common\Public\Misc\ConsoleUtils.h" />
+    <ClInclude Include="src\Common\Public\Misc\IniFileLoaderBase.h" />
     <ClInclude Include="src\Common\Public\Misc\Smoother.h" />
     <ClInclude Include="src\Common\Public\Misc\Utils.h" />
     <ClInclude Include="src\Common\Public\Time\CrudeTimer.h" />
@@ -55,7 +60,9 @@
     <ClInclude Include="src\State-Driven\Public\Locations.h" />
     <ClInclude Include="src\State-Driven\Public\Miner.h" />
     <ClInclude Include="src\State-Driven\Public\MinerStates.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\Constants.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\GameWorld.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\ParamLoader.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Vehicle.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

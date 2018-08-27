@@ -72,6 +72,9 @@ struct Vector2D
 	friend inline Vector2D operator/(const Vector2D& lhs, double val);
 	
 	friend inline Vector2D Vec2DNormalize(const Vector2D &v);
+	
+	friend inline double Vec2DDistance(const Vector2D &v1, const Vector2D& v2);
+	friend inline double Vec2DDistanceSq(const Vector2D& v1, const Vector2D& v2);
 
 	friend std::ostream& operator<<(std::ostream& os, const Vector2D& rhs);
 	friend std::ifstream& operator>>(std::ifstream& is, Vector2D& lhs);
