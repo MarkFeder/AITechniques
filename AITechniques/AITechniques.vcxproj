@@ -25,6 +25,7 @@
     <ClCompile Include="src\Common\Private\Entities\EntityManager.cpp" />
     <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
     <ClCompile Include="src\Common\Private\Messaging\MessageDispatcher.cpp" />
+    <ClCompile Include="src\Common\Private\Misc\FrameCounter.cpp" />
     <ClCompile Include="src\Common\Private\Misc\IniFileLoaderBase.cpp" />
     <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
     <ClCompile Include="src\Common\Private\Time\PrecisionTimer.cpp" />
@@ -53,8 +54,10 @@
     <ClInclude Include="src\Common\Public\Messaging\MessageTypes.h" />
     <ClInclude Include="src\Common\Public\Messaging\Telegram.h" />
     <ClInclude Include="src\Common\Public\Misc\ConsoleUtils.h" />
+    <ClInclude Include="src\Common\Public\Misc\FrameCounter.h" />
     <ClInclude Include="src\Common\Public\Misc\IniFileLoaderBase.h" />
     <ClInclude Include="src\Common\Public\Misc\Smoother.h" />
+    <ClInclude Include="src\Common\Public\Misc\StreamUtils.h" />
     <ClInclude Include="src\Common\Public\Misc\Utils.h" />
     <ClInclude Include="src\Common\Public\Time\CrudeTimer.h" />
     <ClInclude Include="src\Common\Public\Time\PrecisionTimer.h" />

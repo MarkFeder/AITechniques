@@ -32,6 +32,7 @@
     <ClCompile Include="src\Common\Private\Misc\IniFileLoaderBase.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\ParamLoader.cpp" />
     <ClCompile Include="src\Common\Private\Time\PrecisionTimer.cpp" />
+    <ClCompile Include="src\Common\Private\Misc\FrameCounter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />
@@ -63,5 +64,7 @@
     <ClInclude Include="src\Steering-Behaviours\Public\ParamLoader.h" />
     <ClInclude Include="src\Common\Public\Misc\IniFileLoaderBase.h" />
     <ClInclude Include="src\Common\Public\Time\PrecisionTimer.h" />
+    <ClInclude Include="src\Common\Public\Misc\StreamUtils.h" />
+    <ClInclude Include="src\Common\Public\Misc\FrameCounter.h" />
   </ItemGroup>
 </Project>

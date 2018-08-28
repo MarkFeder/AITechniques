@@ -15,11 +15,7 @@ const double PI = 3.14159;
 // occurs. Returns a negative if the ray is parallel
 // --------------------------------------------------------------------------------------
 
-inline double DistanceToRayPlaneIntersection(
-	Vector2D rayOrigin,
-	Vector2D rayHeading,
-	Vector2D planePoint,
-	Vector2D planeNormal)
+inline double DistanceToRayPlaneIntersection(Vector2D rayOrigin, Vector2D rayHeading, Vector2D planePoint, Vector2D planeNormal)
 {
 	double d = -planeNormal.Dot(planePoint);
 	double numer = planeNormal.Dot(rayOrigin) + d;
@@ -30,7 +26,6 @@ inline double DistanceToRayPlaneIntersection(
 }
 
 // --------------------- DistToLineSegment  ---------------------------------
-//
 //  Given a line segment AB and a point P, this function calculates the 
 //  perpendicular distance between them
 //---------------------------------------------------------------------------
@@ -54,6 +49,35 @@ inline double DistToLineSegment(Vector2D a, Vector2D b, Vector2D p)
 
 	// Calculate the distance P-Point
 	return Vec2DDistance(p, point);
+}
+
+// --------------------- LinesIntersection2D  ---------------------------------
+// Given 2 lines in 2D space AB, CD this returns true if an intersection occurs
+//-----------------------------------------------------------------------------
+
+inline bool LineIntersection2D(Vector2D a, Vector2D b, Vector2D c, Vector2D d)
+{
+	double rTop = (a.y - c.y) * (d.x - c.x) - (a.x - c.x) * (d.y - c.y);
+	double sTop = (a.y - c.y) * (b.x - a.x) - (a.x - c.x) * (b.y - a.y);
+
+	double bot = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
+
+	if (bot == 0) // parallel
+	{
+		return false;
+	}
+
+	double r = rTop / bot;
+	double s = sTop / bot;
+
+	if ((r > 0) && (r < 1) && (s > 0) && (s < 1))
+	{
+		// Lines intersect
+		return true;
+	}
+
+	// Lines do not intersect
+	return false;
 }
 
 // --------------------- WhereIsPoint -----------------------------------
@@ -84,11 +108,7 @@ inline span_type WhereIsPoint(Vector2D point, Vector2D pointOnPlane, Vector2D pl
 // Check whether a ray intersects with a circle with a given radius
 //-------------------------------------------------------------------------------
 
-inline double GetRayCircleIntersect(
-	Vector2D rayOrigin,
-	Vector2D rayHeading,
-	Vector2D circleOrigin,
-	double radius)
+inline double GetRayCircleIntersect(Vector2D rayOrigin, Vector2D rayHeading, Vector2D circleOrigin, double radius)
 {
 	Vector2D toCircle = circleOrigin - rayOrigin;
 	double length = toCircle.Length();
@@ -104,11 +124,7 @@ inline double GetRayCircleIntersect(
 
 //----------------------------- DoRayCircleIntersect --------------------------
 
-inline bool DoRayCircleIntersect(
-	Vector2D rayOrigin,
-	Vector2D rayHeading,
-	Vector2D circleOrigin,
-	double radius)
+inline bool DoRayCircleIntersect(Vector2D rayOrigin, Vector2D rayHeading, Vector2D circleOrigin, double radius)
 {
 	Vector2D toCircle = circleOrigin - rayOrigin;
 	double length = toCircle.Length();
@@ -117,4 +133,34 @@ inline bool DoRayCircleIntersect(
 
 	// If there was no intersection, return -1
 	return (d < 0.0);
+}
+
+//----------------------------- GetTangentPoints  -----------------------------
+// Given a point P and a circle of radius R centered at C this function 
+// determines the two points on the circle that intersect with the tangents from
+// P to the circle. Returns false if P is within the circle.
+//-----------------------------------------------------------------------------
+
+inline bool GetTangentPoints(Vector2D circle, double radius, Vector2D point, Vector2D& t1, Vector2D& t2)
+{
+	Vector2D PC = point - circle;
+	double sqrLen = PC.LengthSq();
+	double rSqr = radius * radius;
+
+	if (sqrLen <= rSqr)
+	{
+		// Point is inside or on the circle
+		return false;
+	}
+
+	double invSqrLen = 1 / sqrLen;
+	double root = sqrt(fabs(sqrLen - rSqr));
+
+	t1.x = circle.x + radius * (radius * PC.x - PC.y * root) * invSqrLen;
+	t1.y = circle.y + radius * (radius * PC.y + PC.x * root) * invSqrLen;
+
+	t2.x = circle.x + radius * (radius * PC.x + PC.y * root) * invSqrLen;
+	t1.y = circle.y + radius * (radius * PC.y - PC.x * root) * invSqrLen;
+
+	return true;
 }

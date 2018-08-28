@@ -261,3 +261,39 @@ inline void Vec2DRotateAroundOrigin(Vector2D& v, double ang)
 	// Now transform the object's vertices
 	matTransform.TransformVector2Ds(v);
 }
+
+//------------------------ CreateWhiskers ------------------------------------
+//
+//  Given an origin, a facing direction, a 'field of view' describing the 
+//  limit of the outer whiskers, a whisker length and the number of whiskers
+//  this method returns a vector containing the end positions of a series
+//  of whiskers radiating away from the origin and with equal distance between
+//  them. (like the spokes of a wheel clipped to a specific segment size)
+//----------------------------------------------------------------------------
+
+inline std::vector<Vector2D> CreateWhiskers(
+	unsigned int numWhiskers,
+	double whiskerLength,
+	double fov,
+	Vector2D facing,
+	Vector2D origin)
+{
+	// This is the magnitude of the angle separating each whisker
+	double sectorSize = fov / (double)(numWhiskers - 1);
+
+	std::vector<Vector2D> whiskers;
+	Vector2D temp;
+	double angle = -fov * 0.5;
+
+	for (unsigned int w = 0; w < numWhiskers; ++w)
+	{
+		// Create the whisker extending outwards at this angle
+		temp = facing;
+		Vec2DRotateAroundOrigin(temp, angle);
+		whiskers.push_back(origin + whiskerLength * temp);
+
+		angle += sectorSize;
+	}
+
+	return whiskers;
+}
