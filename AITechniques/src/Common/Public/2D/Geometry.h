@@ -80,6 +80,45 @@ inline bool LineIntersection2D(Vector2D a, Vector2D b, Vector2D c, Vector2D d)
 	return false;
 }
 
+// --------------------- LinesIntersection2D  ---------------------------------
+// Given 2 lines in 2D space AB, CD this returns true if an intersection occurs
+// and sets dist to the distance the intersection occurs along AB
+//-----------------------------------------------------------------------------
+
+inline bool LineIntersection2D(Vector2D a, Vector2D b, Vector2D c, Vector2D d, double& dist)
+{
+	double rTop = (a.y - c.y) * (d.x - c.x) - (a.x - c.x) * (d.y - c.y);
+	double sTop = (a.y - c.y) * (b.x - a.x) - (a.x - c.x) * (b.y - a.y);
+
+	double bot = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
+	
+	// Check if rects are parallel
+	if (bot == 0)
+	{
+		if (IsEqual(rTop, 0) && IsEqual(sTop, 0))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	double r = rTop / bot;
+	double s = sTop / bot;
+
+	if ((r > 0) && (r < 1) && (s > 0) && (s < 1))
+	{
+		dist = Vec2DDistance(a, b) * r;
+		return true;
+	}
+	else
+	{
+		dist = 0;
+		return false;
+	}
+}
+
+
 // --------------------- WhereIsPoint -----------------------------------
 // Check whether a 2D point is or not on the backside, 
 // front or on a given plane
