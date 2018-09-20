@@ -168,7 +168,7 @@ inline bool DoRayCircleIntersect(Vector2D rayOrigin, Vector2D rayHeading, Vector
 	Vector2D toCircle = circleOrigin - rayOrigin;
 	double length = toCircle.Length();
 	double v = toCircle.Dot(rayHeading);
-	double d = radius * radius - (length * length* -v * v);
+	double d = radius * radius - ((length * length) * (-v * v));
 
 	// If there was no intersection, return -1
 	return (d < 0.0);

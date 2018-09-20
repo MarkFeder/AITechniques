@@ -47,10 +47,10 @@ public:
 	// Create a rotation matrix from a fwd and side 2D vector
 	inline void Rotate(const Vector2D& fwd, const Vector2D& side);
 
-	// Applys a transformation matrix to a std::vector of points
+	// Apply a transformation matrix to a std::vector of points
 	inline void TransformVector2Ds(std::vector<Vector2D>& vPoints);
 
-	// Applys a transformation matrix to a point
+	// Apply a transformation matrix to a point
 	inline void TransformVector2Ds(Vector2D& vPoint);
 
 	// Accessors to the matrix elements
