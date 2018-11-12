@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Common/Public/2D/Vector2D.h"
-//#include "Common/Public/Time/PrecisionTimer.h"
+#include "Common/Public/Time/PrecisionTimer.h"
 //#include "Common/Public/Misc/CellSpacePartition.h"
 #include "Common/Public/Entities/BaseGameEntity.h"
 #include "Common/Public/Entities/EntityTemplates.h"

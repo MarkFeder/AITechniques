@@ -39,6 +39,12 @@ inline double RandFloat()
 	return ((rand()) / (RAND_MAX + 1.0f)); 
 }
 
+// Returns a random double between two ranges
+inline double RandInRange(double x, double y)
+{
+	return x + RandFloat() * (y - x);
+}
+
 // Returns a random bool
 inline bool RandomBool()
 {

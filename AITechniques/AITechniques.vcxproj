@@ -25,6 +25,7 @@
     <ClCompile Include="src\Common\Private\Entities\EntityManager.cpp" />
     <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
     <ClCompile Include="src\Common\Private\Messaging\MessageDispatcher.cpp" />
+    <ClCompile Include="src\Common\Private\Misc\Cgdi.cpp" />
     <ClCompile Include="src\Common\Private\Misc\FrameCounter.cpp" />
     <ClCompile Include="src\Common\Private\Misc\IniFileLoaderBase.cpp" />
     <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
@@ -36,6 +37,7 @@
     <ClCompile Include="src\State-Driven\Private\MinerStates.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\GameWorld.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\ParamLoader.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\Path.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +55,7 @@
     <ClInclude Include="src\Common\Public\Messaging\MessageDispatcher.h" />
     <ClInclude Include="src\Common\Public\Messaging\MessageTypes.h" />
     <ClInclude Include="src\Common\Public\Messaging\Telegram.h" />
+    <ClInclude Include="src\Common\Public\Misc\Cgdi.h" />
     <ClInclude Include="src\Common\Public\Misc\ConsoleUtils.h" />
     <ClInclude Include="src\Common\Public\Misc\FrameCounter.h" />
     <ClInclude Include="src\Common\Public\Misc\IniFileLoaderBase.h" />
@@ -69,6 +72,7 @@
     <ClInclude Include="src\Steering-Behaviours\Public\Constants.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\GameWorld.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\ParamLoader.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\Path.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Vehicle.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

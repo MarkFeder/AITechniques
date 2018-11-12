@@ -55,6 +55,34 @@ inline double Vec2DDistanceSq(const Vector2D& v1, const Vector2D& v2)
 	return ySeparation * ySeparation + xSeparation * xSeparation;
 }
 
+inline Vector2D POINTtoVector(const POINT& p)
+{
+	return Vector2D(p.x, p.y);
+}
+
+inline Vector2D POINTStoVector(const POINTS& p)
+{
+	return Vector2D((double)p.x, (double)p.y);
+}
+
+inline POINT VectorToPOINT(const Vector2D& v)
+{
+	POINT p;
+	p.x = (long)v.x;
+	p.y = (long)v.y;
+
+	return p;
+}
+
+inline POINTS VectorToPOINTS(const Vector2D& v)
+{
+	POINTS p;
+	p.x = (short)v.x;
+	p.y = (short)v.y;
+
+	return p;
+}
+
 inline double Vector2D::Dot(const Vector2D& v2) const
 {
 	return x*v2.x + y*v2.y;

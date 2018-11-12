@@ -107,14 +107,7 @@ inline double PrecisionTimer::TimeElapsed()
 
 	if (m_bSmoothUpdates)
 	{
-		if (m_dTimeElapsed < (m_dLastTimeElapsed * SMOOTHNESS))
-		{
-			return m_dTimeElapsed;
-		}
-		else
-		{
-			return 0.0;
-		}
+		return (m_dTimeElapsed < (m_dLastTimeElapsed * SMOOTHNESS)) ? m_dTimeElapsed : 0.0;
 	}
 	else
 	{

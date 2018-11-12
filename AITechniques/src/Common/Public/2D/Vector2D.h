@@ -76,6 +76,11 @@ struct Vector2D
 	friend inline double Vec2DDistance(const Vector2D &v1, const Vector2D& v2);
 	friend inline double Vec2DDistanceSq(const Vector2D& v1, const Vector2D& v2);
 
+	friend inline Vector2D POINTtoVector(const POINT& p);
+	friend inline Vector2D POINTStoVector(const POINTS& p);
+	friend inline POINT VectorToPOINT(const Vector2D& v);
+	friend inline POINTS VectorToPOINTS(const Vector2D& v);
+
 	friend std::ostream& operator<<(std::ostream& os, const Vector2D& rhs);
 	friend std::ifstream& operator>>(std::ifstream& is, Vector2D& lhs);
 };

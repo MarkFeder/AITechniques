@@ -33,6 +33,8 @@
     <ClCompile Include="src\Steering-Behaviours\Private\ParamLoader.cpp" />
     <ClCompile Include="src\Common\Private\Time\PrecisionTimer.cpp" />
     <ClCompile Include="src\Common\Private\Misc\FrameCounter.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\Path.cpp" />
+    <ClCompile Include="src\Common\Private\Misc\Cgdi.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />
@@ -66,5 +68,7 @@
     <ClInclude Include="src\Common\Public\Time\PrecisionTimer.h" />
     <ClInclude Include="src\Common\Public\Misc\StreamUtils.h" />
     <ClInclude Include="src\Common\Public\Misc\FrameCounter.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\Path.h" />
+    <ClInclude Include="src\Common\Public\Misc\Cgdi.h" />
   </ItemGroup>
 </Project>
