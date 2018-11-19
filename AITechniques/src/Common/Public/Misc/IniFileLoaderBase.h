@@ -17,7 +17,7 @@ private:
 	std::string m_currentLine;
 
 	// Default delimiters inside the file
-	const std::string m_delims = " \;=,";
+	const std::string m_delims;
 
 	// This is set to true if the file specified by the user is valid
 	bool m_bGoodFile;
@@ -38,6 +38,7 @@ public:
 
 	IniFileLoaderBase(char* filename)
 		:m_currentLine(""),
+		m_delims(" \;=,"),
 		m_bGoodFile(true)
 	{
 		m_file.open(filename);

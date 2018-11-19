@@ -1,6 +1,7 @@
 #include "Steering-Behaviours/Public/Path.h"
 #include "Common/Public/2D/Transformations.h"
 #include "Common/Public/Misc/Utils.h"
+#include "Common/Public/Misc/Cgdi.h"
 
 //------------------------------- CreateRandomPath -----------------------
 //------------------------------------------------------------------------
@@ -55,7 +56,7 @@ void Path::SetNextWaypoint()
 
 void Path::Render() const
 {
-	// gdi->OrangePen();
+	gdi->OrangePen();
 
 	std::list<Vector2D>::const_iterator it = m_wayPoints.begin();
 
@@ -63,13 +64,13 @@ void Path::Render() const
 
 	while (it != m_wayPoints.end())
 	{
-		// gdi->Line(wp, *it);
+		gdi->Line(wp, *it);
 
 		wp = *it++;
 	}
 
 	if (m_bLooped)
 	{
-		// gdi->Line(*(--it)), *m_wayPoints.begin());
+		gdi->Line(*(--it), *m_wayPoints.begin());
 	}
 }

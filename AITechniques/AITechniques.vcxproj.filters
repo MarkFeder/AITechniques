@@ -70,5 +70,7 @@
     <ClInclude Include="src\Common\Public\Misc\FrameCounter.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Path.h" />
     <ClInclude Include="src\Common\Public\Misc\Cgdi.h" />
+    <ClInclude Include="src\Common\Public\Misc\CellSpacePartition.h" />
+    <ClInclude Include="src\Common\Public\2D\InvertedAABox2D.h" />
   </ItemGroup>
 </Project>

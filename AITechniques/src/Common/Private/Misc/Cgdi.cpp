@@ -243,28 +243,78 @@ void Cgdi::Cross(Vector2D pos, int diameter)
 
 void Cgdi::Rect(int left, int top, int right, int bot)
 {
+	Rectangle(m_hdc, left, top, right, bot);
 }
 
 void Cgdi::Rect(double left, double top, double right, double bot)
 {
+	Rectangle(m_hdc, (int)left, (int)top, (int)right, (int)bot);
 }
 
 void Cgdi::ClosedShape(const std::vector<Vector2D>& points)
 {
+	MoveToEx(m_hdc, (int)points[0].x, (int)points[0].y, nullptr);
+
+	for (unsigned int p = 1; p < points.size(); ++p)
+	{
+		LineTo(m_hdc, (int)points[p].x, (int)points[p].y);
+	}
+
+	LineTo(m_hdc, (int)points[0].x, (int)points[0].y);
 }
 
 void Cgdi::Circle(Vector2D pos, double radius)
 {
+	Ellipse(
+		m_hdc, 
+		(int)(pos.x - radius), 
+		(int)(pos.y - radius), 
+		(int)(pos.x + radius + 1), 
+		(int)(pos.y + radius + 1)
+	);
 }
 
 void Cgdi::Circle(double x, double y, double radius)
 {
+	Ellipse(
+		m_hdc,
+		(int)(x - radius),
+		(int)(y - radius),
+		(int)(x + radius + 1),
+		(int)(y + radius + 1)
+	);
 }
 
 void Cgdi::Circle(int x, int y, double radius)
 {
+	Ellipse(
+		m_hdc,
+		(x - radius),
+		(y - radius),
+		(x + radius + 1),
+		(y + radius + 1)
+	);
 }
 
 void Cgdi::SetPenColor(int color)
 {
+	assert(color < numColors);
+
+	switch (color)
+	{
+		case black:BlackPen(); return;
+		case white:WhitePen(); return;
+		case red:RedPen(); return;
+		case green:GreenPen(); return;
+		case blue:BluePen(); return;
+		case pink:PinkPen(); return;
+		case grey:GreyPen(); return;
+		case yellow:YellowPen(); return;
+		case orange:OrangePen(); return;
+		case purple:PurplePen(); return;
+		case brown:WhitePen(); return;
+		case light_blue:WhitePen(); return;
+		case light_grey:WhitePen(); return;
+		case light_pink:WhitePen(); return;
+	}
 }

@@ -176,6 +176,8 @@ public:
 	void GreyPen() { if (m_hdc) { SelectObject(m_hdc, m_greyPen); } }
 	void PinkPen() { if (m_hdc) { SelectObject(m_hdc, m_pinkPen); } }
 	void YellowPen() { if (m_hdc) { SelectObject(m_hdc, m_yellowPen); } }
+	void OrangePen() { if (m_hdc) { SelectObject(m_hdc, m_orangePen); } }
+	void PurplePen() { if (m_hdc) { SelectObject(m_hdc, m_purplePen); } }
 	void BrownPen() { if (m_hdc) { SelectObject(m_hdc, m_brownPen); } }
 
 	void DarkGreenPen() { if (m_hdc) { SelectObject(m_hdc, m_darkGreenPen); } }
