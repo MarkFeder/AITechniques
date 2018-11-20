@@ -6,7 +6,7 @@
 //------------------------------- CreateRandomPath -----------------------
 //------------------------------------------------------------------------
 
-std::list<Vector2D> Path::CreateRandomPath(int numWaypoints, double minX, double minY, double maxX, double maxY)
+void Path::CreateRandomPath(int numWaypoints, double minX, double minY, double maxX, double maxY)
 {
 	m_wayPoints.clear();
 
@@ -31,8 +31,6 @@ std::list<Vector2D> Path::CreateRandomPath(int numWaypoints, double minX, double
 	}
 
 	m_curWaypoint = m_wayPoints.begin();
-
-	return m_wayPoints;
 }
 
 //------------------------------- SetNextWaypoint -----------------------

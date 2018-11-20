@@ -4,7 +4,7 @@
 #include <string>
 #include <cassert>
 
-const char* BAD_FILE_ERROR = "bad file";
+extern const char* BAD_FILE_ERROR;
 
 class IniFileLoaderBase
 {

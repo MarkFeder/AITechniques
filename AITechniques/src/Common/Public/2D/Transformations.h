@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "Vector2D.h"
-#include "C2DMatrix.h"
+#include "Common/Public/2D/Vector2D.h"
+#include "Common/Public/2D/C2DMatrix.h"
 
 // ----------------------------- WorldTransform -----------------------------
 // given a std::vector of 2D vectors, a position, orientation and scale,

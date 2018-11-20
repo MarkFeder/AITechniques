@@ -4,7 +4,7 @@
 #include "Steering-Behaviours/Public/Vehicle.h"
 // #include "Steering-Behaviours/Public/SteeringBehaviors.h"
 #include "Common/Public/2D/Geometry.h"
-// #include "Common/Public/2D/Wall2D.h"
+#include "Common/Public/2D/Wall2D.h"
 #include "Common/Public/2D/Transformations.h"
 #include "Common/Public/2D/Geometry.h"
 #include "Common/Public/Misc/Smoother.h"

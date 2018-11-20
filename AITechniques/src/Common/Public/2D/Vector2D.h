@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <iosfwd>
 #include <limits>
+#include <fstream>
 
 #include "Common/Public/Misc/Utils.h"
 
@@ -27,8 +28,10 @@ struct Vector2D
 	// Returns the squared length of the vector (thereby avoiding the sqrt)
 	inline double LengthSq() const;
 
+	// Returns the normalized vector
 	inline void Normalize();
 
+	// Returns the dot product
 	inline double Dot(const Vector2D& v2) const;
 
 	// Returns positive if v2 is clockwise of this vector,
@@ -81,6 +84,126 @@ struct Vector2D
 	friend inline POINT VectorToPOINT(const Vector2D& v);
 	friend inline POINTS VectorToPOINTS(const Vector2D& v);
 
-	friend std::ostream& operator<<(std::ostream& os, const Vector2D& rhs);
-	friend std::ifstream& operator>>(std::ifstream& is, Vector2D& lhs);
+	friend inline std::ostream& operator<<(std::ostream& os, const Vector2D& rhs);
+	//friend inline std::ifstream& operator>>(std::ifstream& is, Vector2D& lhs);
 };
+
+//--------------------- More Operator overloads ----------------------------
+
+inline Vector2D operator*(const Vector2D& lhs, double rhs)
+{
+	Vector2D result(lhs);
+	result *= rhs;
+
+	return result;
+}
+
+inline Vector2D operator*(double lhs, const Vector2D& rhs)
+{
+	Vector2D result(rhs);
+	result *= lhs;
+
+	return result;
+}
+
+inline Vector2D operator-(const Vector2D& lhs, const Vector2D& rhs)
+{
+	Vector2D result(lhs);
+	result.x -= rhs.x;
+	result.y -= rhs.y;
+
+	return result;
+}
+
+inline Vector2D operator+(const Vector2D& lhs, const Vector2D& rhs)
+{
+	Vector2D result(lhs);
+	result.x += rhs.x;
+	result.y += rhs.y;
+
+	return result;
+}
+
+inline Vector2D operator/(const Vector2D& lhs, double val)
+{
+	Vector2D result(lhs);
+	result.x /= val;
+	result.y /= val;
+
+	return result;
+}
+
+std::ostream& operator<<(std::ostream& os, const Vector2D& rhs)
+{
+	os << " " << rhs.x << " " << rhs.y;
+
+	return os;
+}
+
+//std::ifstream& operator>>(std::ifstream& is, Vector2D& lhs)
+//{
+//	is >> lhs.x >> lhs.y;
+//
+//	return is;
+//}
+
+//--------------------- Vector2D Friend Functions ----------------------------
+
+inline Vector2D Vec2DNormalize(const Vector2D& v)
+{
+	Vector2D vec = v;
+
+	double vector_length = vec.Length();
+
+	if (vector_length > std::numeric_limits<double>::epsilon())
+	{
+		vec.x /= vector_length;
+		vec.y /= vector_length;
+	}
+
+	return vec;
+}
+
+inline double Vec2DDistance(const Vector2D& v1, const Vector2D& v2)
+{
+	double ySeparation = v2.y - v1.y;
+	double xSeparation = v2.x - v1.x;
+
+	return sqrt(ySeparation * ySeparation + xSeparation * xSeparation);
+}
+
+inline double Vec2DDistanceSq(const Vector2D& v1, const Vector2D& v2)
+{
+	double ySeparation = v2.y - v1.y;
+	double xSeparation = v2.x - v1.x;
+
+	return ySeparation * ySeparation + xSeparation * xSeparation;
+}
+
+inline Vector2D POINTtoVector(const POINT& p)
+{
+	return Vector2D(p.x, p.y);
+}
+
+inline Vector2D POINTStoVector(const POINTS& p)
+{
+	return Vector2D((double)p.x, (double)p.y);
+}
+
+inline POINT VectorToPOINT(const Vector2D& v)
+{
+	POINT p;
+	p.x = (long)v.x;
+	p.y = (long)v.y;
+
+	return p;
+}
+
+inline POINTS VectorToPOINTS(const Vector2D& v)
+{
+	POINTS p;
+	p.x = (short)v.x;
+	p.y = (short)v.y;
+
+	return p;
+}

@@ -57,11 +57,19 @@ public:
 	virtual ~BaseGameEntity() = default;
 
 	// Set ID on constructor
-	BaseGameEntity(int id) { SetID(id); }
+	BaseGameEntity(int id)
+		:m_ID(-1),
+		m_EntityType(ET_Default),
+		m_bTag(false),
+		m_dBoundingRadius(0)
+	{ 
+		SetID(id); 
+	}
 
 	// Another constructor with more additional parameters
 	BaseGameEntity(int entityType, Vector2D pos, double radius)
-		:m_EntityType(entityType),
+		:m_ID(-1),
+		m_EntityType(entityType),
 		m_bTag(false),
 		m_vPos(pos),
 		m_vScale(Vector2D(1.0f, 1.0f)),
@@ -72,7 +80,8 @@ public:
 
 	// Another constructor with more additional parameters
 	BaseGameEntity(int entityType, Vector2D pos, double radius, Vector2D scale)
-		:m_EntityType(entityType),
+		:m_ID(-1),
+		m_EntityType(entityType),
 		m_bTag(false),
 		m_vPos(pos),
 		m_vScale(scale),

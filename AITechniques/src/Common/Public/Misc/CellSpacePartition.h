@@ -39,5 +39,67 @@ struct Cell
 template<class Entity>
 class CellSpacePartition
 {
+private:
 
+	// The required amount of cells in the space
+	std::vector<Cell<Entity>> m_cells;
+
+	// This is used to store any valid neighbors when an agent searches
+	// its neighboring space
+	std::vector<Entity> m_neighbors;
+
+	// This iterator will be used by the methods next and begin to traverse
+	// through the above vector of neighbors
+	typename std::vector<Entity>::iterator m_curNeighbor;
+
+	// The width and height of the world space the entities inhabit
+	double m_dSpaceWidth;
+	double m_dSpaceHeight;
+
+	// The number of cells the space is going to be divided up into
+	int m_iNumCellsX;
+	int m_iNumCellsY;
+
+	double m_dCellSizeX;
+	double m_dCellSizeY;
+
+	// Given a position in the game space this method determines the
+	// relevant cell's index
+	inline int PositionToIndex(const Vector2D& pos) const;
+
+public:
+
+	// Main ctor
+	CellSpacePartition(
+		double width, // width of the environment
+		double height, // height of the environment
+		int cellsX, // number of cells horizontally
+		int cellsY, // number of cells vertically
+		int maxEntities); // maximum number of entities to add
+
+	// Adds entities to the class by allocating them to the appropriate cell
+	inline void AddEntity(const Entity& entity);
+
+	// Update an entity's cell by calling this from your entity's update method
+	inline void UpdateEntity(const Entity& entity, Vector2D& oldPos);
+
+	// This method calculates all a target's neighbors and stores them in
+	// the neighbor vector. After you have called this method use the begin, next
+	// and end methods to iterate through the vector
+	inline void CalculateNeighbors(Vector2D& targetPos, double queryRadius);
+
+	// Returns a reference to the entity at the front of the neighbor vector
+	inline Entity& Begin() { m_curNeighbor = m_neighbors.begin(); return *m_curNeighbor; }
+
+	// Returns the next entity in the neighbor vector
+	inline Entity& Next() { ++m_curNeighbor; return *m_curNeighbor; }
+
+	// Returns true if the end of the vector is found (a zero value marks the end)
+	inline bool End() { return (m_curNeighbor == m_neighbors.end()) || (*m_curNeighbor == nullptr); }
+
+	// Empties the cells of entities
+	void EmptyCells();
+
+	// Call this to use the gdi to render the cell edges
+	inline void RenderCells() const;
 };

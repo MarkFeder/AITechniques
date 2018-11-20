@@ -31,13 +31,15 @@ struct Telegram
 		: sender(-1),
 		receiver(-1),
 		msg(EMessageType::EMT_NoMessage),
-		dispatchTime(-1)
+		dispatchTime(-1),
+		extraInfo(nullptr)
 	{}
 
 	Telegram(double time, int sender, int receiver, EMessageType msg, void* info = nullptr)
 		: sender(sender),
 		receiver(receiver),
 		msg(msg),
+		dispatchTime(-1),
 		extraInfo(info)
 	{}
 };

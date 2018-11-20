@@ -44,7 +44,7 @@ public:
 		double turnRate, 
 		double maxForce)
 		: BaseGameEntity(0, position, radius, scale),
-		m_vVelocity(m_vVelocity),
+		m_vVelocity(velocity),
 		m_vHeading(heading),
 		m_vSide(m_vHeading.Perp()),
 		m_dMass(mass),

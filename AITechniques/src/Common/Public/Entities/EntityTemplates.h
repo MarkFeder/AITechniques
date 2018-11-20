@@ -39,7 +39,7 @@ template<class T, class conT>
 void TagNeighbors(const T& entity, conT& containerOfEntities, double radius)
 {
 	// Iterate through all entities checking for range
-	for (typename cont::iterator curEntity = containerOfEntities.begin();
+	for (typename conT::iterator curEntity = containerOfEntities.begin();
 		curEntity != containerOfEntities.end();
 		++curEntity)
 	{

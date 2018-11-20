@@ -1,5 +1,7 @@
 #include "Common/Public/Misc/IniFileLoaderBase.h"
 
+const char* BAD_FILE_ERROR = "bad file";
+
 //----------------------------- RemoveCommentingFromLine ---------------------------
 // Removes any commenting from a line of text
 // ---------------------------------------------------------------------------------

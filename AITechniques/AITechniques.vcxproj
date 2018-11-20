@@ -25,6 +25,7 @@
     <ClCompile Include="src\Common\Private\Entities\EntityManager.cpp" />
     <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
     <ClCompile Include="src\Common\Private\Messaging\MessageDispatcher.cpp" />
+    <ClCompile Include="src\Common\Private\Misc\CellSpacePartition.cpp" />
     <ClCompile Include="src\Common\Private\Misc\Cgdi.cpp" />
     <ClCompile Include="src\Common\Private\Misc\FrameCounter.cpp" />
     <ClCompile Include="src\Common\Private\Misc\IniFileLoaderBase.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="src\Common\Public\2D\InvertedAABox2D.h" />
     <ClInclude Include="src\Common\Public\2D\Transformations.h" />
     <ClInclude Include="src\Common\Public\2D\Vector2D.h" />
+    <ClInclude Include="src\Common\Public\2D\Wall2D.h" />
     <ClInclude Include="src\Common\Public\Entities\BaseGameEntity.h" />
     <ClInclude Include="src\Common\Public\Entities\EntityManager.h" />
     <ClInclude Include="src\Common\Public\Entities\EntityNames.h" />

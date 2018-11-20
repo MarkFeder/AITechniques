@@ -14,6 +14,9 @@ Cgdi* Cgdi::Instance()
 //---------------------------------------------------------------------------
 
 Cgdi::Cgdi()
+	:m_oldBrush(nullptr),
+	m_oldPen(nullptr),
+	m_hdc(nullptr)
 {
 	m_blackPen = CreatePen(PS_SOLID, 1, colors[black]);
 	m_whitePen = CreatePen(PS_SOLID, 1, colors[white]);
@@ -48,8 +51,6 @@ Cgdi::Cgdi()
 	m_lightBlueBrush = CreateSolidBrush(RGB(0, 255, 255));
 	m_darkGreenBrush = CreateSolidBrush(colors[dark_green]);
 	m_orangeBrush = CreateSolidBrush(colors[orange]);
-
-	m_hdc = nullptr;
 }
 
 //------------------------------- Default Destructor -----------------------
@@ -92,6 +93,10 @@ Cgdi::~Cgdi()
 	DeleteObject(m_yellowBrush);
 	DeleteObject(m_darkGreenBrush);
 	DeleteObject(m_orangeBrush);
+
+	delete m_oldBrush;
+	delete m_oldPen;
+	delete m_hdc;
 }
 
 void Cgdi::StartDrawing(HDC hdc)
@@ -122,19 +127,19 @@ void Cgdi::StopDrawing(HDC hdc)
 //------------------------------- Text Drawing -----------------------
 //--------------------------------------------------------------------
 
-void Cgdi::TextAtPos(int x, int y, const std::string & s)
+void Cgdi::TextAtPos(int x, int y, const std::string& s)
 {
-	TextOut(m_hdc, x, y, s.c_str(), s.size());
+	TextOut(m_hdc, x, y, s.c_str(), (int)s.size());
 }
 
-void Cgdi::TextAtPos(double x, double y, const std::string & s)
+void Cgdi::TextAtPos(double x, double y, const std::string& s)
 {
-	TextOut(m_hdc, (int)x, (int)y, s.c_str(), s.size());
+	TextOut(m_hdc, (int)x, (int)y, s.c_str(), (int)s.size());
 }
 
-void Cgdi::TextAtPos(Vector2D pos, const std::string & s)
+void Cgdi::TextAtPos(Vector2D pos, const std::string& s)
 {
-	TextOut(m_hdc, (int)pos.x, (int)pos.y, s.c_str(), s.size());
+	TextOut(m_hdc, (int)pos.x, (int)pos.y, s.c_str(), (int)s.size());
 }
 
 void Cgdi::TransparentText()
@@ -289,10 +294,10 @@ void Cgdi::Circle(int x, int y, double radius)
 {
 	Ellipse(
 		m_hdc,
-		(x - radius),
-		(y - radius),
-		(x + radius + 1),
-		(y + radius + 1)
+		(x - (int)radius),
+		(y - (int)radius),
+		(x + (int)radius + 1),
+		(y + (int)radius + 1)
 	);
 }
 

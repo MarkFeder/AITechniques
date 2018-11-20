@@ -28,12 +28,10 @@ public:
 		: m_bLooped(looped)
 	{
 		CreateRandomPath(numWaypoints, minX, minY, maxX, maxY);
-
-		m_curWaypoint = m_wayPoints.begin();
 	}
 
 	// Creates a random path which is bound by rectangle described by the min/max values
-	std::list<Vector2D> CreateRandomPath(int numWaypoints, double minX, double minY, double maxX, double maxY);
+	void CreateRandomPath(int numWaypoints, double minX, double minY, double maxX, double maxY);
 
 	// Adds a waypoint to the end of the path
 	void AddWayPoint(Vector2D newPoint) { m_wayPoints.push_back(newPoint); }
