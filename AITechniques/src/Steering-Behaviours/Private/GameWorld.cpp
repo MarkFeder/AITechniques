@@ -2,6 +2,7 @@
 
 #include "Steering-Behaviours/Public/GameWorld.h"
 #include "Steering-Behaviours/Public/Vehicle.h"
+#include "Steering-Behaviours/Public/ParamLoader.h"
 // #include "Steering-Behaviours/Public/SteeringBehaviors.h"
 #include "Common/Public/2D/Geometry.h"
 #include "Common/Public/2D/Wall2D.h"
@@ -34,7 +35,7 @@ GameWorld::GameWorld(int cx, int cy)
 	m_bShowCellSpaceInfo(false)
 {
 	// Setup the spatial subdivision class
-	// m_pCellSpace = new CellSpacePartition<Vehicle*>((double)cx, (double)cy, Prm.NumCellsX, Prm.NumCellsY, Prm.NumAgents);
+	m_pCellSpace = new CellSpacePartition<Vehicle*>((double)cx, (double)cy, Prm.NumCellsX(), Prm.NumCellsY(), Prm.NumAgents());
 
 	double border = 30;
 	// m_pPath = new Path(5, border, border, cx - border, cy - border, true);

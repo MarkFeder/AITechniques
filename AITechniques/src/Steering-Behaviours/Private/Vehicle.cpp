@@ -26,6 +26,7 @@ Vehicle::Vehicle(GameWorld* world,
 		maxForce),
 
 	m_pWorld(world),
+	m_pSteering(nullptr),
 	m_vSmoothedHeading(Vector2D(0, 0)),
 	m_bSmoothingOn(false),
 	m_dTimeElapsed(0.0f)

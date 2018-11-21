@@ -24,7 +24,6 @@
     <ClCompile Include="src\Common\Private\Entities\EntityManager.cpp" />
     <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
     <ClCompile Include="src\Common\Private\Messaging\MessageDispatcher.cpp" />
-    <ClCompile Include="src\Common\Private\Misc\CellSpacePartition.cpp" />
     <ClCompile Include="src\Common\Private\Misc\Cgdi.cpp" />
     <ClCompile Include="src\Common\Private\Misc\FrameCounter.cpp" />
     <ClCompile Include="src\Common\Private\Misc\IniFileLoaderBase.cpp" />

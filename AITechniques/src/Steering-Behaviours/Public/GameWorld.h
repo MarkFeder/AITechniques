@@ -5,7 +5,7 @@
 
 #include "Common/Public/2D/Vector2D.h"
 #include "Common/Public/Time/PrecisionTimer.h"
-//#include "Common/Public/Misc/CellSpacePartition.h"
+#include "Common/Public/Misc/CellSpacePartition.h"
 #include "Common/Public/Entities/BaseGameEntity.h"
 #include "Common/Public/Entities/EntityTemplates.h"
 #include "Vehicle.h"
@@ -29,7 +29,7 @@ private:
 	// Container containing any walls in the environment
 	std::vector<Wall2D> m_Walls;
 
-	// CellSpacePartition<Vehicle*>* m_pCellSpace;
+	CellSpacePartition<Vehicle*>* m_pCellSpace;
 
 	// Any path we may create for the vehicles to follow
 	Path* m_pPath;
