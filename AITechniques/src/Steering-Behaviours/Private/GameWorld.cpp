@@ -2,7 +2,9 @@
 
 #include "Steering-Behaviours/Public/GameWorld.h"
 #include "Steering-Behaviours/Public/Vehicle.h"
+#include "Steering-Behaviours/Public/Constants.h"
 #include "Steering-Behaviours/Public/ParamLoader.h"
+#include "Steering-Behaviours/Public/Path.h"
 // #include "Steering-Behaviours/Public/SteeringBehaviors.h"
 #include "Common/Public/2D/Geometry.h"
 #include "Common/Public/2D/Wall2D.h"
@@ -38,8 +40,23 @@ GameWorld::GameWorld(int cx, int cy)
 	m_pCellSpace = new CellSpacePartition<Vehicle*>((double)cx, (double)cy, Prm.NumCellsX(), Prm.NumCellsY(), Prm.NumAgents());
 
 	double border = 30;
-	// m_pPath = new Path(5, border, border, cx - border, cy - border, true);
+	m_pPath = new Path(5, border, border, cx - border, cy - border, true);
 
 	// Setup the agents
-	// for (int a = 0; a < )
+	for (int a = 0; a < Prm.NumAgents(); ++a)
+	{
+		// Determine a random starting position
+		Vector2D spawnPos = Vector2D(cx / 2.0 + RandomClamped() * cx / 2.0, cy / 2.0 + RandomClamped() * cy / 2.0);
+
+		//Vehicle* pVehicle = new Vehicle(
+		//	this,
+		//	spawnPos, // initial position
+		//	RandFloat() * TwoPi, // start rotation
+		//	Vector2D(0, 0), // velocity
+		//	Prm.VehicleMass(), // mass
+		//	Prm.MaxSteeringForce(), // max force
+		//	Prm.MaxSpeed(), // max velocity
+		//	Prm.MaxTurnRatePerSecond(), // max turn rate
+		//	Prm.VehicleScale()); // scale
+	}
 }
