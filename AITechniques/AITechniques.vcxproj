@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Common\Private\2D\C2DMatrix.cpp" />
     <ClCompile Include="src\Common\Private\2D\Vector2D.cpp" />
     <ClCompile Include="src\Common\Private\Entities\BaseGameEntity.cpp" />
     <ClCompile Include="src\Common\Private\Entities\EntityManager.cpp" />

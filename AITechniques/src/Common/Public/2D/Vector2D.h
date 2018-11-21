@@ -22,39 +22,126 @@ struct Vector2D
 	// Returns true if both x and y are zero
 	bool IsZero() const { return (x*x + y*y) < MinDouble; }
 
-	// Returns the length of the vector
-	inline double Length() const;
+	//----------------------- Length -----------------------------------
+	// Returns the length of a 2D Vector
+	//------------------------------------------------------------------
 
-	// Returns the squared length of the vector (thereby avoiding the sqrt)
-	inline double LengthSq() const;
+	inline double Vector2D::Length() const
+	{
+		return sqrt(x * x + y * y);
+	}
 
-	// Returns the normalized vector
-	inline void Normalize();
+	//----------------------- LengthSq -----------------------------------
+	// Returns the squared length of a 2D Vector
+	//--------------------------------------------------------------------
 
-	// Returns the dot product
-	inline double Dot(const Vector2D& v2) const;
+	inline double Vector2D::LengthSq() const
+	{
+		return (x * x + y * y);
+	}
 
-	// Returns positive if v2 is clockwise of this vector,
-	// negative if anticlockwise (assuming the Y axis is pointing down, 
-	// X axis to right like a Window app)
-	inline int Sign(const Vector2D& v2) const;
+	//------------------------- Normalize ------------------------------------
+	// Normalizes a 2D Vector
+	//------------------------------------------------------------------------
 
-	// Returns the vector that is perpendicular to this one
-	inline Vector2D Perp() const;
+	inline void Vector2D::Normalize()
+	{
+		double vector_length = this->Length();
 
-	// Adjusts x and y so that the length of the vector does not exceed max
-	inline void Truncate(double max);
+		if (vector_length > std::numeric_limits<double>::epsilon())
+		{
+			this->x /= vector_length;
+			this->y /= vector_length;
+		}
+	}
 
-	// Returns the distance between this vector and the one passed as a parameter
-	inline double Distance(const Vector2D &v2) const;
+	//----------------------- Dot -----------------------------------
+	// Calculates the dot product
+	//---------------------------------------------------------------
 
-	// Squared version of the above
-	inline double DistanceSq(const Vector2D &v2) const;
+	inline double Vector2D::Dot(const Vector2D& v2) const
+	{
+		return x * v2.x + y * v2.y;
+	}
 
-	inline void Reflect(const Vector2D& norm);
+	//----------------------- Sign ---------------------------------------
+	// Returns positive if v2 is clockwise of this vector, 
+	// minus if anticlockwise /Y axis pointing down, x axis to right)
+	//--------------------------------------------------------------------
 
+	enum { clockwise = 1, anticlockwise = -1 };
+
+	inline int Vector2D::Sign(const Vector2D& v2) const
+	{
+		return (y*v2.x > x*v2.y) ? anticlockwise : clockwise;
+	}
+
+	//----------------------- Perp -----------------------------------
+	// Returns a vector perpendicular to this vector
+	//----------------------------------------------------------------
+
+	inline Vector2D Vector2D::Perp() const
+	{
+		return Vector2D(-y, x);
+	}
+
+	//----------------------- Truncate -----------------------------------
+	// Truncates a vector so that its length does not exceed max
+	//--------------------------------------------------------------------
+
+	inline void Vector2D::Truncate(double max)
+	{
+		if (this->Length() > max)
+		{
+			this->Normalize();
+			*this = *this * max;
+		}
+	}
+
+	//----------------------- Distance -----------------------------------
+	// Calculates the euclidean distance between two vectors
+	//--------------------------------------------------------------------
+
+	inline double Vector2D::Distance(const Vector2D& v2) const
+	{
+		double xSeparation = v2.x - x;
+		double ySeparation = v2.y - y;
+
+
+		return sqrt(ySeparation * ySeparation + xSeparation * xSeparation);
+	}
+
+	//----------------------- DistanceSq -----------------------------------
+	// Calculates the euclidean distance squared between two vectors
+	//----------------------------------------------------------------------
+
+	inline double Vector2D::DistanceSq(const Vector2D& v2) const
+	{
+		double xSeparation = v2.x - x;
+		double ySeparation = v2.y - y;
+
+
+		return (ySeparation * ySeparation + xSeparation * xSeparation);
+	}
+
+	//----------------------- Reflect -----------------------------------
+	// Given a normalized vector this method reflects the vector it
+	// is operating upon. (like the path of a ball bouncing off a wall)
+	//-------------------------------------------------------------------
+
+	inline void Vector2D::Reflect(const Vector2D& norm)
+	{
+		*this += 2.0 * this->Dot(norm) * norm.GetReverse();
+	}
+
+	//----------------------- GetReverse ----------------------------------------
 	// Returns the vector that is the reverse of this vector
-	inline Vector2D GetReverse() const;
+	//---------------------------------------------------------------------------
+
+	inline Vector2D Vector2D::GetReverse() const
+	{
+		return Vector2D(-this->x, -this->y);
+	}
 
 	// We need some basic operator overloads
 	const Vector2D& operator+=(const Vector2D& rhs);
@@ -67,143 +154,122 @@ struct Vector2D
 	bool operator==(const Vector2D& rhs);
 	bool operator!=(const Vector2D& rhs);
 
-	// Some more operator overloads
-	friend inline Vector2D operator*(const Vector2D& lhs, double rhs);
-	friend inline Vector2D operator*(double lhs, const Vector2D& rhs);
-	friend inline Vector2D operator-(const Vector2D& lhs, const Vector2D& rhs);
-	friend inline Vector2D operator+(const Vector2D& lhs, const Vector2D& rhs);
-	friend inline Vector2D operator/(const Vector2D& lhs, double val);
-	
-	friend inline Vector2D Vec2DNormalize(const Vector2D &v);
-	
-	friend inline double Vec2DDistance(const Vector2D &v1, const Vector2D& v2);
-	friend inline double Vec2DDistanceSq(const Vector2D& v1, const Vector2D& v2);
-
-	friend inline Vector2D POINTtoVector(const POINT& p);
-	friend inline Vector2D POINTStoVector(const POINTS& p);
-	friend inline POINT VectorToPOINT(const Vector2D& v);
-	friend inline POINTS VectorToPOINTS(const Vector2D& v);
-
-	friend inline std::ostream& operator<<(std::ostream& os, const Vector2D& rhs);
-	//friend inline std::ifstream& operator>>(std::ifstream& is, Vector2D& lhs);
-};
-
-//--------------------- More Operator overloads ----------------------------
-
-inline Vector2D operator*(const Vector2D& lhs, double rhs)
-{
-	Vector2D result(lhs);
-	result *= rhs;
-
-	return result;
-}
-
-inline Vector2D operator*(double lhs, const Vector2D& rhs)
-{
-	Vector2D result(rhs);
-	result *= lhs;
-
-	return result;
-}
-
-inline Vector2D operator-(const Vector2D& lhs, const Vector2D& rhs)
-{
-	Vector2D result(lhs);
-	result.x -= rhs.x;
-	result.y -= rhs.y;
-
-	return result;
-}
-
-inline Vector2D operator+(const Vector2D& lhs, const Vector2D& rhs)
-{
-	Vector2D result(lhs);
-	result.x += rhs.x;
-	result.y += rhs.y;
-
-	return result;
-}
-
-inline Vector2D operator/(const Vector2D& lhs, double val)
-{
-	Vector2D result(lhs);
-	result.x /= val;
-	result.y /= val;
-
-	return result;
-}
-
-std::ostream& operator<<(std::ostream& os, const Vector2D& rhs)
-{
-	os << " " << rhs.x << " " << rhs.y;
-
-	return os;
-}
-
-//std::ifstream& operator>>(std::ifstream& is, Vector2D& lhs)
-//{
-//	is >> lhs.x >> lhs.y;
-//
-//	return is;
-//}
-
-//--------------------- Vector2D Friend Functions ----------------------------
-
-inline Vector2D Vec2DNormalize(const Vector2D& v)
-{
-	Vector2D vec = v;
-
-	double vector_length = vec.Length();
-
-	if (vector_length > std::numeric_limits<double>::epsilon())
+	// More operator overloads
+	friend inline Vector2D operator*(const Vector2D& lhs, double rhs)
 	{
-		vec.x /= vector_length;
-		vec.y /= vector_length;
+		Vector2D result(lhs);
+		result *= rhs;
+
+		return result;
 	}
 
-	return vec;
-}
+	friend inline Vector2D operator*(double lhs, const Vector2D& rhs)
+	{
+		Vector2D result(rhs);
+		result *= lhs;
 
-inline double Vec2DDistance(const Vector2D& v1, const Vector2D& v2)
-{
-	double ySeparation = v2.y - v1.y;
-	double xSeparation = v2.x - v1.x;
+		return result;
+	}
 
-	return sqrt(ySeparation * ySeparation + xSeparation * xSeparation);
-}
+	friend inline Vector2D operator-(const Vector2D& lhs, const Vector2D& rhs)
+	{
+		Vector2D result(lhs);
+		result.x -= rhs.x;
+		result.y -= rhs.y;
 
-inline double Vec2DDistanceSq(const Vector2D& v1, const Vector2D& v2)
-{
-	double ySeparation = v2.y - v1.y;
-	double xSeparation = v2.x - v1.x;
+		return result;
+	}
 
-	return ySeparation * ySeparation + xSeparation * xSeparation;
-}
+	friend inline Vector2D operator+(const Vector2D& lhs, const Vector2D& rhs)
+	{
+		Vector2D result(lhs);
+		result.x += rhs.x;
+		result.y += rhs.y;
 
-inline Vector2D POINTtoVector(const POINT& p)
-{
-	return Vector2D(p.x, p.y);
-}
+		return result;
+	}
 
-inline Vector2D POINTStoVector(const POINTS& p)
-{
-	return Vector2D((double)p.x, (double)p.y);
-}
+	friend inline Vector2D operator/(const Vector2D& lhs, double val)
+	{
+		Vector2D result(lhs);
+		result.x /= val;
+		result.y /= val;
 
-inline POINT VectorToPOINT(const Vector2D& v)
-{
-	POINT p;
-	p.x = (long)v.x;
-	p.y = (long)v.y;
+		return result;
+	}
+	
+	// Vector2D friend functions
 
-	return p;
-}
+	friend inline Vector2D Vec2DNormalize(const Vector2D &v)
+	{
+		Vector2D vec = v;
 
-inline POINTS VectorToPOINTS(const Vector2D& v)
-{
-	POINTS p;
-	p.x = (short)v.x;
-	p.y = (short)v.y;
+		double vector_length = vec.Length();
 
-	return p;
-}
+		if (vector_length > std::numeric_limits<double>::epsilon())
+		{
+			vec.x /= vector_length;
+			vec.y /= vector_length;
+		}
+
+		return vec;
+	}
+	
+	friend inline double Vec2DDistance(const Vector2D &v1, const Vector2D& v2)
+	{
+		double ySeparation = v2.y - v1.y;
+		double xSeparation = v2.x - v1.x;
+
+		return sqrt(ySeparation * ySeparation + xSeparation * xSeparation);
+	}
+
+	friend inline double Vec2DDistanceSq(const Vector2D& v1, const Vector2D& v2)
+	{
+		double ySeparation = v2.y - v1.y;
+		double xSeparation = v2.x - v1.x;
+
+		return ySeparation * ySeparation + xSeparation * xSeparation;
+	}
+
+	friend inline Vector2D POINTtoVector(const POINT& p)
+	{
+		return Vector2D(p.x, p.y);
+	}
+
+	friend inline Vector2D POINTStoVector(const POINTS& p)
+	{
+		return Vector2D((double)p.x, (double)p.y);
+	}
+
+	friend inline POINT VectorToPOINT(const Vector2D& v)
+	{
+		POINT p;
+		p.x = (long)v.x;
+		p.y = (long)v.y;
+
+		return p;
+	}
+
+	friend inline POINTS VectorToPOINTS(const Vector2D& v)
+	{
+		POINTS p;
+		p.x = (short)v.x;
+		p.y = (short)v.y;
+
+		return p;
+	}
+
+	friend inline std::ostream& operator<<(std::ostream& os, const Vector2D& rhs)
+	{
+		os << " " << rhs.x << " " << rhs.y;
+
+		return os;
+	}
+
+	//std::ifstream& operator>>(std::ifstream& is, Vector2D& lhs)
+	//{
+	//	is >> lhs.x >> lhs.y;
+	//
+	//	return is;
+	//}
+};

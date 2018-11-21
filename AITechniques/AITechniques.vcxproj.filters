@@ -26,7 +26,6 @@
     <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
     <ClCompile Include="src\Common\Private\2D\Vector2D.cpp" />
     <ClCompile Include="src\Common\Private\Entities\MovingEntity.cpp" />
-    <ClCompile Include="src\Common\Private\2D\C2DMatrix.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Vehicle.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\GameWorld.cpp" />
     <ClCompile Include="src\Common\Private\Misc\IniFileLoaderBase.cpp" />
