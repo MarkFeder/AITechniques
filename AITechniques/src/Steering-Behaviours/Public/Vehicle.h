@@ -49,6 +49,7 @@ public:
 	Vehicle(const Vehicle&) = delete;
 	Vehicle& operator=(const Vehicle&) = delete;
 
+	Vehicle() = default;
 	Vehicle(GameWorld* world, 
 			Vector2D position, 
 			double rotation, 
