@@ -100,7 +100,7 @@ public:
 	static void ResetNextValidID() { m_iNextvalidID = 0; }
 
 	// All entities must implement an update function
-	virtual void Update() = 0;
+	virtual void Update(double timeElapsed) = 0;
 
 	// All entities are rendered
 	virtual void Render() {};

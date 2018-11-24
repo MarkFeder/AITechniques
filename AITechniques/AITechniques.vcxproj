@@ -35,6 +35,7 @@
     <ClCompile Include="src\State-Driven\Private\Miner.cpp" />
     <ClCompile Include="src\State-Driven\Private\MinerStates.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\GameWorld.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\Obstacle.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\ParamLoader.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Path.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Vehicle.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="src\State-Driven\Public\MinerStates.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Constants.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\GameWorld.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\Obstacle.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\ParamLoader.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Path.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Vehicle.h" />

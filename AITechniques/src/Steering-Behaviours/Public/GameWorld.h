@@ -85,12 +85,16 @@ public:
 		TagNeighbors(pVehicle, m_obstacles, range);
 	}
 
-	const std::vector<Wall2D>& Walls() { return m_Walls; }
-	//CellSpacePartition<Vehicle*>* CellSpace() { return m_pCellSpace; }
+	const std::vector<Wall2D>& Walls() const { return m_Walls; }
+	CellSpacePartition<Vehicle*>* CellSpace() const { return m_pCellSpace; }
 	const std::vector<BaseGameEntity*>& Obstacles() const { return m_obstacles; }
-	const std::vector<Vehicle*>& Agents() { return m_vehicles; }
+	const std::vector<Vehicle*>& Agents() const { return m_vehicles; }
 
 	// Handle WM_COMMAND messages
+	void HandleYKey();
+	void HandleUKey();
+	void HandleIKey();
+
 	void HandleKeyPresses(WPARAM wParam);
 	void HandleMenuItems(WPARAM wParam, HWND hwnd);
 

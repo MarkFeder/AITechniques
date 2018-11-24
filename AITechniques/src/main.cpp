@@ -15,6 +15,7 @@
 
 std::ofstream os;
 #define UPDATE_CALLS 30
+#define ELAPSED_TIME -1
 
 int main()
 {
@@ -39,8 +40,8 @@ int main()
 	// Run Miner and Elsa through a few Update calls
 	for (int i = 0; i < UPDATE_CALLS; ++i)
 	{
-		pMiner->Update();
-		pElsa->Update();
+		pMiner->Update(ELAPSED_TIME);
+		pElsa->Update(ELAPSED_TIME);
 
 		// dispatch any delayed messages
 		Dispatch->DispatchDelayedMessages();

@@ -17,14 +17,13 @@ bool Overlapped(const T* ob, const conT& conOb, double minDistBetweenObstacles =
 
 	for (it = conOb.begin(); it != conOb.end(); ++it)
 	{
-if (TwoCirclesOverlapped(
-	ob->Pos(),
-	ob->BRadius() + minDistBetweenObstacles,
-	(*it)->Pos(),
-	(*it)->BRadius()))
-{
-	return true;
-}
+		if (TwoCirclesOverlapped(
+			ob->Pos(), 
+			ob->BRadius() + minDistBetweenObstacles, 
+			(*it)->Pos(), (*it)->BRadius()))
+		{
+			return true;
+		}
 	}
 
 	return false;

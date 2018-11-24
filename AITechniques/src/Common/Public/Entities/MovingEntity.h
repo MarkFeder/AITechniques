@@ -56,6 +56,10 @@ public:
 	// Default virtual destructor
 	virtual ~MovingEntity() = default;
 
+	virtual void Update(double timeElapsed) {};
+
+	virtual void Render() {};
+
 	// Get/Set velocity of/to this entity
 	Vector2D Velocity() const { return m_vVelocity; }
 	void SetVelocity(Vector2D newVel) { m_vVelocity = newVel; }

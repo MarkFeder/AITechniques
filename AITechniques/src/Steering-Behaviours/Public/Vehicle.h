@@ -45,10 +45,6 @@ private:
 
 public:
 
-	// Disallow the copying of Vehicle types
-	Vehicle(const Vehicle&) = delete;
-	Vehicle& operator=(const Vehicle&) = delete;
-
 	Vehicle() = default;
 	Vehicle(GameWorld* world, 
 			Vector2D position, 
@@ -62,10 +58,18 @@ public:
 
 	~Vehicle();
 
+	// Disallow the copying of Vehicle types
+	Vehicle(const Vehicle&) = delete;
+	Vehicle& operator=(const Vehicle&) = delete;
+
 	// Updates the vehicle's position and orientation
-	void Update(double timeElapsed);
+	void Update(double timeElapsed) override;
 	
-	void Render();
+	// Do not handle any specific message between vehicles
+	bool HandleMessage(const Telegram& msg) override { return false; };
+
+	// Renders the vehicle
+	void Render() override;
 
 	// Accessors methods
 	SteeringBehaviour* const Steering() const { return m_pSteering; }

@@ -22,7 +22,7 @@ Miner::Miner(int ID)
 	// A global state has not been implemented for the Miner
 }
 
-void Miner::Update()
+void Miner::Update(double timeElapsed)
 {
 	++m_iThirst;
 

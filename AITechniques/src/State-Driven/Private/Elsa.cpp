@@ -1,6 +1,6 @@
 #include "State-Driven/Public/Elsa.h"
 
-void Elsa::Update()
+void Elsa::Update(double timeElapsed)
 {
 	// Set text color to green
 	SetTextColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <list>
+#include <iterator>
 #include <cassert>
 
 #include "Common/Public/2D/Vector2D.h"
@@ -168,7 +169,7 @@ public:
 		for (curCell = m_cells.begin(); curCell != m_cells.end(); ++curCell)
 		{
 			// Test to see if this cell contains members and if it overlaps the query box
-			if (curCell->BBox.isOverlappedWith(queryBox) && !curCell->m_members.empty())
+			if ((*curCell).m_bBox.IsOverlappedWith(queryBox) && !(*curCell).m_members.empty())
 			{
 				// Add any entities found within query radius to the neighbor list
 				std::list<Entity>::iterator it = curCell->m_members.begin();
@@ -208,7 +209,7 @@ public:
 		std::vector<Cell<Entity>>::const_iterator curCell;
 		for (curCell = m_cells.begin(); curCell != m_cells.end(); ++curCell)
 		{
-			(*curCell)->BBox.Render(false);
+			(*curCell).m_bBox.Render(false);
 		}
 	}
 

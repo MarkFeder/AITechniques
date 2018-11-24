@@ -118,7 +118,6 @@ inline bool LineIntersection2D(Vector2D a, Vector2D b, Vector2D c, Vector2D d, d
 	}
 }
 
-
 // --------------------- WhereIsPoint -----------------------------------
 // Check whether a 2D point is or not on the backside, 
 // front or on a given plane
@@ -202,4 +201,36 @@ inline bool GetTangentPoints(Vector2D circle, double radius, Vector2D point, Vec
 	t1.y = circle.y + radius * (radius * PC.y - PC.x * root) * invSqrLen;
 
 	return true;
+}
+
+//----------------------------- TwoCirclesOverlapped -----------------------------
+// Returns true if the two circles overlap
+//--------------------------------------------------------------------------------
+
+inline bool TwoCirclesOverlapped(double x1, double y1, double r1, double x2, double y2, double r2)
+{
+	double distBetweenCenters = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+
+	return (distBetweenCenters < (r1 + r2)) || (distBetweenCenters < fabs(r1 - r2)) ? true : false;
+}
+
+//----------------------------- TwoCirclesOverlapped -----------------------------
+// Returns true if the two circles overlap
+//--------------------------------------------------------------------------------
+
+inline bool TwoCirclesOverlapped(Vector2D c1, double r1, Vector2D c2, double r2)
+{
+	double distBetweenCenters = sqrt((c1.x - c2.x) * (c1.x - c2.x) + (c1.y - c2.y) * (c1.y - c2.y));
+
+	return (distBetweenCenters < (r1 + r2)) || (distBetweenCenters < fabs(r1 - r2)) ? true : false;
+}
+
+//----------------------- PointInCircle ----------------------------------
+//  Returns true if the point p is within the radius of the given circle
+//------------------------------------------------------------------------
+inline bool PointInCircle(Vector2D pos, double radius, Vector2D p)
+{
+	double distFromCenterSquared = (p - pos).LengthSq();
+
+	return (distFromCenterSquared < (radius*radius)) ? true : false;
 }

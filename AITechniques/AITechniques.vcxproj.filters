@@ -34,6 +34,7 @@
     <ClCompile Include="src\Common\Private\Misc\FrameCounter.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Path.cpp" />
     <ClCompile Include="src\Common\Private\Misc\Cgdi.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\Obstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />
@@ -72,5 +73,6 @@
     <ClInclude Include="src\Common\Public\Misc\CellSpacePartition.h" />
     <ClInclude Include="src\Common\Public\2D\InvertedAABox2D.h" />
     <ClInclude Include="src\Common\Public\2D\Wall2D.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\Obstacle.h" />
   </ItemGroup>
 </Project>

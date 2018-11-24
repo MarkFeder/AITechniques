@@ -42,10 +42,10 @@ public:
 	Miner(int ID);
 	
 	// This must be implemented
-	void Update() override;
+	void Update(double timeElapsed) override;
 
 	// This method handle received message
-	virtual bool HandleMessage(const Telegram& msg);
+	bool HandleMessage(const Telegram& msg) override;
 
 	// This method retrieves the current state machine owned by the Miner
 	StateMachine<Miner>* GetFSM() const { return m_pStateMachine; }

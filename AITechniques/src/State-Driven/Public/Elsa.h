@@ -39,9 +39,9 @@ public:
 
 	~Elsa() { delete m_pStateMachine; }
 
-	void Update();
+	void Update(double timeElapsed) override;
 
-	virtual bool HandleMessage(const Telegram& msg);
+	bool HandleMessage(const Telegram& msg) override;
 
 	StateMachine<Elsa>* GetFSM() const { return m_pStateMachine; }
 
