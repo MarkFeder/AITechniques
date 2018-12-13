@@ -74,5 +74,6 @@
     <ClInclude Include="src\Common\Public\2D\InvertedAABox2D.h" />
     <ClInclude Include="src\Common\Public\2D\Wall2D.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Obstacle.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\SteeringBehaviors.h" />
   </ItemGroup>
 </Project>
