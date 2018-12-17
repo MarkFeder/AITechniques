@@ -47,7 +47,7 @@ public:
 
 private:
 
-	enum BehaviorTyoe
+	enum BehaviorType
 	{
 		None = 0x00000,
 		Seek = 0x00002,
@@ -120,5 +120,66 @@ private:
 	// How far the agent can 'see'
 	double m_dViewDistance;
 
+	// Pointer to any current path
+	Path* m_pPath;
 
+	// The distance (squared) a vehicle has to be from a path waypoint before
+	// it starts seeking to the next waypoint
+	double m_dWaypointSeekDistSq;
+
+	// Any offset used for formations or offset pursuit
+	Vector2D m_vOffset;
+
+	// Binary flags to indicate whether or not a behavior should be active
+	int m_iFlags;
+
+	// Arrive makes use of these to determine how quickly a vehicle 
+	// should decelerate to its target
+	enum Deceleration { slow = 3, normal = 2, fast = 1};
+
+	// Default deceleration
+	Deceleration m_Deceleration;
+
+	// Is cell space partitioning to be used or not?
+	bool m_bCellSpaceOn;
+
+	// Which type of method is used to sum any active behavior
+	SummingMethod m_SummingMethod;
+
+	// This function tests if a specific bit of m_iFlags is set
+	bool On(const BehaviorType& bt) { return (m_iFlags & bt) == bt; }
+
+	bool AccumulateForce(Vector2D& sf, Vector2D& forceToAdd);
+
+	// Creates the antenna utilized by the wall avoidance behavior
+	void CreateFeelers();
+
+	//--------------------------------------------------------------------------
+	// Behaviour declarations
+	//--------------------------------------------------------------------------
+
+	// This behaviour moves the agent towards a target position
+	Vector2D Seek(Vector2D& targetPos);
+
+	// This behaviour returns a vector that moves the agent away
+	// from a target position
+	Vector2D Flee(Vector2D& targetPos);
+
+	// This behaviour is similar to seek but it attempts to arrive at
+	// the target position with a zero velocity
+	Vector2D Arrive(const Vector2D& targetPos, const Deceleration& deceleration);
+
+	// This behavior predicts where an agent will be in time T and seeks towards
+	// that point to intercept it
+	Vector2D Pursuit(const Vehicle* agent);
+
+	// This behaviour mantains a position, in the direction of offset from
+	// the target vehicle
+	Vector2D OffsetPursuit(const Vehicle* agent, const Vector2D& offset);
+
+	// This behavior attempts to evade a pursuer
+	Vector2D Evade(const Vehicle* agent);
+
+	// This behavior makes the agent wander about randomly
+	Vector2D Wander();
 };
