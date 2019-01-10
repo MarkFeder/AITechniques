@@ -34,7 +34,7 @@ const double waypointSeekDist = 20;
 // Class to encapsulate steering behaviors for a vehicle
 //--------------------------------------------------------------------------
 
-class SeteeringBehavior
+class SteeringBehavior
 {
 public:
 
@@ -56,8 +56,9 @@ private:
 		Wander = 0x00010,
 		Cohesion = 0x00020,
 		Separation = 0x00040,
-		Allignment = 0x00080,
+		Alignment = 0x00080,
 		ObstacleAvoidance = 0x00100,
+		WallAvoidance = 0x00200,
 		FollowPath = 0x00400,
 		Pursuit = 0x00800,
 		Evade = 0x01000,
@@ -154,6 +155,15 @@ private:
 	// Creates the antenna utilized by the wall avoidance behavior
 	void CreateFeelers();
 
+	// Calculates and sums the steering forces from any active behaviors
+	Vector2D CalculateWeightedSum();
+	Vector2D CalculatePrioritized();
+	Vector2D CalculateDithered();
+
+	// Helper method for hide. Returns a position located on the other
+	// side of an obstacle to the pursuer
+	Vector2D GetHidingPosition(const Vector2D& posObstacle, const double radiusObstacle, const Vector2D& posHunter);
+
 	//--------------------------------------------------------------------------
 	// Behaviour declarations
 	//--------------------------------------------------------------------------
@@ -182,4 +192,97 @@ private:
 
 	// This behavior makes the agent wander about randomly
 	Vector2D Wander();
+
+	// This returns a steering force which will attempt to keep the agent away from
+	// any obstacles it may encounter
+	Vector2D ObstacleAvoidance(const std::vector<BaseGameEntity*>& obstacles);
+
+	// This returns a steering force which will keep the agent away from any
+	// walls it may encounter
+	Vector2D WallAvoidance(const std::vector<Wall2D>& walls);
+
+	// Given a series of Vector2Ds, this method produces a force that will move
+	// the agent along the waypoints in order
+	Vector2D FollowPath();
+
+	// This results in a steering force that attemps to steer the vehicle
+	// to the center of the vector connecting two moving agents
+	Vector2D Interpose(const Vehicle* vehicleA, const Vehicle* vehicleB);
+
+	// Given another agent position to hide from and a list of BaseGameEntities this
+	// method attemps to put an obstacle between itself and its opponent
+	Vector2D Hide(const Vehicle* hunter, const std::vector<BaseGameEntity*>& obstacles);
+
+	//--------------------------------------------------------------------------
+	// Group Behaviours
+	//--------------------------------------------------------------------------
+
+	Vector2D Cohesion(const std::vector<Vehicle*>& agents);
+	
+	Vector2D Separation(const std::vector<Vehicle>& agents);
+
+	Vector2D Alignment(const std::vector<Vehicle*>& agents);
+
+	// The following three are the same as above but they use cell-space
+	// partitioning to find the neighbors
+	Vector2D CohesionPlus(const std::vector<Vehicle*>& agents);
+	Vector2D SeparationPlus(const std::vector<Vehicle*>& agents);
+	Vector2D AlignmentPlus(const std::vector<Vehicle*>& agents);
+
+public:
+
+	SteeringBehavior(Vehicle* agent);
+
+	virtual ~SteeringBehavior();
+
+	// Calculates and sums the steering forces from any active behaviors
+	Vector2D Calculate();
+
+	// Calculates the component of the steering force that is parallel
+	// with the vehicle heading
+	double ForwardComponent();
+
+	// Calculates the component of the steering force that is perpendicular
+	// with the vehicle heading
+	double SideComponent();
+
+	// Renders visual aids and info for seeing how each behavior is calculated
+	void RenderAids();
+
+	void SetTarget(const Vector2D t) { m_vTarget = t; }
+
+	void SetTargetAgent1(Vehicle* agent) { m_pTargetAgent1 = agent; }
+	void SetTargetAgent2(Vehicle* agent) { m_pTargetAgent2 = agent; }
+
+	void SetOffset(const Vector2D offset) { m_vOffset = offset; }
+	Vector2D GetOffset() const { return m_vOffset; }
+
+	void SetPath(std::list<Vector2D> newPath) { m_pPath->Set(newPath); }
+	void CreateRandomPath(int numWaypoints, int mx, int my, int cx, int cy) const { m_pPath->CreateRandomPath(numWaypoints, mx, my, cx, cy); }
+
+	Vector2D Force() const { return m_vSteeringForce; }
+
+	void ToggleSpacePartitioningOnOff() { m_bCellSpaceOn = !m_bCellSpaceOn; }
+	bool IsSpacePartitioningOn() const { return m_bCellSpaceOn; }
+
+	void SetSummingMethod(SummingMethod sm) { m_SummingMethod = sm; }
+
+	void FleeOn() { m_iFlags |= Flee; }
+	void SeekOn() { m_iFlags |= Seek; }
+	void ArriveOn() { m_iFlags |= Arrive; }
+	void WanderOn() { m_iFlags |= Wander; }
+	void PursuitOn(Vehicle* v) { m_iFlags |= Pursuit; m_pTargetAgent1 = v; }
+	void EvadeOn(Vehicle* v) { m_iFlags |= Evade; m_pTargetAgent1 = v; }
+	void CohesionOn() { m_iFlags |= Cohesion; }
+	void SeparationOn() { m_iFlags |= Separation; }
+	void AlignmentOn() { m_iFlags |= Alignment; }
+	void ObstacleAvoidanceOn() { m_iFlags |= ObstacleAvoidance; }
+	void WallAvoidanceOn() { m_iFlags |= WallAvoidance; }
+	void FollowPathOn() { m_iFlags |= FollowPath; }
+	void InterposeOn(Vehicle* v1, Vehicle* v2) { m_iFlags |= Interpose; m_pTargetAgent1 = v1; m_pTargetAgent2 = v2; }
+	void HideOn(Vehicle* v) { m_iFlags |= Hide; m_pTargetAgent1 = v; }
+	void OffsetPursuitOn(Vehicle* v1, const Vector2D offset) { m_iFlags |= OffsetPursuit; m_vOffset = offset; m_pTargetAgent1 = v1; }
+	void FlockingOn() { CohesionOn(); AlignmentOn(); SeparationOn(); WanderOn(); }
+
+
 };
