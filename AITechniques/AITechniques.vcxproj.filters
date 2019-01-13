@@ -35,6 +35,7 @@
     <ClCompile Include="src\Steering-Behaviours\Private\Path.cpp" />
     <ClCompile Include="src\Common\Private\Misc\Cgdi.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Obstacle.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\SteeringBehaviors.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />

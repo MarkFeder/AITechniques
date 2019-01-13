@@ -38,6 +38,7 @@
     <ClCompile Include="src\Steering-Behaviours\Private\Obstacle.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\ParamLoader.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Path.cpp" />
+    <ClCompile Include="src\Steering-Behaviours\Private\SteeringBehaviors.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>

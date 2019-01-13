@@ -49,23 +49,23 @@ private:
 
 	enum BehaviorType
 	{
-		None = 0x00000,
-		Seek = 0x00002,
-		Flee = 0x00004,
-		Arrive = 0x00008,
-		Wander = 0x00010,
-		Cohesion = 0x00020,
-		Separation = 0x00040,
-		Alignment = 0x00080,
-		ObstacleAvoidance = 0x00100,
-		WallAvoidance = 0x00200,
-		FollowPath = 0x00400,
-		Pursuit = 0x00800,
-		Evade = 0x01000,
-		Interpose = 0x02000,
-		Hide = 0x04000,
-		Flock = 0x08000,
-		OffsetPursuit = 0x10000
+		BT_None = 0x00000,
+		BT_Seek = 0x00002,
+		BT_Flee = 0x00004,
+		BT_Arrive = 0x00008,
+		BT_Wander = 0x00010,
+		BT_Cohesion = 0x00020,
+		BT_Separation = 0x00040,
+		BT_Alignment = 0x00080,
+		BT_ObstacleAvoidance = 0x00100,
+		BT_WallAvoidance = 0x00200,
+		BT_FollowPath = 0x00400,
+		BT_Pursuit = 0x00800,
+		BT_Evade = 0x01000,
+		BT_Interpose = 0x02000,
+		BT_Hide = 0x04000,
+		BT_Flock = 0x08000,
+		BT_OffsetPursuit = 0x10000
 	};
 
 	// A pointer to the owner of this instance
@@ -267,22 +267,64 @@ public:
 
 	void SetSummingMethod(SummingMethod sm) { m_SummingMethod = sm; }
 
-	void FleeOn() { m_iFlags |= Flee; }
-	void SeekOn() { m_iFlags |= Seek; }
-	void ArriveOn() { m_iFlags |= Arrive; }
-	void WanderOn() { m_iFlags |= Wander; }
-	void PursuitOn(Vehicle* v) { m_iFlags |= Pursuit; m_pTargetAgent1 = v; }
-	void EvadeOn(Vehicle* v) { m_iFlags |= Evade; m_pTargetAgent1 = v; }
-	void CohesionOn() { m_iFlags |= Cohesion; }
-	void SeparationOn() { m_iFlags |= Separation; }
-	void AlignmentOn() { m_iFlags |= Alignment; }
-	void ObstacleAvoidanceOn() { m_iFlags |= ObstacleAvoidance; }
-	void WallAvoidanceOn() { m_iFlags |= WallAvoidance; }
-	void FollowPathOn() { m_iFlags |= FollowPath; }
-	void InterposeOn(Vehicle* v1, Vehicle* v2) { m_iFlags |= Interpose; m_pTargetAgent1 = v1; m_pTargetAgent2 = v2; }
-	void HideOn(Vehicle* v) { m_iFlags |= Hide; m_pTargetAgent1 = v; }
-	void OffsetPursuitOn(Vehicle* v1, const Vector2D offset) { m_iFlags |= OffsetPursuit; m_vOffset = offset; m_pTargetAgent1 = v1; }
+	void FleeOn() { m_iFlags |= BT_Flee; }
+	void SeekOn() { m_iFlags |= BT_Seek; }
+	void ArriveOn() { m_iFlags |= BT_Arrive; }
+	void WanderOn() { m_iFlags |= BT_Wander; }
+	void PursuitOn(Vehicle* v) { m_iFlags |= BT_Pursuit; m_pTargetAgent1 = v; }
+	void EvadeOn(Vehicle* v) { m_iFlags |= BT_Evade; m_pTargetAgent1 = v; }
+	void CohesionOn() { m_iFlags |= BT_Cohesion; }
+	void SeparationOn() { m_iFlags |= BT_Separation; }
+	void AlignmentOn() { m_iFlags |= BT_Alignment; }
+	void ObstacleAvoidanceOn() { m_iFlags |= BT_ObstacleAvoidance; }
+	void WallAvoidanceOn() { m_iFlags |= BT_WallAvoidance; }
+	void FollowPathOn() { m_iFlags |= BT_FollowPath; }
+	void InterposeOn(Vehicle* v1, Vehicle* v2) { m_iFlags |= BT_Interpose; m_pTargetAgent1 = v1; m_pTargetAgent2 = v2; }
+	void HideOn(Vehicle* v) { m_iFlags |= BT_Hide; m_pTargetAgent1 = v; }
+	void OffsetPursuitOn(Vehicle* v1, const Vector2D offset) { m_iFlags |= BT_OffsetPursuit; m_vOffset = offset; m_pTargetAgent1 = v1; }
 	void FlockingOn() { CohesionOn(); AlignmentOn(); SeparationOn(); WanderOn(); }
 
+	void FleeOff() { if (On(BT_Flee)) m_iFlags ^= BT_Flee; }
+	void SeekOff() { if (On(BT_Seek)) m_iFlags ^= BT_Seek; }
+	void ArriveOff() { if (On(BT_Arrive)) m_iFlags ^= BT_Arrive; }
+	void WanderOff() { if (On(BT_Wander)) m_iFlags ^= BT_Wander; }
+	void PursuitOff() { if (On(BT_Pursuit)) m_iFlags ^= BT_Pursuit; }
+	void EvadeOff() { if (On(BT_Evade)) m_iFlags ^= BT_Evade; }
+	void CohesionOff() { if (On(BT_Cohesion)) m_iFlags ^= BT_Cohesion; }
+	void SeparationOff() { if (On(BT_Separation)) m_iFlags ^= BT_Separation; }
+	void AlignmentOff() { if (On(BT_Alignment)) m_iFlags ^= BT_Alignment; }
+	void ObstacleAvoidanceOff() { if (On(BT_ObstacleAvoidance)) m_iFlags ^= BT_ObstacleAvoidance; }
+	void WallAvoidanceOff() { if (On(BT_WallAvoidance)) m_iFlags ^= BT_WallAvoidance; }
+	void FollowPathOff() { if (On(BT_FollowPath)) m_iFlags ^= BT_FollowPath; }
+	void InterposeOff() { if (On(BT_Interpose)) m_iFlags ^= BT_Interpose; }
+	void HideOff() { if (On(BT_Hide)) m_iFlags ^= BT_Hide; }
+	void OffsetPursuitOff() { if (On(BT_OffsetPursuit)) m_iFlags ^= BT_OffsetPursuit; }
+	void FlockingOff() { CohesionOff(); AlignmentOff(); SeparationOff(); WanderOff(); }
 
+	bool IsFleeOn() { return On(BT_Flee); }
+	bool IsSeekOn() { return On(BT_Seek); }
+	bool IsArriveOn() { return On(BT_Arrive); }
+	bool IsWanderOn() { return On(BT_Wander); }
+	bool IsPursuitOn() { return On(BT_Pursuit); }
+	bool IsEvadeOn() { return On(BT_Evade); }
+	bool IsCohesionOn() { return On(BT_Cohesion); }
+	bool IsSeparationOn() { return On(BT_Separation); }
+	bool IsAlignmentOn() { return On(BT_Alignment); }
+	bool IsObstacleAvoidanceOn() { return On(BT_ObstacleAvoidance); }
+	bool IsWallAvoidanceOn() { return On(BT_WallAvoidance); }
+	bool IsFollowPathOn() { return On(BT_FollowPath); }
+	bool IsInterposeOn() { return On(BT_Interpose); }
+	bool IsHideOn() { return On(BT_Hide); }
+	bool IsOffsetPursuitOn() { return On(BT_OffsetPursuit); }
+
+	double DBoxLength() const { return m_dDBoxLength; }
+	const std::vector<Vector2D>& GetFeelers() const { return m_feelers; }
+
+	double WanderJitter() const { return m_dWanderJitter; }
+	double WanderDistance() const { return m_dWanderDistance; }
+	double WanderRadius() const { return m_dWanderRadius; }
+
+	double SeparationWeight() const { return m_dWeightSeparation; }
+	double AlingmentWeight() const { return m_dWeightAlignment; }
+	double CohesionWeight() const { return m_dWeightCohesion; }
 };
