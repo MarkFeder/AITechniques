@@ -219,7 +219,7 @@ private:
 
 	Vector2D Cohesion(const std::vector<Vehicle*>& agents);
 	
-	Vector2D Separation(const std::vector<Vehicle>& agents);
+	Vector2D Separation(const std::vector<Vehicle*>& agents);
 
 	Vector2D Alignment(const std::vector<Vehicle*>& agents);
 
