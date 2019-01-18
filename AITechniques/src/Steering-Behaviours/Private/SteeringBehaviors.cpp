@@ -134,11 +134,6 @@ double SteeringBehavior::SideComponent()
 	return m_pVehicle->Side().Dot(m_vSteeringForce);
 }
 
-
-void SteeringBehavior::RenderAids()
-{
-}
-
 //--------------------------- AccumulateForce -------------------------------------
 // This function calculates how much of its max steering force the vehicle
 // has left to apply and then applies that amount of the force to add.
@@ -201,7 +196,117 @@ void SteeringBehavior::CreateFeelers()
 
 Vector2D SteeringBehavior::CalculateWeightedSum()
 {
-	return Vector2D();
+	if (On(BT_WallAvoidance))
+	{
+		m_vSteeringForce += WallAvoidance(m_pVehicle->World()->Walls()) * m_dWeightWallAvoidance;
+	}
+
+	if (On(BT_ObstacleAvoidance))
+	{
+		m_vSteeringForce += ObstacleAvoidance(m_pVehicle->World()->Obstacles()) * m_dWeightObstacleAvoidance;
+	}
+
+	if (On(BT_Evade))
+	{
+		assert(m_pTargetAgent1 && "Evade target not assigned");
+
+		m_vSteeringForce += Evade(m_pTargetAgent1) * m_dWeightEvade;
+	}
+
+	// These next three can be combined for flocking behavior (wander is
+	// also a good behavior to add into this mix
+	if (!IsSpacePartitioningOn())
+	{
+		if (On(BT_Separation))
+		{
+			m_vSteeringForce += Separation(m_pVehicle->World()->Agents()) * m_dWeightSeparation;
+		}
+
+		if (On(BT_Alignment))
+		{
+			m_vSteeringForce += Alignment(m_pVehicle->World()->Agents()) * m_dWeightAlignment;
+		}
+
+		if (On(BT_Cohesion))
+		{
+			m_vSteeringForce += Cohesion(m_pVehicle->World()->Agents()) * m_dWeightCohesion;
+		}
+	}
+	else
+	{
+		if (On(BT_Separation))
+		{
+			m_vSteeringForce += SeparationPlus(m_pVehicle->World()->Agents()) * m_dWeightSeparation;
+		}
+
+		if (On(BT_Alignment))
+		{
+			m_vSteeringForce += AlignmentPlus(m_pVehicle->World()->Agents()) * m_dWeightAlignment;
+		}
+
+		if (On(BT_Cohesion))
+		{
+			m_vSteeringForce += CohesionPlus(m_pVehicle->World()->Agents()) * m_dWeightCohesion;
+		}
+	}
+
+	if (On(BT_Wander))
+	{
+		m_vSteeringForce += Wander() * m_dWeightWander;
+	}
+
+	if (On(BT_Seek))
+	{
+		m_vSteeringForce += Seek(m_pVehicle->World()->Crosshair()) * m_dWeightSeek;
+	}
+
+	if (On(BT_Arrive))
+	{
+		m_vSteeringForce += Arrive(m_pVehicle->World()->Crosshair(), m_Deceleration) * m_dWeightArrive;
+	}
+
+	if (On(BT_Flee))
+	{
+		m_vSteeringForce += Flee(m_pVehicle->World()->Crosshair()) * m_dWeightFlee;
+	}
+
+	if (On(BT_Pursuit))
+	{
+		assert(m_pTargetAgent1 && "Pursuit target not assigned");
+
+		m_vSteeringForce += Pursuit(m_pTargetAgent1) * m_dWeightPursuit;
+	}
+
+	if (On(BT_OffsetPursuit))
+	{
+		assert(m_pTargetAgent1 && "Pursuit target not assigned");
+		assert(!m_vOffset.IsZero() && "No offset assigned");
+
+		m_vSteeringForce += OffsetPursuit(m_pTargetAgent1, m_vOffset) * m_dWeightOffsetPursuit;
+	}
+
+	if (On(BT_Interpose))
+	{
+		assert(m_pTargetAgent1 && m_pTargetAgent2 && "Interpose agents not assigned");
+
+		m_vSteeringForce += Interpose(m_pTargetAgent1, m_pTargetAgent2) * m_dWeightInterpose;
+	}
+
+	if (On(BT_Hide))
+	{
+		assert(m_pTargetAgent1 && "Hide target not assigned");
+
+		m_vSteeringForce += Hide(m_pTargetAgent1, m_pVehicle->World()->Obstacles()) * m_dWeightHide;
+	}
+
+	if (On(BT_FollowPath))
+	{
+		m_vSteeringForce += FollowPath() * m_dWeightFollowPath;
+	}
+
+	m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+	return m_vSteeringForce;
 }
 
 //--------------------------- CalculatePrioritized --------------------------------
@@ -360,14 +465,208 @@ Vector2D SteeringBehavior::CalculatePrioritized()
 	return m_vSteeringForce;
 }
 
+//--------------------------- CalculateDithered -----------------------------------
+// This method sums up the active behaviors by assigning a probability of being
+// calculated to each behavior. It then tests the first priority to see if it
+// should be calculated this simulation-step. If so, it calculates the steering
+// force resulting from this behavior. If it is more than zero it returns the force.
+// If zero, or if the behavior is skipped it continues onto the next priority, and
+// so on.
+//---------------------------------------------------------------------------------
+
 Vector2D SteeringBehavior::CalculateDithered()
 {
-	return Vector2D();
+	// Reset the steering force
+	m_vSteeringForce.Zero();
+
+	if (On(BT_WallAvoidance) && RandFloat() < Prm.PrWallAvoidance())
+	{
+		m_vSteeringForce = WallAvoidance(m_pVehicle->World()->Walls()) * (m_dWeightWallAvoidance / Prm.PrWallAvoidance());
+
+		if (!m_vSteeringForce.IsZero())
+		{
+			m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+			return m_vSteeringForce;
+		}
+	}
+
+	if (On(BT_ObstacleAvoidance) && RandFloat() < Prm.PrObstacleAvoidance())
+	{
+		m_vSteeringForce = ObstacleAvoidance(m_pVehicle->World()->Obstacles()) * (m_dWeightObstacleAvoidance / Prm.PrObstacleAvoidance());
+
+		if (!m_vSteeringForce.IsZero())
+		{
+			m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+			return m_vSteeringForce;
+		}
+	}
+
+	if (!IsSpacePartitioningOn())
+	{
+		if (On(BT_Separation) && RandFloat() < Prm.PrSeparation())
+		{
+			m_vSteeringForce += Separation(m_pVehicle->World()->Agents()) * m_dWeightSeparation / Prm.PrSeparation();
+
+			if (!m_vSteeringForce.IsZero())
+			{
+				m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+				return m_vSteeringForce;
+			}
+		}
+	}
+	else
+	{
+		if (On(BT_Separation) && RandFloat() < Prm.PrSeparation())
+		{
+			m_vSteeringForce += SeparationPlus(m_pVehicle->World()->Agents()) * m_dWeightSeparation / Prm.PrSeparation();
+
+			if (!m_vSteeringForce.IsZero())
+			{
+				m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+				return m_vSteeringForce;
+			}
+		}
+	}
+
+	if (On(BT_Flee) && RandFloat() < Prm.PrFlee())
+	{
+		m_vSteeringForce += Flee(m_pVehicle->World()->Crosshair()) * m_dWeightFlee / Prm.PrFlee();
+
+		if (!m_vSteeringForce.IsZero())
+		{
+			m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+			return m_vSteeringForce;
+		}
+	}
+
+	if (On(BT_Evade) && RandFloat() < Prm.PrEvade())
+	{
+		assert(m_pTargetAgent1 && "Evade target not assigned");
+
+		m_vSteeringForce += Evade(m_pTargetAgent1) * m_dWeightEvade / Prm.PrEvade();
+
+		if (!m_vSteeringForce.IsZero())
+		{
+			m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+			return m_vSteeringForce;
+		}
+	}
+
+	if (!IsSpacePartitioningOn())
+	{
+		if (On(BT_Alignment) && RandFloat() < Prm.PrAlignment())
+		{
+			m_vSteeringForce += Alignment(m_pVehicle->World()->Agents()) * m_dWeightAlignment / Prm.PrAlignment();
+
+			if (!m_vSteeringForce.IsZero())
+			{
+				m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+				return m_vSteeringForce;
+			}
+		}
+
+		if (On(BT_Cohesion) && RandFloat() < Prm.PrCohesion())
+		{
+			m_vSteeringForce += Cohesion(m_pVehicle->World()->Agents()) * m_dWeightCohesion / Prm.PrCohesion();
+
+			if (!m_vSteeringForce.IsZero())
+			{
+				m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+				return m_vSteeringForce;
+			}
+		}
+	}
+	else
+	{
+		if (On(BT_Alignment) && RandFloat() < Prm.PrAlignment())
+		{
+			m_vSteeringForce += AlignmentPlus(m_pVehicle->World()->Agents()) * m_dWeightAlignment / Prm.PrAlignment();
+
+			if (!m_vSteeringForce.IsZero())
+			{
+				m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+				return m_vSteeringForce;
+			}
+		}
+
+		if (On(BT_Cohesion) && RandFloat() < Prm.PrCohesion())
+		{
+			m_vSteeringForce += CohesionPlus(m_pVehicle->World()->Agents()) * m_dWeightCohesion / Prm.PrCohesion();
+
+			if (!m_vSteeringForce.IsZero())
+			{
+				m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+				return m_vSteeringForce;
+			}
+		}
+	}
+
+	if (On(BT_Wander) && RandFloat() < Prm.PrWander())
+	{
+		m_vSteeringForce += Wander() * m_dWeightWander / Prm.PrWander();
+
+		if (!m_vSteeringForce.IsZero())
+		{
+			m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+			return m_vSteeringForce;
+		}
+	}
+
+	if (On(BT_Seek) && RandFloat() < Prm.PrSeek())
+	{
+		m_vSteeringForce += Seek(m_pVehicle->World()->Crosshair()) * m_dWeightSeek / Prm.PrSeek();
+
+		if (!m_vSteeringForce.IsZero())
+		{
+			m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+			return m_vSteeringForce;
+		}
+	}
+
+	if (On(BT_Arrive) && RandFloat() < Prm.PrArrive())
+	{
+		m_vSteeringForce += Arrive(m_pVehicle->World()->Crosshair(), m_Deceleration) * m_dWeightArrive / Prm.PrArrive();
+
+		if (!m_vSteeringForce.IsZero())
+		{
+			m_vSteeringForce.Truncate(m_pVehicle->MaxForce());
+
+			return m_vSteeringForce;
+		}
+	}
+
+	return m_vSteeringForce;
 }
+
+//--------------------------- GetHidingPosition -----------------------------------
+// Given the position of a hunter, and the position and radius of an obstacle, this
+// method calculates a position DistanceFromBoundary away from its bounding radius
+// and directly opposite the hunter
+//---------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::GetHidingPosition(const Vector2D& posObstacle, const double radiusObstacle, const Vector2D& posHunter)
 {
-	return Vector2D();
+	// Calculate how far away the agent is to be from the chosen obstacle's bounding radius
+	const double distanceFromBoundary = 30.0;
+	double distAway = radiusObstacle + distanceFromBoundary;
+
+	// Calculate the heading toward the object from the hunter
+	Vector2D toOb = Vec2DNormalize(posObstacle - posHunter);
+
+	// Scale it to size and add to the obstacles position to get the hiding spot
+	return (toOb * distAway) + posObstacle;
 }
 
 //--------------------------- Seek ------------------------------------------------
@@ -454,9 +753,24 @@ Vector2D SteeringBehavior::Pursuit(const Vehicle* evader)
 	return Seek(evader->Pos() + evader->Velocity() * lookAheadTime);
 }
 
-Vector2D SteeringBehavior::OffsetPursuit(const Vehicle* agent, const Vector2D& offset)
+//--------------------------- OffsetPursuit ---------------------------------------
+// Produces a steering force that keeps a vehicle at a specified offset from a
+// leader vehicle
+//---------------------------------------------------------------------------------
+
+Vector2D SteeringBehavior::OffsetPursuit(const Vehicle* leader, const Vector2D& offset)
 {
-	return Vector2D();
+	// Calculate the offset's position in world space
+	Vector2D worldOffsetPos = PointToWorldSpace(offset, leader->Heading(), leader->Side(), leader->Pos());
+
+	Vector2D toOffset = worldOffsetPos - m_pVehicle->Pos();
+
+	// The lookahead time is proportional to the distance between the leader and the pursuer;
+	// and is inversely proportional to the sum of both agent's velocities
+	double lookAheadTime = toOffset.Length() / (m_pVehicle->MaxSpeed() + leader->Speed());
+
+	// Now Arrive at the predicted future position of the offset
+	return Arrive(worldOffsetPos + leader->Velocity() * lookAheadTime, fast);
 }
 
 //--------------------------- Evade -----------------------------------------------
@@ -565,4 +879,8 @@ Vector2D SteeringBehavior::SeparationPlus(const std::vector<Vehicle*>& agents)
 Vector2D SteeringBehavior::AlignmentPlus(const std::vector<Vehicle*>& agents)
 {
 	return Vector2D();
+}
+
+void SteeringBehavior::RenderAids()
+{
 }
