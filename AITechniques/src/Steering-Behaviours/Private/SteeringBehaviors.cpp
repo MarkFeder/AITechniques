@@ -826,19 +826,183 @@ Vector2D SteeringBehavior::Wander()
 	return projectedTarget - m_pVehicle->Pos();
 }
 
+//--------------------------- ObstacleAvoidance -----------------------------------
+// Given a vector of obstacles, this method returns a steering force that will
+// prevent the agent colliding with the closest obstacle
+//---------------------------------------------------------------------------------
+
 Vector2D SteeringBehavior::ObstacleAvoidance(const std::vector<BaseGameEntity*>& obstacles)
 {
-	return Vector2D();
+	// The detection box length is proportional to the agent's velocity
+	m_dDBoxLength = Prm.MinDetectionBoxLength() + 
+		(m_pVehicle->Speed() / m_pVehicle->MaxSpeed()) * Prm.MinDetectionBoxLength();
+
+	// Tag all obstacles within range of the box for processing
+	m_pVehicle->World()->TagObstaclesWithingViewRange(m_pVehicle, m_dDBoxLength);
+
+	// This will keep track of the closest intersecting obstacle (CIB)
+	BaseGameEntity* closestIntersectingObstacle = nullptr;
+
+	// This will be used to track the distance to the CIB
+	double distToClosestIP = MaxDouble;
+
+	// This will record the transformed local coordinates of the CIB
+	Vector2D localPosOfClosestObstacles;
+
+	std::vector<BaseGameEntity*>::const_iterator curOb = obstacles.begin();
+
+	while (curOb != obstacles.end())
+	{
+		// If the obstacle has been tagged within range proceed
+		if ((*curOb)->IsTagged())
+		{
+			// Calculate this obstacle's position in local space
+			Vector2D localPos = PointToLocalSpace((*curOb)->Pos(), 
+				m_pVehicle->Heading(), m_pVehicle->Side(), m_pVehicle->Pos());
+
+			// If the local position has a negative x value then it must lay behind
+			// the agent. (in which case it can be ignored)
+			if (localPos.x >= 0)
+			{
+				// If the distance from the x axis to the object's position is less than its radius + 
+				// half the width of the detection box, then there is a potential intersection
+				double expandedRadius = (*curOb)->BRadius() + m_pVehicle->BRadius();
+
+				if (fabs(localPos.y) < expandedRadius)
+				{
+					// Now to do a line/circle intersection test. The center of the circle is represented by (cx, cy).
+					// The intersection points are given by the formula x = cX +/- sqrt(r^2 - cY^2) for y=0. We only
+					// need to look at the smallest positive value of x because that will be the closest point of
+					// intersection.
+					double cX = localPos.x;
+					double cY = localPos.y;
+
+					// We only need to calculate the sqrt part of the above equation once
+					double sqrtPart = sqrt(expandedRadius * expandedRadius - cY * cY);
+
+					double ip = cX - sqrtPart;
+
+					if (ip <= 0.0)
+					{
+						ip = cX + sqrtPart;
+					}
+
+					// Test to see if this is the closest so far. If it is keep a record of the obstacle and its 
+					// local coordinates
+					if (ip < distToClosestIP)
+					{
+						distToClosestIP = ip;
+
+						closestIntersectingObstacle = *curOb;
+
+						localPosOfClosestObstacles = localPos;
+					}
+				}
+			}
+		}
+
+		++curOb;
+	}
+
+	// If we have found an intersecting obstacle, calculate a steering force away from it
+	Vector2D steeringForce;
+
+	if (closestIntersectingObstacle)
+	{
+		// The closer the agent is to an object, the stronger the steering force should be
+		double multiplier = 1.0 + (m_dDBoxLength - localPosOfClosestObstacles.x) / m_dDBoxLength;
+
+		// Calculate the lateral force
+		steeringForce.y = (closestIntersectingObstacle->BRadius() - localPosOfClosestObstacles.y) * multiplier;
+
+		// Apply a braking force proportional to the obstacles distance from the vehicle
+		const double brakingWeight = 0.2;
+
+		steeringForce.x = (closestIntersectingObstacle->BRadius() - localPosOfClosestObstacles.x) * brakingWeight;
+	}
+
+	// Finally, convert the steering vector from local to world space
+	return VectorToWorldSpace(steeringForce, m_pVehicle->Heading(), m_pVehicle->Side());
 }
+
+//--------------------------- WallAvoidance ---------------------------------------
+// This returns a steering force that will keep the agent away from any walls
+// it may encounter
+//---------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::WallAvoidance(const std::vector<Wall2D>& walls)
 {
-	return Vector2D();
+	// The feelers are contained in a std::vector, m_feelers
+	CreateFeelers();
+
+	double distToThisIP = 0.0;
+	double distToClosestIP = MaxDouble;
+
+	// This will hold an index into the vector of walls
+	int closestWall = -1;
+
+	Vector2D steeringForce, 
+		point, // Used for storing temporary info
+		closestPoint; // Holds the closest intersection point
+
+	// Examine each feelere in turn
+	for (unsigned int flr = 0; flr < m_feelers.size(); ++flr)
+	{
+		// Run through each wall checking for any intersection points
+		for (unsigned int w = 0; w < walls.size(); ++w)
+		{
+			if (LineIntersection2D(m_pVehicle->Pos(), m_feelers[flr], 
+				walls[w].From(), walls[w].To(), distToThisIP, point))
+			{
+				// Is this the closest found so far? If so, keep a record
+				if (distToThisIP < distToClosestIP)
+				{
+					distToClosestIP = distToThisIP;
+
+					closestWall = w;
+
+					closestPoint = point;
+				}
+			}
+		} // Next Wall
+
+		// If an intersection point has been detected, calculate a force that will direct
+		// the agent away
+		if (closestWall >= 0)
+		{
+			// calculate by what distance the projected position of the agent will overshoot the wall
+			Vector2D overshoot = m_feelers[flr] - closestPoint;
+
+			// Create a force in the direction of the wall normal, with a magnitude of the overshoot
+			steeringForce = walls[closestWall].Normal() * overshoot.Length();
+		}
+	} // Next feeler
+
+	return steeringForce;
 }
+
+//--------------------------- FollowPath ------------------------------------------
+// Given a series of Vector2Ds, this method produces a force that will move the
+// agent along the waypoints in order. The agent uses the 'Seek' behavior to move to
+// the next waypoint - unless it is the last waypoint, in which case it 'Arrives'
+//---------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::FollowPath()
 {
-	return Vector2D();
+	// Move to next target if close enough to current target (working in distance squared space)
+	if (Vec2DDistanceSq(m_pPath->CurrentWaypoint(), m_pVehicle->Pos()) < m_dWaypointSeekDistSq)
+	{
+		m_pPath->SetNextWaypoint();
+	}
+
+	if (!m_pPath->Finished())
+	{
+		return Seek(m_pPath->CurrentWaypoint());
+	}
+	else
+	{
+		return Arrive(m_pPath->CurrentWaypoint(), normal);
+	}
 }
 
 Vector2D SteeringBehavior::Interpose(const Vehicle* vehicleA, const Vehicle * vehicleB)

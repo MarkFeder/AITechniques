@@ -55,7 +55,7 @@ inline double DistToLineSegment(Vector2D a, Vector2D b, Vector2D p)
 // Given 2 lines in 2D space AB, CD this returns true if an intersection occurs
 //-----------------------------------------------------------------------------
 
-inline bool LineIntersection2D(Vector2D a, Vector2D b, Vector2D c, Vector2D d)
+inline bool LineIntersection2D(const Vector2D& a, const Vector2D& b, const Vector2D& c, const Vector2D& d)
 {
 	double rTop = (a.y - c.y) * (d.x - c.x) - (a.x - c.x) * (d.y - c.y);
 	double sTop = (a.y - c.y) * (b.x - a.x) - (a.x - c.x) * (b.y - a.y);
@@ -85,7 +85,7 @@ inline bool LineIntersection2D(Vector2D a, Vector2D b, Vector2D c, Vector2D d)
 // and sets dist to the distance the intersection occurs along AB
 //-----------------------------------------------------------------------------
 
-inline bool LineIntersection2D(Vector2D a, Vector2D b, Vector2D c, Vector2D d, double& dist)
+inline bool LineIntersection2D(const Vector2D& a, const Vector2D& b, const Vector2D& c, const Vector2D& d, double& dist)
 {
 	double rTop = (a.y - c.y) * (d.x - c.x) - (a.x - c.x) * (d.y - c.y);
 	double sTop = (a.y - c.y) * (b.x - a.x) - (a.x - c.x) * (b.y - a.y);
@@ -118,10 +118,46 @@ inline bool LineIntersection2D(Vector2D a, Vector2D b, Vector2D c, Vector2D d, d
 	}
 }
 
-// --------------------- WhereIsPoint -----------------------------------
+// --------------------- LinesIntersection2D  ---------------------------------
+// Given 2 lines in 2D space AB, CD this returns true if an intersection occurs
+// and sets dist to the distance the intersection occurs along AB. Also sets the
+// 2d vector point to the point of intersection
+//-----------------------------------------------------------------------------
+
+inline bool LineIntersection2D(const Vector2D& a, const Vector2D& b, const Vector2D& c,const  Vector2D& d, double& dist, Vector2D& point)
+{
+	double rTop = (a.y - c.y) * (d.x - c.x) - (a.x - c.x) * (d.y - c.y);
+	double rBot = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
+
+	double sTop = (a.y - c.y) * (b.x - a.x) - (a.x - c.x) * (b.y - a.y);
+	double sBot = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
+
+	if ((rBot == 0) || (sBot == 0))
+	{
+		// lines are parallel
+		return false;
+	}
+
+	double r = rTop / rBot;
+	double s = sTop / sBot;
+
+	if ((r > 0) && (r < 1) && (s > 0) && (s < 1))
+	{
+		dist = Vec2DDistance(a, b) * r;
+		point = a + r * (b - a);
+		return true;
+	}
+	else
+	{
+		dist = 0;
+		return false;
+	}
+}
+
+// --------------------- WhereIsPoint -----------------------------------------
 // Check whether a 2D point is or not on the backside, 
 // front or on a given plane
-//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
 enum span_type { ST_Backside, ST_Front, ST_OnPlane };
 inline span_type WhereIsPoint(Vector2D point, Vector2D pointOnPlane, Vector2D planeNormal)
