@@ -1005,19 +1005,108 @@ Vector2D SteeringBehavior::FollowPath()
 	}
 }
 
+//--------------------------- Interpose -------------------------------------------
+// Given two agents, this method returns a force that attempts to position the
+// vehicle between them
+//---------------------------------------------------------------------------------
+
 Vector2D SteeringBehavior::Interpose(const Vehicle* vehicleA, const Vehicle * vehicleB)
 {
-	return Vector2D();
+	// First we need to figure out where the two agents are going to be at time T in the future
+	// This is approximated by determining the time taken to reach the mid way point at 
+	// the current time at a max speed
+	Vector2D midPoint = (vehicleA->Pos() + vehicleB->Pos()) / 2.0;
+
+	double timeToReachMidPoint = Vec2DDistance(m_pVehicle->Pos(), midPoint) / m_pVehicle->MaxSpeed();
+
+	// Now that we have T, we assume that agent A and agent B will continue on a straight
+	// trajectory and extrapolate to get their future positions
+	Vector2D aPos = vehicleA->Pos() + vehicleA->Velocity() * timeToReachMidPoint;
+	Vector2D bPos = vehicleB->Pos() + vehicleB->Velocity() * timeToReachMidPoint;
+
+	// Calculate the mid point of these predicted positions
+	midPoint = (aPos + bPos) / 2.0;
+
+	// Then steer to arrive at it
+	return Arrive(midPoint, fast);
 }
 
-Vector2D SteeringBehavior::Hide(const Vehicle * hunter, const std::vector<BaseGameEntity*>& obstacles)
+//--------------------------- Hide -----------------------------------------------
+// 
+//--------------------------------------------------------------------------------
+
+Vector2D SteeringBehavior::Hide(const Vehicle* hunter, const std::vector<BaseGameEntity*>& obstacles)
 {
-	return Vector2D();
+	double distToClosest = MaxDouble;
+	Vector2D bestHidingSpot;
+
+	std::vector<BaseGameEntity*>::const_iterator curOb = obstacles.begin();
+	std::vector<BaseGameEntity*>::const_iterator closest;
+
+	while (curOb != obstacles.end())
+	{
+		// Calculate the position of the hiding spot for this obstacle
+		Vector2D hidingSpot = GetHidingPosition((*curOb)->Pos(), (*curOb)->BRadius(), hunter->Pos());
+
+		// Work in distance-squared space to find the closest hiding spot to the agent
+		double dist = Vec2DDistanceSq(hidingSpot, m_pVehicle->Pos());
+
+		if (dist < distToClosest)
+		{
+			distToClosest = dist;
+			bestHidingSpot = hidingSpot;
+			closest = curOb;
+		}
+
+		++curOb;
+	}
+
+	// If no suitable obstacles found then Evade the hunter
+	if (distToClosest == MaxFloat)
+	{
+		return Evade(hunter);
+	}
+
+	// Use Arrive on the hiding spot
+	return Arrive(bestHidingSpot, fast);
 }
+
+//--------------------------- Cohesion -------------------------------------------
+// Returns a steering force that attempts to move the agent towards the center of
+// mass of the agents in its immediate area
+//--------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::Cohesion(const std::vector<Vehicle*>& agents)
 {
-	return Vector2D();
+	// First find the center of mass of all the agents
+	Vector2D centerOfMass, steeringForce;
+	int neighborCount = 0;
+
+	// Iterate through the neighbors and sum up all the position vectors
+	for (unsigned int a = 0; a < agents.size(); ++a)
+	{
+		// Make sure this agent is not included in the calculations and that the
+		// agent being examined is close enough; also make sure it doesn't include
+		// the evade target
+		if ((agents[a] != m_pVehicle) && agents[a]->IsTagged() && (agents[a] != m_pTargetAgent1))
+		{
+			centerOfMass += agents[a]->Pos();
+			++neighborCount;
+		}
+	}
+
+	if (neighborCount > 0)
+	{
+		// The center of mass is the average of the sum of positions
+		centerOfMass /= (double)neighborCount;
+
+		// Now seek towards that position
+		steeringForce = Seek(centerOfMass);
+	}
+
+	// The magnitude of cohesion is usually much larger than separation or allignment so it usually helps
+	// to normalize it
+	return Vector2D::Vect2DNormalize(steeringForce);
 }
 
 Vector2D SteeringBehavior::Separation(const std::vector<Vehicle*>& agents)
