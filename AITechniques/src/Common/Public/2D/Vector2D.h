@@ -200,22 +200,33 @@ struct Vector2D
 	
 	// Vector2D friend functions
 
-	friend inline Vector2D Vec2DNormalize(const Vector2D &v)
+	friend inline Vector2D Vec2DNormalize(const Vector2D& v)
 	{
 		Vector2D vec = v;
 
-		double vector_length = vec.Length();
+		double vLength = vec.Length();
 
-		if (vector_length > std::numeric_limits<double>::epsilon())
+		if (vLength > std::numeric_limits<double>::epsilon())
 		{
-			vec.x /= vector_length;
-			vec.y /= vector_length;
+			vec.x /= vLength;
+			vec.y /= vLength;
 		}
 
 		return vec;
 	}
+
+	friend inline void Vec2DNormalizeInPlace(Vector2D& v)
+	{
+		double vLength = v.Length();
+
+		if (vLength > std::numeric_limits<double>::epsilon())
+		{
+			v.x /= vLength;
+			v.y /= vLength;
+		}
+	}
 	
-	friend inline double Vec2DDistance(const Vector2D &v1, const Vector2D& v2)
+	friend inline double Vec2DDistance(const Vector2D& v1, const Vector2D& v2)
 	{
 		double ySeparation = v2.y - v1.y;
 		double xSeparation = v2.x - v1.x;

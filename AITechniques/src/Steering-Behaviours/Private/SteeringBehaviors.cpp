@@ -1010,7 +1010,7 @@ Vector2D SteeringBehavior::FollowPath()
 // vehicle between them
 //---------------------------------------------------------------------------------
 
-Vector2D SteeringBehavior::Interpose(const Vehicle* vehicleA, const Vehicle * vehicleB)
+Vector2D SteeringBehavior::Interpose(const Vehicle* vehicleA, const Vehicle* vehicleB)
 {
 	// First we need to figure out where the two agents are going to be at time T in the future
 	// This is approximated by determining the time taken to reach the mid way point at 
@@ -1106,33 +1106,107 @@ Vector2D SteeringBehavior::Cohesion(const std::vector<Vehicle*>& agents)
 
 	// The magnitude of cohesion is usually much larger than separation or allignment so it usually helps
 	// to normalize it
-	return Vector2D::Vect2DNormalize(steeringForce);
+	return Vec2DNormalize(steeringForce);
 }
+
+//--------------------------- Separation -------------------------------------------
+// TODO:
+//----------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::Separation(const std::vector<Vehicle*>& agents)
 {
 	return Vector2D();
 }
 
+//--------------------------- Alignment -----------------------------------------
+// TODO:
+//-------------------------------------------------------------------------------
+
 Vector2D SteeringBehavior::Alignment(const std::vector<Vehicle*>& agents)
 {
 	return Vector2D();
 }
+
+//--------------------------- CohesionPlus -----------------------------------------
+// TODO:
+//----------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::CohesionPlus(const std::vector<Vehicle*>& agents)
 {
 	return Vector2D();
 }
 
+//--------------------------- SeparationPlus ---------------------------------------
+// This calculates a force repelling from the other neighbours
+// It uses spatial partitioning
+//----------------------------------------------------------------------------------
+
 Vector2D SteeringBehavior::SeparationPlus(const std::vector<Vehicle*>& agents)
 {
-	return Vector2D();
+	Vector2D steeringForce;
+
+	// Iterate through the neighbours and sum up all the position vectors
+	for (BaseGameEntity* pV = m_pVehicle->World()->CellSpace()->Begin();
+		!m_pVehicle->World()->CellSpace()->End();
+		pV = m_pVehicle->World()->CellSpace()->Next())
+	{
+		// Make sure this agent isn't included in the calculations and that the
+		// agent being examined is close enough
+		if (pV != m_pVehicle)
+		{
+			Vector2D toAgent = m_pVehicle->Pos() - pV->Pos();
+
+			// Scale the force inversely proportional to the agents distance from
+			// its neighbour
+			steeringForce += Vec2DNormalize(toAgent) / toAgent.Length();
+		}
+	}
+
+	return steeringForce;
 }
+
+//--------------------------- AlignmentPlus ---------------------------------------
+// Returns a force that attempts to align this agents with that of its neighbours
+// It uses spatial partitioning
+//---------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::AlignmentPlus(const std::vector<Vehicle*>& agents)
 {
-	return Vector2D();
+	// This will record the average heading of the neighbours
+	Vector2D averageHeading;
+
+	// This count the number of vehicles in the neighbourhood
+	double neighbourCount = 0.0;
+
+	// Iterate through the neighbours and sum up all the position vectors
+	for (MovingEntity* pV = m_pVehicle->World()->CellSpace()->Begin();
+		!m_pVehicle->World()->CellSpace()->End();
+		pV = m_pVehicle->World()->CellSpace()->Next())
+	{
+		// Make sure this agent isn't included in the calculations and that the agent
+		// being examined is close enough
+		if (pV != m_pVehicle)
+		{
+			averageHeading += pV->Heading();
+
+			++neighbourCount;
+		}
+	}
+
+	// If the neighbourhood contained one or more vehicles, average their
+	// heading vectors.
+	if (neighbourCount > 0.0)
+	{
+		averageHeading /= neighbourCount;
+		averageHeading -= m_pVehicle->Heading();
+	}
+
+	return averageHeading;
 }
+
+//--------------------------- RenderAids ---------------------------------------
+// TODO:
+//------------------------------------------------------------------------------
 
 void SteeringBehavior::RenderAids()
 {
