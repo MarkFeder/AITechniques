@@ -1110,30 +1110,110 @@ Vector2D SteeringBehavior::Cohesion(const std::vector<Vehicle*>& agents)
 }
 
 //--------------------------- Separation -------------------------------------------
-// TODO:
+// This calculates a force repelling from the other neighbours
 //----------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::Separation(const std::vector<Vehicle*>& agents)
 {
-	return Vector2D();
+	Vector2D steeringForce;
+
+	for (unsigned int a = 0; a < agents.size(); ++a)
+	{
+		// Make sure this agent isn't included in the calculations and that the
+		// agent being examined is close enough. Also, make sure it doesn't include
+		// the evade target
+		if (agents[a] != m_pVehicle && agents[a]->IsTagged() && agents[a] != m_pTargetAgent1)
+		{
+			Vector2D toAgent = m_pVehicle->Pos() - agents[a]->Pos();
+
+			// Scale the force inversely proportional to the agents
+			// distance from its neighbour
+			steeringForce += Vec2DNormalize(toAgent) / toAgent.Length();
+		}
+	}
+
+	return steeringForce;
 }
 
 //--------------------------- Alignment -----------------------------------------
-// TODO:
+// Returns a force that attempts to align these agents heading with that of its
+// neighbours
 //-------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::Alignment(const std::vector<Vehicle*>& agents)
 {
-	return Vector2D();
+	// Used to record the average heading of the neighbours
+	Vector2D averageHeading;
+
+	// Used to count the number of vehicles in the neighborhood
+	int neighbourCount = 0;
+
+	// Iterate through all the tagged vehicles and sum their heading vectors
+	for (unsigned int a = 0; a < agents.size(); ++a)
+	{
+		// Make sure this agent isn't included in the calculations and that the agent
+		// being examined is close enough. Also, make sure it doesn't include any
+		// evade target
+		if (agents[a] != m_pVehicle && agents[a]->IsTagged() && agents[a] != m_pTargetAgent1)
+		{
+			averageHeading += agents[a]->Heading();
+
+			++neighbourCount;
+		}
+	}
+
+	// If the neighborhood contained one or more vehicles, average their heading
+	// vectors
+	if (neighbourCount > 0)
+	{
+		averageHeading /= (double)neighbourCount;
+
+		averageHeading -= m_pVehicle->Heading();
+	}
+
+	return averageHeading;
 }
 
 //--------------------------- CohesionPlus -----------------------------------------
-// TODO:
+// Returns a steering force that attempts to move the agent towards the center of 
+// mass of the agents in its immediate area
+// It uses spatial partitioning
 //----------------------------------------------------------------------------------
 
 Vector2D SteeringBehavior::CohesionPlus(const std::vector<Vehicle*>& agents)
 {
-	return Vector2D();
+	// First, find the center of mass of all agents
+	Vector2D centerOfMass, steeringForce;
+
+	int neighbourCount = 0;
+
+	// Iterate through the neighbours and sum up all the position vectors
+	for (BaseGameEntity* pV = m_pVehicle->World()->CellSpace()->Begin();
+		!m_pVehicle->World()->CellSpace()->End();
+		pV = m_pVehicle->World()->CellSpace()->Next())
+	{
+		// Make sure this agent isn't included in the calculations and that the
+		// agent being examined is close enough
+		if (pV != m_pVehicle)
+		{
+			centerOfMass += pV->Pos();
+
+			++neighbourCount;
+		}
+	}
+
+	if (neighbourCount > 0)
+	{
+		// The center of mass is the average of the sum of positions
+		centerOfMass /= (double)neighbourCount;
+
+		// Now, seek towards that position
+		steeringForce = Seek(centerOfMass);
+	}
+
+	// The magnitude of cohesion is usually much larger than separation or alignment so
+	// it usually helps to normalize it
+	return Vec2DNormalize(steeringForce);
 }
 
 //--------------------------- SeparationPlus ---------------------------------------
