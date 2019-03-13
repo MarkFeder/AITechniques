@@ -146,3 +146,20 @@ inline bool IsZero(double val)
 {
 	return ((-MinDouble < val) && (val < MinDouble));
 }
+
+// Clamps the first argument between the second two
+template <class T, class U, class V>
+inline void Clamp(T& arg, const U& minVal, const V& maxVal)
+{
+	assert((minVal < maxVal) && "<Clamp>MaxVal < MinVal!");
+
+	if (arg < (T)minVal)
+	{
+		arg = (T)minVal;
+	}
+
+	if (arg > (T)maxVal)
+	{
+		arg = (T)maxVal;
+	}
+}
