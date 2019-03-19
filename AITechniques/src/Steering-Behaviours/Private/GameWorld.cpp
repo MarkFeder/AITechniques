@@ -1,12 +1,11 @@
-#include <list>
-
 #include "Steering-Behaviours/Public/GameWorld.h"
 #include "Steering-Behaviours/Public/Vehicle.h"
 #include "Steering-Behaviours/Public/Constants.h"
 #include "Steering-Behaviours/Public/ParamLoader.h"
 #include "Steering-Behaviours/Public/Path.h"
 #include "Steering-Behaviours/Public/Obstacle.h"
-// #include "Steering-Behaviours/Public/SteeringBehaviors.h"
+#include "Steering-Behaviours/Public/SteeringBehaviors.h"
+#include "Steering-Behaviours/Public/Resource.h"
 #include "Common/Public/2D/Geometry.h"
 #include "Common/Public/2D/Wall2D.h"
 #include "Common/Public/2D/Transformations.h"
@@ -14,6 +13,8 @@
 #include "Common/Public/Misc/Smoother.h"
 #include "Common/Public/Misc/StreamUtils.h"
 // #include "Common/Public/Misc/WindowsUtils.h"
+
+#include <list>
 
 //------------------------------- ctor -----------------------------------
 //------------------------------------------------------------------------
@@ -61,7 +62,7 @@ GameWorld::GameWorld(int cx, int cy)
 			Prm.VehicleScale() // scale
 		);
 
-		// pVehicle->Steering()->FlockingOn();
+		pVehicle->Steering()->FlockingOn();
 
 		m_vehicles.push_back(pVehicle);
 
@@ -71,15 +72,15 @@ GameWorld::GameWorld(int cx, int cy)
 
 #define SHOAL
 #ifdef SHOAL
-		//m_vehicles[Prm.NumAgents() - 1]->Steering()->FlockingOff();
-		//m_vehicles[Prm.NumAgents() - 1]->SetScale(Vector2D(10, 10));
-		//m_vehicles[Prm.NumAgents() - 1]->Steering()->WanderOn();
-		//m_vehicles[Prm.NumAgents() - 1]->SetMaxSpeed(70);
+		m_vehicles[Prm.NumAgents() - 1]->Steering()->FlockingOff();
+		m_vehicles[Prm.NumAgents() - 1]->SetScale(Vector2D(10, 10));
+		m_vehicles[Prm.NumAgents() - 1]->Steering()->WanderOn();
+		m_vehicles[Prm.NumAgents() - 1]->SetMaxSpeed(70);
 
-		//for (int i = 0; i < Prm.NumAgents(); ++i)
-		//{
-		//	m_vehicles[i]->Steering()->EvadeOn(m_vehicles[Prm.NumAgents() - 1]);
-		//}
+		for (int i = 0; i < Prm.NumAgents(); ++i)
+		{
+			m_vehicles[i]->Steering()->EvadeOn(m_vehicles[Prm.NumAgents() - 1]);
+		}
 #endif
 
 		// Create any obstacles or walls
@@ -244,19 +245,19 @@ void GameWorld::HandleYKey()
 	{
 		m_obstacles.clear();
 
-		//for (unsigned int i = 0; i < m_vehicles.size(); ++i)
-		//{
-		//	m_vehicles[i]->Steering()->ObstacleAvoidanceOff();
-		//}
+		for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+		{
+			m_vehicles[i]->Steering()->ObstacleAvoidanceOff();
+		}
 	}
 	else
 	{
 		CreateObstacles();
 
-		//for (unsigned int i = 0; i < m_vehicles.size(); ++i)
-		//{
-		//	m_vehicles[i]->Steering()->ObstacleAvoidanceOn();
-		//}
+		for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+		{
+			m_vehicles[i]->Steering()->ObstacleAvoidanceOn();
+		}
 	}
 }
 
@@ -270,10 +271,10 @@ void GameWorld::HandleUKey()
 		m_pPath = new Path(RandInt(3, 7), border, border, cxClient() - border, cyClient() - border, true);
 		m_bShowPath = true;
 
-		//for (unsigned int i = 0; i < m_vehicles.size(); ++i)
-		//{
-		//	m_vehicles[i]->Steering()->SetPath(m_pPath->GetPath());
-		//}
+		for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+		{
+			m_vehicles[i]->Steering()->SetPath(m_pPath->GetPath());
+		}
 	}
 }
 
@@ -309,18 +310,145 @@ void GameWorld::HandleKeyPresses(WPARAM wParam)
 			HandleYKey();
 			break;
 
-		default: break;
+		default: 
+			break;
 	}
 }
 
 //------------------------------- HandleMenuItems -----------------------------------
 //-----------------------------------------------------------------------------------
 
+void GameWorld::ToggleObstacles()
+{
+	m_bShowObstacles = !m_bShowObstacles;
+
+	if (!m_bShowObstacles)
+	{
+		m_obstacles.clear();
+
+		for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+		{
+			m_vehicles[i]->Steering()->ObstacleAvoidanceOff();
+		}
+
+		// Uncheck the menu
+		// ChangeMenuState(hwnd, ID_OB_OBSTACLES, MFS_UNCHECKED);
+	}
+	else
+	{
+		CreateObstacles();
+
+		for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+		{
+			m_vehicles[i]->Steering()->ObstacleAvoidanceOn();
+		}
+
+		// Check the menu
+		// ChangeMenuState(hwnd, ID_OB_OBSTACLES, MFS_CHECKED);
+	}
+}
+
+void GameWorld::ToggleWalls()
+{
+	m_bShowWalls = !m_bShowWalls;
+
+	if (m_bShowWalls)
+	{
+		CreateWalls();
+
+		for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+		{
+			m_vehicles[i]->Steering()->WallAvoidanceOn();
+		}
+
+		// Check the menu
+		// ChangeMenuState(hwnd, ID_OB_WALLS, MFS_CHECKED);
+	}
+	else
+	{
+		m_Walls.clear();
+
+		for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+		{
+			m_vehicles[i]->Steering()->WallAvoidanceOff();
+		}
+
+		// Uncheck the menu
+		// ChangeMenuState(hwnd, ID_OB_WALLS, MFS_UNCHECKED);
+	}
+}
+
+void GameWorld::ToggleMenuSmoothing()
+{
+	if (m_vehicles.size() > 0)
+	{
+		for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+		{
+			m_vehicles[i]->ToggleSmoothing();
+		}
+
+		// CheckMenuItemAppropriately(hwnd, ID_MENU_SMOOTHING, m_Vehicles[0]->isSmoothingOn());
+	}
+}
+
+void GameWorld::ToggleSpacePartitioning()
+{
+}
+
+void GameWorld::ToggleCellSpacePartitioning()
+{
+
+}
+
+void GameWorld::ToggleSumming()
+{
+
+}
+
+void GameWorld::TogglePrioritizeSummingMethod()
+{
+
+}
+
 void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 {
 	switch (wParam)
 	{
-		default: break;
+		case ID_OB_OBSTACLES:
+			ToggleObstacles();
+			break;
+
+		case ID_OB_WALLS:
+			ToggleWalls();
+			break;
+
+		case IDR_PARTITIONING:
+			ToggleSpacePartitioning();
+			break;
+
+		case IDM_PARTITION_VIEW_NEIGHBORS:
+			ToggleCellSpacePartitioning();
+			break;
+
+		case IDR_WEIGHTED_SUM:
+			ToggleSumming();
+			break;
+
+		case IDR_PRIORITIZED:
+			TogglePrioritizeSummingMethod();
+			break;
+
+		case ID_VIEW_KEYS:
+			ToggleViewKeys();
+			// CheckMenuItemAppropriately(hwnd, ID_VIEW_FPS, RenderFPS());
+			break;
+
+		case ID_MENU_SMOOTHING:
+			ToggleMenuSmoothing();
+			break;
+
+		default:
+			break;
 	}
 }
 

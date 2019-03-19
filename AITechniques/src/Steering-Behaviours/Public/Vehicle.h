@@ -9,7 +9,7 @@
 #include <string>
 
 class GameWorld;
-class SteeringBehaviour;
+class SteeringBehavior;
 
 class Vehicle : public MovingEntity
 {
@@ -20,7 +20,7 @@ private:
 	GameWorld* m_pWorld;
 
 	// The steering behaviour class
-	SteeringBehaviour* m_pSteering;
+	SteeringBehavior* m_pSteering;
 
 	// Some steering behaviors give jerkly looking movement. The
 	// following members are used to smooth the vehicle's heading
@@ -72,7 +72,7 @@ public:
 	void Render() override;
 
 	// Accessors methods
-	SteeringBehaviour* const Steering() const { return m_pSteering; }
+	SteeringBehavior* const Steering() const { return m_pSteering; }
 	GameWorld* const World() const { return m_pWorld; }
 
 	Vector2D SmoothedHeading() const { return m_vSmoothedHeading; }

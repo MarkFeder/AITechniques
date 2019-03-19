@@ -1423,5 +1423,56 @@ void SteeringBehavior::RenderAids()
 	//------------------------------------------------------------------------------------------------------------------------
 	// Render the wall avoidance feelers
 	//------------------------------------------------------------------------------------------------------------------------
-	// TODO:
+	
+	if (On(BT_WallAvoidance) && m_pVehicle->World()->RenderFeelers())
+	{
+		gdi->OrangePen();
+
+		for (unsigned int flr = 0; flr < m_feelers.size(); ++flr)
+		{
+			gdi->Line(m_pVehicle->Pos(), m_feelers[flr]);
+		}
+	}
+
+	//------------------------------------------------------------------------------------------------------------------------
+	// Render the path info
+	//------------------------------------------------------------------------------------------------------------------------
+
+	if (On(BT_FollowPath) && m_pVehicle->World()->RenderPath())
+	{
+		m_pPath->Render();
+	}
+
+	if (On(BT_Separation))
+	{
+		if (m_pVehicle->ID() == 0) { gdi->TextAtPos(5, nextSlot, "Separation(S/X):"); gdi->TextAtPos(160, nextSlot, ttos(m_dWeightSeparation / Prm.SteeringForceTweaker())); nextSlot += slotSize; }
+
+		if (KEYDOWN('S')) { m_dWeightSeparation += 200 * m_pVehicle->TimeElapsed(); Clamp(m_dWeightSeparation, 0.0f, 50.0f * Prm.SteeringForceTweaker()); }
+		if (KEYDOWN('X')) { m_dWeightSeparation -= 200 * m_pVehicle->TimeElapsed(); Clamp(m_dWeightSeparation, 0.0f, 50.0f * Prm.SteeringForceTweaker()); }
+	}
+
+	if (On(BT_Alignment))
+	{
+		if (m_pVehicle->ID() == 0) { gdi->TextAtPos(5, nextSlot, "Alignment(A/Z):"); gdi->TextAtPos(160, nextSlot, ttos(m_dWeightAlignment / Prm.SteeringForceTweaker())); nextSlot += slotSize; }
+
+		if (KEYDOWN('A')) { m_dWeightAlignment += 200 * m_pVehicle->TimeElapsed(); Clamp(m_dWeightAlignment, 0.0f, 50.0f * Prm.SteeringForceTweaker()); }
+		if (KEYDOWN('Z')) { m_dWeightAlignment -= 200 * m_pVehicle->TimeElapsed(); Clamp(m_dWeightAlignment, 0.0f, 50.0f * Prm.SteeringForceTweaker()); }
+	}
+
+	if (On(BT_Cohesion))
+	{
+		if (m_pVehicle->ID() == 0) { gdi->TextAtPos(5, nextSlot, "Cohesion(D/C):"); gdi->TextAtPos(160, nextSlot, ttos(m_dWeightCohesion / Prm.SteeringForceTweaker())); nextSlot += slotSize; }
+
+		if (KEYDOWN('D')) { m_dWeightCohesion += 200 * m_pVehicle->TimeElapsed(); Clamp(m_dWeightSeparation, 0.0f, 50.0f * Prm.SteeringForceTweaker()); }
+		if (KEYDOWN('C')) { m_dWeightCohesion -= 200 * m_pVehicle->TimeElapsed(); Clamp(m_dWeightSeparation, 0.0f, 50.0f * Prm.SteeringForceTweaker()); }
+	}
+
+	if (On(BT_FollowPath))
+	{
+		double sd = sqrt(m_dWaypointSeekDistSq);
+		if (m_pVehicle->ID() == 0) { gdi->TextAtPos(5, nextSlot, "SeekDistance(D/C):"); gdi->TextAtPos(160, nextSlot, ttos(sd)); nextSlot += slotSize; }
+
+		if (KEYDOWN('D')) { m_dWaypointSeekDistSq += 1.0; }
+		if (KEYDOWN('C')) { m_dWaypointSeekDistSq -= 1.0; Clamp(m_dWaypointSeekDistSq, 0.0f, 400.0f); }
+	}
 }

@@ -94,8 +94,15 @@ public:
 	void HandleYKey();
 	void HandleUKey();
 	void HandleIKey();
-
 	void HandleKeyPresses(WPARAM wParam);
+
+	void ToggleObstacles();
+	void ToggleWalls();
+	void ToggleMenuSmoothing();
+	void ToggleSpacePartitioning();
+	void ToggleCellSpacePartitioning();
+	void ToggleSumming();
+	void TogglePrioritizeSummingMethod();
 	void HandleMenuItems(WPARAM wParam, HWND hwnd);
 
 	void TogglePause() { m_bPaused = !m_bPaused; }

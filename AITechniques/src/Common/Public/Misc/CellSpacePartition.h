@@ -69,9 +69,9 @@ private:
 	// method calculates an index into its appropriate cell
 	//---------------------------------------------------------------------------
 
-	inline int PositionToIndex(const Vector2D& pos) const
+	inline size_t PositionToIndex(const Vector2D& pos) const
 	{
-		int idx =
+		size_t idx =
 			(int)(m_iNumCellsX * pos.x / m_dSpaceWidth) +
 			((int)(m_iNumCellsY * pos.y / m_dSpaceHeight) * m_iNumCellsX);
 
@@ -119,8 +119,8 @@ public:
 	{
 		assert(entity);
 
-		int sz = m_cells.size();
-		int idx = PositionToIndex(entity->Pos());
+		size_t sz = m_cells.size();
+		size_t idx = PositionToIndex(entity->Pos());
 
 		m_cells[idx].m_members.push_back(entity);
 	}
@@ -134,8 +134,8 @@ public:
 	{
 		// If the index for the old pos and the new pos are not equal then the entity
 		// has moved to another cell
-		int oldIdx = PositionToIndex(oldPos);
-		int newIdx = PositionToIndex(entity->Pos());
+		size_t oldIdx = PositionToIndex(oldPos);
+		size_t newIdx = PositionToIndex(entity->Pos());
 
 		if (newIdx == oldIdx) return;
 

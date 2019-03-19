@@ -130,3 +130,48 @@ std::list<T> GetEntityLineSegmentIntersections(const conT& entities, int toIgnor
 
 	return hits;
 }
+
+// --------------------- GetClosestEntityLineSegmentIntersection ---------------
+// Tests a line segment AB against a container of entities. First of all, a test
+// is made to confirm that the entity is within a specified range of the 
+// one_to_ignore (positioned at A). If within range the intersection test is made.
+// 
+// Returns the closest entity that tested positive for intersection or null if
+// none found
+// -----------------------------------------------------------------------------
+
+template <class T, class conT>
+T* GetClosestEntityLineSegmentIntersection(const conT& entities, int toIgnore,
+	Vector2D a, Vector2D b, double range = MaxDouble)
+{
+	typename conT::const_iterator it;
+
+	T* closestEntity = nullptr;
+
+	double closestDist = MaxDouble;
+
+	// Iterate through all entities checking against line segment AB
+	for (it = entities.begin(); it != entities.end(); ++it)
+	{
+		double distSq = Vec2DDistanceSq((*it)->Pos(), a);
+
+		// If not within range or the entity being checked is the one to ignore
+		// just continue with the next entity
+		if (((*it)->ID() == toIgnore) || (distSq > range * range))
+			continue;
+
+		// If the distance to AB is less than the entities bounding radius, then
+		// there is an intersection so add it to hits
+		if (DistToLineSegment(a, b, (*it)->Pos()) < (*it)->BRadius())
+		{
+			if (distSq < closestDist)
+			{
+				closestDist = distSq;
+
+				closestEntity = *it;
+			}
+		}
+	}
+
+	return closestEntity;
+}

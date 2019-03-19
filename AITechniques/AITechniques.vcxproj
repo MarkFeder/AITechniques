@@ -78,6 +78,7 @@
     <ClInclude Include="src\Steering-Behaviours\Public\Obstacle.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\ParamLoader.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Path.h" />
+    <ClInclude Include="src\Steering-Behaviours\Public\Resource.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\SteeringBehaviors.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Vehicle.h" />
   </ItemGroup>

@@ -200,6 +200,17 @@ struct Vector2D
 	
 	// Vector2D friend functions
 
+	friend inline void WrapAround(Vector2D& pos, int maxX, int maxY)
+	{
+		if (pos.x > maxX) { pos.x = 0.0; }
+
+		if (pos.x < 0) { pos.x = (double)maxX; }
+
+		if (pos.y < 0) { pos.y = (double)maxY; }
+
+		if (pos.y > maxY) { pos.y = 0.0; }
+	}
+
 	friend inline Vector2D Vec2DNormalize(const Vector2D& v)
 	{
 		Vector2D vec = v;

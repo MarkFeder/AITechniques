@@ -1,9 +1,10 @@
 #include "Steering-Behaviours/Public/Vehicle.h"
+#include "Steering-Behaviours/Public/GameWorld.h"
+#include "Steering-Behaviours/Public/SteeringBehaviors.h"
 #include "Common/Public/2D/C2DMatrix.h"
 #include "Common/Public/2D/Transformations.h"
-// #include "GameWorld.h"
-// #include "Common/Public/Misc/CellSpacePartion.h"
-// #include "Common/Public/Misc/Cgdi.h"
+#include "Common/Public/Misc/CellSpacePartition.h"
+#include "Common/Public/Misc/Cgdi.h"
 
 Vehicle::Vehicle(GameWorld* world,
 	Vector2D position,
@@ -34,7 +35,7 @@ Vehicle::Vehicle(GameWorld* world,
 	InitializeBuffer();
 
 	// Sets up the steering behavior class
-	// m_pSteering = new SteeringBehaviour(this);
+	m_pSteering = new SteeringBehavior(this);
 
 	// Sets up the smoother
 	m_pHeadingSmoother = new Smoother<Vector2D>(0, Vector2D(0.0f, 0.0f));
@@ -45,7 +46,7 @@ Vehicle::Vehicle(GameWorld* world,
 
 Vehicle::~Vehicle()
 {
-	// delete m_pSteering;
+	delete m_pSteering;
 	delete m_pHeadingSmoother;
 }
 
@@ -86,7 +87,7 @@ void Vehicle::Update(double timeElapsed)
 
 	// Calculate the combined force from each steering behaviour in the
 	// vehicle's list
-	// steeringForce = m_pSteering->Calculate();
+	steeringForce = m_pSteering->Calculate();
 
 	// Acceleration = Force / Mass
 	Vector2D acceleration = steeringForce / m_dMass;
@@ -108,13 +109,13 @@ void Vehicle::Update(double timeElapsed)
 	}
 
 	// Treat the screen as a toroid
-	// WrapAround(m_vPos, m_pWorld->cxClient(), m_pWorld->cyClient());
+	WrapAround(m_vPos, m_pWorld->cxClient(), m_pWorld->cyClient());
 
 	// Update the vehicle's current cell if SP is turned on
-	//if (Steering()->isSpacePartitionOn())
-	//{
-	//	World()->CellSpace()->UpdateEntity(this, oldPos);
-	//}
+	if (Steering()->IsSpacePartitioningOn())
+	{
+		World()->CellSpace()->UpdateEntity(this, oldPos);
+	}
 
 	if (IsSmoothingOn())
 	{
@@ -127,5 +128,57 @@ void Vehicle::Update(double timeElapsed)
 
 void Vehicle::Render()
 {
+	// A vector to hold the transformed vertices
+	static std::vector<Vector2D> m_vecVehicleVBTrans;
 
+	// Render neighboring vehicles in different colors if requested
+	if (m_pWorld->RenderNeighbors())
+	{
+		if (ID() == 0) gdi->RedPen();
+		else if (IsTagged()) gdi->GreenPen();
+		else gdi->BluePen();
+	}
+	else
+	{
+		gdi->BluePen();
+	}
+
+	if (Steering()->IsInterposeOn())
+	{
+		gdi->RedPen();
+	}
+
+	if (Steering()->IsHideOn())
+	{
+		gdi->GreenPen();
+	}
+
+	if (IsSmoothingOn())
+	{
+		m_vecVehicleVBTrans = WorldTransform(
+			m_vecVehicleVB, 
+			Pos(), 
+			SmoothedHeading(), 
+			SmoothedHeading().Perp(), 
+			Scale()
+		);
+	}
+	else
+	{
+		m_vecVehicleVBTrans = WorldTransform(
+			m_vecVehicleVB,
+			Pos(),
+			Heading(),
+			Side(),
+			Scale()
+		);
+	}
+
+	gdi->ClosedShape(m_vecVehicleVBTrans);
+
+	// Render any visual aids / and or user options
+	if (m_pWorld->ViewKeys())
+	{
+		Steering()->RenderAids();
+	}
 }
