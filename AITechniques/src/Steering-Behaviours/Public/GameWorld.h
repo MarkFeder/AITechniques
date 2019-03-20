@@ -96,13 +96,14 @@ public:
 	void HandleIKey();
 	void HandleKeyPresses(WPARAM wParam);
 
-	void ToggleObstacles();
-	void ToggleWalls();
-	void ToggleMenuSmoothing();
-	void ToggleSpacePartitioning();
-	void ToggleCellSpacePartitioning();
-	void ToggleSumming();
-	void TogglePrioritizeSummingMethod();
+	void ToggleObstacles(HWND hwnd);
+	void ToggleWalls(HWND hwnd);
+	void ToggleMenuSmoothing(HWND hwnd);
+	void ToggleSpacePartitioning(HWND hwnd);
+	void ToggleCellSpacePartitioning(HWND hwnd);
+	void ToggleSumming(HWND hwnd);
+	void TogglePrioritizeSummingMethod(HWND hwnd);
+	void ToggleDithered(HWND hwnd);
 	void HandleMenuItems(WPARAM wParam, HWND hwnd);
 
 	void TogglePause() { m_bPaused = !m_bPaused; }

@@ -197,7 +197,7 @@ public:
 
 		for (it; it != m_cells.end(); ++it)
 		{
-			(*it)->m_members.clear();
+			(*it).m_members.clear();
 		}
 	}
 

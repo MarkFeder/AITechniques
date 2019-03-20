@@ -36,6 +36,7 @@
     <ClCompile Include="src\Common\Private\Misc\Cgdi.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\Obstacle.cpp" />
     <ClCompile Include="src\Steering-Behaviours\Private\SteeringBehaviors.cpp" />
+    <ClCompile Include="src\Common\Private\Misc\WindowsUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />
@@ -77,5 +78,6 @@
     <ClInclude Include="src\Steering-Behaviours\Public\Obstacle.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\SteeringBehaviors.h" />
     <ClInclude Include="src\Steering-Behaviours\Public\Resource.h" />
+    <ClInclude Include="src\Common\Public\Misc\WindowsUtils.h" />
   </ItemGroup>
 </Project>

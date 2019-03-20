@@ -27,6 +27,7 @@
     <ClCompile Include="src\Common\Private\Misc\Cgdi.cpp" />
     <ClCompile Include="src\Common\Private\Misc\FrameCounter.cpp" />
     <ClCompile Include="src\Common\Private\Misc\IniFileLoaderBase.cpp" />
+    <ClCompile Include="src\Common\Private\Misc\WindowsUtils.cpp" />
     <ClCompile Include="src\Common\Private\Time\CrudeTimer.cpp" />
     <ClCompile Include="src\Common\Private\Time\PrecisionTimer.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="src\Common\Public\Misc\Smoother.h" />
     <ClInclude Include="src\Common\Public\Misc\StreamUtils.h" />
     <ClInclude Include="src\Common\Public\Misc\Utils.h" />
+    <ClInclude Include="src\Common\Public\Misc\WindowsUtils.h" />
     <ClInclude Include="src\Common\Public\Time\CrudeTimer.h" />
     <ClInclude Include="src\Common\Public\Time\PrecisionTimer.h" />
     <ClInclude Include="src\State-Driven\Public\Elsa.h" />

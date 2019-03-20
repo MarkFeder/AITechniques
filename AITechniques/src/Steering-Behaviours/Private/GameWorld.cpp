@@ -12,7 +12,7 @@
 #include "Common/Public/2D/Geometry.h"
 #include "Common/Public/Misc/Smoother.h"
 #include "Common/Public/Misc/StreamUtils.h"
-// #include "Common/Public/Misc/WindowsUtils.h"
+#include "Common/Public/Misc/WindowsUtils.h"
 
 #include <list>
 
@@ -318,7 +318,7 @@ void GameWorld::HandleKeyPresses(WPARAM wParam)
 //------------------------------- HandleMenuItems -----------------------------------
 //-----------------------------------------------------------------------------------
 
-void GameWorld::ToggleObstacles()
+void GameWorld::ToggleObstacles(HWND hwnd)
 {
 	m_bShowObstacles = !m_bShowObstacles;
 
@@ -332,7 +332,7 @@ void GameWorld::ToggleObstacles()
 		}
 
 		// Uncheck the menu
-		// ChangeMenuState(hwnd, ID_OB_OBSTACLES, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_OB_OBSTACLES, MFS_UNCHECKED);
 	}
 	else
 	{
@@ -344,11 +344,11 @@ void GameWorld::ToggleObstacles()
 		}
 
 		// Check the menu
-		// ChangeMenuState(hwnd, ID_OB_OBSTACLES, MFS_CHECKED);
+		ChangeMenuState(hwnd, ID_OB_OBSTACLES, MFS_CHECKED);
 	}
 }
 
-void GameWorld::ToggleWalls()
+void GameWorld::ToggleWalls(HWND hwnd)
 {
 	m_bShowWalls = !m_bShowWalls;
 
@@ -362,7 +362,7 @@ void GameWorld::ToggleWalls()
 		}
 
 		// Check the menu
-		// ChangeMenuState(hwnd, ID_OB_WALLS, MFS_CHECKED);
+		ChangeMenuState(hwnd, ID_OB_WALLS, MFS_CHECKED);
 	}
 	else
 	{
@@ -374,11 +374,11 @@ void GameWorld::ToggleWalls()
 		}
 
 		// Uncheck the menu
-		// ChangeMenuState(hwnd, ID_OB_WALLS, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, ID_OB_WALLS, MFS_UNCHECKED);
 	}
 }
 
-void GameWorld::ToggleMenuSmoothing()
+void GameWorld::ToggleMenuSmoothing(HWND hwnd)
 {
 	if (m_vehicles.size() > 0)
 	{
@@ -387,27 +387,88 @@ void GameWorld::ToggleMenuSmoothing()
 			m_vehicles[i]->ToggleSmoothing();
 		}
 
-		// CheckMenuItemAppropriately(hwnd, ID_MENU_SMOOTHING, m_Vehicles[0]->isSmoothingOn());
+		CheckMenuItemAppropriately(hwnd, ID_MENU_SMOOTHING, m_vehicles[0]->IsSmoothingOn());
 	}
 }
 
-void GameWorld::ToggleSpacePartitioning()
+void GameWorld::ToggleSpacePartitioning(HWND hwnd)
 {
+	for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+	{
+		m_vehicles[i]->Steering()->ToggleSpacePartitioningOnOff();
+	}
+
+	// If toggled on, empty the cell space and then re-add all the vehicles
+	if (m_vehicles[0]->Steering()->IsSpacePartitioningOn())
+	{
+		m_pCellSpace->EmptyCells();
+
+		for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+		{
+			m_pCellSpace->AddEntity(m_vehicles[i]);
+		}
+	}
+	else
+	{
+		ChangeMenuState(hwnd, IDR_PARTITIONING, MFS_UNCHECKED);
+		ChangeMenuState(hwnd, IDM_PARTITION_VIEW_NEIGHBORS, MFS_UNCHECKED);
+		m_bShowCellSpaceInfo = false;
+	}
 }
 
-void GameWorld::ToggleCellSpacePartitioning()
+void GameWorld::ToggleCellSpacePartitioning(HWND hwnd)
 {
+	m_bShowCellSpaceInfo = !m_bShowCellSpaceInfo;
 
+	if (m_bShowCellSpaceInfo)
+	{
+		ChangeMenuState(hwnd, IDM_PARTITION_VIEW_NEIGHBORS, MFS_CHECKED);
+
+		if (!m_vehicles[0]->Steering()->IsSpacePartitioningOn())
+		{
+			SendMessage(hwnd, WM_COMMAND, IDR_PARTITIONING, NULL);
+		}
+	}
+	else
+	{
+		ChangeMenuState(hwnd, IDM_PARTITION_VIEW_NEIGHBORS, MFS_UNCHECKED);
+	}
 }
 
-void GameWorld::ToggleSumming()
+void GameWorld::ToggleSumming(HWND hwnd)
 {
+	ChangeMenuState(hwnd, IDR_WEIGHTED_SUM, MFS_CHECKED);
+	ChangeMenuState(hwnd, IDR_PRIORITIZED, MFS_UNCHECKED);
+	ChangeMenuState(hwnd, IDR_DITHERED, MFS_UNCHECKED);
 
+	for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+	{
+		m_vehicles[i]->Steering()->SetSummingMethod(SteeringBehavior::WeightedAverage);
+	}
 }
 
-void GameWorld::TogglePrioritizeSummingMethod()
+void GameWorld::TogglePrioritizeSummingMethod(HWND hwnd)
 {
+	ChangeMenuState(hwnd, IDR_WEIGHTED_SUM, MFS_UNCHECKED);
+	ChangeMenuState(hwnd, IDR_PRIORITIZED, MFS_CHECKED);
+	ChangeMenuState(hwnd, IDR_DITHERED, MFS_UNCHECKED);
 
+	for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+	{
+		m_vehicles[i]->Steering()->SetSummingMethod(SteeringBehavior::Prioritized);
+	}
+}
+
+void GameWorld::ToggleDithered(HWND hwnd)
+{
+	ChangeMenuState(hwnd, IDR_WEIGHTED_SUM, MFS_UNCHECKED);
+	ChangeMenuState(hwnd, IDR_PRIORITIZED, MFS_UNCHECKED);
+	ChangeMenuState(hwnd, IDR_DITHERED, MFS_CHECKED);
+
+	for (unsigned int i = 0; i < m_vehicles.size(); ++i)
+	{
+		m_vehicles[i]->Steering()->SetSummingMethod(SteeringBehavior::Dithered);
+	}
 }
 
 void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
@@ -415,36 +476,45 @@ void GameWorld::HandleMenuItems(WPARAM wParam, HWND hwnd)
 	switch (wParam)
 	{
 		case ID_OB_OBSTACLES:
-			ToggleObstacles();
+			ToggleObstacles(hwnd);
 			break;
 
 		case ID_OB_WALLS:
-			ToggleWalls();
+			ToggleWalls(hwnd);
 			break;
 
 		case IDR_PARTITIONING:
-			ToggleSpacePartitioning();
+			ToggleSpacePartitioning(hwnd);
 			break;
 
 		case IDM_PARTITION_VIEW_NEIGHBORS:
-			ToggleCellSpacePartitioning();
+			ToggleCellSpacePartitioning(hwnd);
 			break;
 
 		case IDR_WEIGHTED_SUM:
-			ToggleSumming();
+			ToggleSumming(hwnd);
 			break;
 
 		case IDR_PRIORITIZED:
-			TogglePrioritizeSummingMethod();
+			TogglePrioritizeSummingMethod(hwnd);
+			break;
+
+		case IDR_DITHERED:
+
 			break;
 
 		case ID_VIEW_KEYS:
 			ToggleViewKeys();
-			// CheckMenuItemAppropriately(hwnd, ID_VIEW_FPS, RenderFPS());
+			CheckMenuItemAppropriately(hwnd, ID_VIEW_FPS, RenderFPS());
+			break;
+
+		case ID_VIEW_FPS:
+			ToogleShowFPS();
+			CheckMenuItemAppropriately(hwnd, ID_VIEW_FPS, RenderFPS());
 			break;
 
 		case ID_MENU_SMOOTHING:
-			ToggleMenuSmoothing();
+			ToggleMenuSmoothing(hwnd);
 			break;
 
 		default:
@@ -516,6 +586,7 @@ void GameWorld::Render()
 #endif
 
 	gdi->TextColor(Cgdi::grey);
+
 	if (RenderPath())
 	{
 		gdi->TextAtPos((int)(cxClient() / 2.0f - 80), cyClient() - 20, "Press 'U' for random path");
@@ -529,5 +600,6 @@ void GameWorld::Render()
 		gdi->TextAtPos(5, cyClient() - 20, ttos(1.0 / m_dAvFrameTime));
 	}
 
-	if (m_bShowCellSpaceInfo) m_pCellSpace->RenderCells();
+	if (m_bShowCellSpaceInfo) 
+		m_pCellSpace->RenderCells();
 }
