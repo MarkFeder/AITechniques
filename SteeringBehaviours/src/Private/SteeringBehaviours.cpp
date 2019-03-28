@@ -2,15 +2,15 @@
 #include "Steering-Behaviours/Public/Vehicle.h"
 #include "Steering-Behaviours/Public/GameWorld.h"
 
-#include "Common/Public/2D/Wall2D.h"
-#include "Common/Public/2D/Transformations.h"
-#include "Common/Public/2D/Geometry.h"
-#include "Common/Public/Misc/Utils.h"
-#include "Common/Public/Misc/Cgdi.h"
-#include "Common/Public/Misc/CellSpacePartition.h"
-#include "Common/Public/Misc/StreamUtils.h"
-#include "Common/Public/Entities/BaseGameEntity.h"
-#include "Common/Public/Entities/EntityTemplates.h"
+#include "Public/2D/Wall2D.h"
+#include "Public/2D/Transformations.h"
+#include "Public/2D/Geometry.h"
+#include "Public/Misc/Utils.h"
+#include "Public/Misc/Cgdi.h"
+#include "Public/Misc/CellSpacePartition.h"
+#include "Public/Misc/StreamUtils.h"
+#include "Public/Entities/BaseGameEntity.h"
+#include "Public/Entities/EntityTemplates.h"
 
 #include <cassert>
 

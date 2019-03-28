@@ -1,7 +1,7 @@
 #include "Steering-Behaviours/Public/Path.h"
-#include "Common/Public/2D/Transformations.h"
-#include "Common/Public/Misc/Utils.h"
-#include "Common/Public/Misc/Cgdi.h"
+#include "Public/2D/Transformations.h"
+#include "Public/Misc/Utils.h"
+#include "Public/Misc/Cgdi.h"
 
 //------------------------------- CreateRandomPath -----------------------
 //------------------------------------------------------------------------

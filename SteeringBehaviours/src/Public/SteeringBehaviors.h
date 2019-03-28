@@ -5,7 +5,7 @@
 #include <string>
 #include <list>
 
-#include "Common/Public/2D/Vector2D.h"
+#include "Public/2D/Vector2D.h"
 #include "ParamLoader.h"
 #include "Constants.h"
 #include "Path.h"

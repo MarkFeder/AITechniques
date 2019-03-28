@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Common/Public/2D/Vector2D.h"
-#include "Common/Public/Entities/BaseGameEntity.h"
-#include "Common/Public/Misc/Cgdi.h"
+#include "Public/2D/Vector2D.h"
+#include "Public/Entities/BaseGameEntity.h"
+#include "Public/Misc/Cgdi.h"
 
 #include <Windows.h>
 

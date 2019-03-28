@@ -3,7 +3,7 @@
 #include <list>
 #include <cassert>
 
-#include "Common/Public/2D/Vector2D.h"
+#include "Public/2D/Vector2D.h"
 
 class Path
 {

@@ -1,13 +1,13 @@
 #pragma warning (disable:4786)
 
-#include "Steering-Behaviours/Public/Constants.h"
-#include "Steering-Behaviours/Public/GameWorld.h"
-#include "Steering-Behaviours/Public/ParamLoader.h"
-#include "Steering-Behaviours/Public/Resource.h"
-#include "Common/Public/Misc/Cgdi.h"
-#include "Common/Public/Misc/Utils.h"
-#include "Common/Public/Time/PrecisionTimer.h"
-#include "Common/Public/Misc/WindowsUtils.h"
+#include "Public/Constants.h"
+#include "Public/GameWorld.h"
+#include "Public/ParamLoader.h"
+#include "Public/Resource.h"
+#include "Public/Misc/Cgdi.h"
+#include "Public/Misc/Utils.h"
+#include "Public/Time/PrecisionTimer.h"
+#include "Public/Misc/WindowsUtils.h"
 
 #include <windows.h>
 #include <time.h>

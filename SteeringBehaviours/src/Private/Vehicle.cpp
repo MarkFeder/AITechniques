@@ -1,10 +1,10 @@
 #include "Steering-Behaviours/Public/Vehicle.h"
 #include "Steering-Behaviours/Public/GameWorld.h"
 #include "Steering-Behaviours/Public/SteeringBehaviors.h"
-#include "Common/Public/2D/C2DMatrix.h"
-#include "Common/Public/2D/Transformations.h"
-#include "Common/Public/Misc/CellSpacePartition.h"
-#include "Common/Public/Misc/Cgdi.h"
+#include "Public/2D/C2DMatrix.h"
+#include "Public/2D/Transformations.h"
+#include "Public/Misc/CellSpacePartition.h"
+#include "Public/Misc/Cgdi.h"
 
 Vehicle::Vehicle(GameWorld* world,
 	Vector2D position,

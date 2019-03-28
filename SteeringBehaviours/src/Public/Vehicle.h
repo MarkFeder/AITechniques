@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Common/Public/Entities/MovingEntity.h"
-#include "Common/Public/Misc/Smoother.h"
-#include "Common/Public/2D/Vector2D.h"
+#include "Public/Entities/MovingEntity.h"
+#include "Public/Misc/Smoother.h"
+#include "Public/2D/Vector2D.h"
 
 #include <vector>
 #include <list>

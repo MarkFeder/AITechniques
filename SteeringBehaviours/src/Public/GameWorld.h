@@ -3,11 +3,11 @@
 #include <windows.h>
 #include <vector>
 
-#include "Common/Public/2D/Vector2D.h"
-#include "Common/Public/Time/PrecisionTimer.h"
-#include "Common/Public/Misc/CellSpacePartition.h"
-#include "Common/Public/Entities/BaseGameEntity.h"
-#include "Common/Public/Entities/EntityTemplates.h"
+#include "Public/2D/Vector2D.h"
+#include "Public/Time/PrecisionTimer.h"
+#include "Public/Misc/CellSpacePartition.h"
+#include "Public/Entities/BaseGameEntity.h"
+#include "Public/Entities/EntityTemplates.h"
 #include "Vehicle.h"
 
 class Obstacle;

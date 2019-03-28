@@ -6,13 +6,13 @@
 #include "Steering-Behaviours/Public/Obstacle.h"
 #include "Steering-Behaviours/Public/SteeringBehaviors.h"
 #include "Steering-Behaviours/Public/Resource.h"
-#include "Common/Public/2D/Geometry.h"
-#include "Common/Public/2D/Wall2D.h"
-#include "Common/Public/2D/Transformations.h"
-#include "Common/Public/2D/Geometry.h"
-#include "Common/Public/Misc/Smoother.h"
-#include "Common/Public/Misc/StreamUtils.h"
-#include "Common/Public/Misc/WindowsUtils.h"
+#include "Public/2D/Geometry.h"
+#include "Public/2D/Wall2D.h"
+#include "Public/2D/Transformations.h"
+#include "Public/2D/Geometry.h"
+#include "Public/Misc/Smoother.h"
+#include "Public/Misc/StreamUtils.h"
+#include "Public/Misc/WindowsUtils.h"
 
 #include <list>
 

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Constants.h"
-#include "Common/Public/Misc/IniFileLoaderBase.h"
-#include "Common/Public/Misc/Utils.h"
+#include "Public/Misc/IniFileLoaderBase.h"
+#include "Public/Misc/Utils.h"
 
 #define Prm (*ParamLoader::Instance())
 
