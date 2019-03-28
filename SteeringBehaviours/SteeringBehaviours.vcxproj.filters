@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Private\GameWorld.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Private\Obstacle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Private\ParamLoader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Private\Path.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Private\Vehicle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Private\SteeringBehaviours.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SteeringMainApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Public\Constants.h" />
+    <ClInclude Include="src\Public\GameWorld.h" />
+    <ClInclude Include="src\Public\Obstacle.h" />
+    <ClInclude Include="src\Public\ParamLoader.h" />
+    <ClInclude Include="src\Public\Path.h" />
+    <ClInclude Include="src\Public\Resource.h" />
+    <ClInclude Include="src\Public\SteeringBehaviors.h" />
+    <ClInclude Include="src\Public\Vehicle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Public\params.ini" />
+  </ItemGroup>
+</Project>

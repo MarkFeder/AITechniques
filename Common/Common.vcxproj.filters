@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Private">
+      <UniqueIdentifier>{36725880-24cb-46da-b608-49931f48cf95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public">
+      <UniqueIdentifier>{00539dcd-94c6-4f67-b9ab-62991e44cffa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Private\2D\Vector2D.cpp" />
+    <ClCompile Include="src\Private\Entities\BaseGameEntity.cpp" />
+    <ClCompile Include="src\Private\Entities\EntityManager.cpp" />
+    <ClCompile Include="src\Private\Entities\MovingEntity.cpp" />
+    <ClCompile Include="src\Private\Messaging\MessageDispatcher.cpp" />
+    <ClCompile Include="src\Private\Misc\Cgdi.cpp" />
+    <ClCompile Include="src\Private\Misc\FrameCounter.cpp" />
+    <ClCompile Include="src\Private\Misc\IniFileLoaderBase.cpp" />
+    <ClCompile Include="src\Private\Misc\WindowsUtils.cpp" />
+    <ClCompile Include="src\Private\Time\CrudeTimer.cpp" />
+    <ClCompile Include="src\Private\Time\PrecisionTimer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Public\2D\C2DMatrix.h" />
+    <ClInclude Include="src\Public\2D\Geometry.h" />
+    <ClInclude Include="src\Public\2D\InvertedAABox2D.h" />
+    <ClInclude Include="src\Public\2D\Transformations.h" />
+    <ClInclude Include="src\Public\2D\Vector2D.h" />
+    <ClInclude Include="src\Public\2D\Wall2D.h" />
+    <ClInclude Include="src\Public\Entities\BaseGameEntity.h" />
+    <ClInclude Include="src\Public\Entities\EntityManager.h" />
+    <ClInclude Include="src\Public\Entities\EntityNames.h" />
+    <ClInclude Include="src\Public\Entities\EntityTemplates.h" />
+    <ClInclude Include="src\Public\Entities\MovingEntity.h" />
+    <ClInclude Include="src\Public\FSM\State.h" />
+    <ClInclude Include="src\Public\FSM\StateMachine.h" />
+    <ClInclude Include="src\Public\Messaging\MessageDispatcher.h" />
+    <ClInclude Include="src\Public\Messaging\MessageTypes.h" />
+    <ClInclude Include="src\Public\Messaging\Telegram.h" />
+    <ClInclude Include="src\Public\Misc\CellSpacePartition.h" />
+    <ClInclude Include="src\Public\Misc\Cgdi.h" />
+    <ClInclude Include="src\Public\Misc\ConsoleUtils.h" />
+    <ClInclude Include="src\Public\Misc\FrameCounter.h" />
+    <ClInclude Include="src\Public\Misc\IniFileLoaderBase.h" />
+    <ClInclude Include="src\Public\Misc\Smoother.h" />
+    <ClInclude Include="src\Public\Misc\StreamUtils.h" />
+    <ClInclude Include="src\Public\Misc\Utils.h" />
+    <ClInclude Include="src\Public\Misc\WindowsUtils.h" />
+    <ClInclude Include="src\Public\Time\CrudeTimer.h" />
+    <ClInclude Include="src\Public\Time\PrecisionTimer.h" />
+  </ItemGroup>
+</Project>

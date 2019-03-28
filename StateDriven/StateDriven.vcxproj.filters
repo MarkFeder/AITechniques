@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Private\Elsa.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Private\ElsaStates.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Private\Miner.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Private\MinerStates.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StateDrivenMainApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Public\Elsa.h" />
+    <ClInclude Include="src\Public\ElsaStates.h" />
+    <ClInclude Include="src\Public\Locations.h" />
+    <ClInclude Include="src\Public\Miner.h" />
+    <ClInclude Include="src\Public\MinerStates.h" />
+  </ItemGroup>
+</Project>
