@@ -102,26 +102,27 @@ inline double Average(const std::vector<T>& v)
 }
 
 // Deletes the internal contents of a STL container
-template <class T>
-inline void DeleteSTLContainer(T& container)
-{
-	for (T::iterator it = container.begin(); it != container.end(); ++it)
-	{
-		delete *it;
-		*it = nullptr;
-	}
-}
+//template <class T>
+//inline void DeleteSTLContainer(T& container)
+//{
+//	for (T::iterator it = container.begin(); it != container.end(); ++it)
+//	{
+//		T* element = (*it);
+//		delete element;
+//		element = nullptr;
+//	}
+//}
 
 // Deletes the internal contents of a STL map
-template <class T>
-inline void DeleteSTLMap(T& map)
-{
-	for (T::iterator it = map.begin(); it != map.end(); ++it)
-	{
-		delete it->second;
-		it->second = nullptr;
-	}
-}
+//template <class T>
+//inline void DeleteSTLMap(T& map)
+//{
+//	for (T::iterator it = map.begin(); it != map.end(); ++it)
+//	{
+//		delete it->second;
+//		it->second = nullptr;
+//	}
+//}
 
 inline double Sigmoid(double input, double response = 1.0)
 {

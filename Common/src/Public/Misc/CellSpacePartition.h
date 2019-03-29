@@ -207,7 +207,7 @@ public:
 	inline void RenderCells() const
 	{
 		std::vector<Cell<Entity>>::const_iterator curCell;
-		for (curCell = m_cells.begin(); curCell != m_cells.end(); ++curCell)
+		for (curCell = m_cells.cbegin(); curCell != m_cells.cend(); ++curCell)
 		{
 			(*curCell).m_bBox.Render(false);
 		}

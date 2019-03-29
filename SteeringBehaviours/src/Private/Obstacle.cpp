@@ -1,4 +1,4 @@
-#include "Steering-Behaviours/Public/Obstacle.h"
+#include "Public/Obstacle.h"
 #include <fstream>
 
 void Obstacle::Write(std::ostream & os) const

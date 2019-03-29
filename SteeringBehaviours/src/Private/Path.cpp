@@ -1,4 +1,4 @@
-#include "Steering-Behaviours/Public/Path.h"
+#include "Public/Path.h"
 #include "Public/2D/Transformations.h"
 #include "Public/Misc/Utils.h"
 #include "Public/Misc/Cgdi.h"

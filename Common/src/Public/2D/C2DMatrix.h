@@ -29,7 +29,7 @@ private:
 	// Multiplies the matrix with min
 	// -----------------------------------------------------------------------------
 
-	inline void C2DMatrix::MatrixMultiply(Matrix& mIn)
+	inline void MatrixMultiply(Matrix& mIn)
 	{
 		Matrix mat_temp;
 
@@ -63,7 +63,7 @@ public:
 	// Create an identity matrix
 	// -----------------------------------------------------------------------
 
-	inline void C2DMatrix::Identity()
+	inline void Identity()
 	{
 		m_matrix._11 = 1; m_matrix._12 = 0; m_matrix._13 = 0;
 		m_matrix._21 = 0; m_matrix._22 = 1; m_matrix._23 = 0;
@@ -74,7 +74,7 @@ public:
 	// Create a transformation matrix
 	// -------------------------------------------------------------------
 
-	inline void C2DMatrix::Translate(double x, double y)
+	inline void Translate(double x, double y)
 	{
 		Matrix mat;
 
@@ -90,7 +90,7 @@ public:
 	// Create a scale matrix
 	// ---------------------------------------------------------------
 
-	inline void C2DMatrix::Scale(double x, double y)
+	inline void Scale(double x, double y)
 	{
 		Matrix mat;
 
@@ -106,7 +106,7 @@ public:
 	// Create a rotation matrix
 	// ---------------------------------------------------------------
 
-	inline void C2DMatrix::Rotate(double rotation)
+	inline void Rotate(double rotation)
 	{
 		Matrix mat;
 
@@ -125,7 +125,7 @@ public:
 	// Create a rotation matrix from a fwd and side 2D vector
 	// ---------------------------------------------------------------
 
-	inline void C2DMatrix::Rotate(const Vector2D& fwd, const Vector2D& side)
+	inline void Rotate(const Vector2D& fwd, const Vector2D& side)
 	{
 		Matrix mat;
 
@@ -141,7 +141,7 @@ public:
 	// Apply a transformation matrix to a std::vector of points
 	// ---------------------------------------------------------------------------
 
-	inline void C2DMatrix::TransformVector2Ds(std::vector<Vector2D>& vPoints)
+	inline void TransformVector2Ds(std::vector<Vector2D>& vPoints)
 	{
 		for (unsigned int i = 0; i < vPoints.size(); ++i)
 		{
@@ -162,7 +162,7 @@ public:
 	// Apply a transformation matrix to a point
 	// ---------------------------------------------------------------------------
 
-	inline void C2DMatrix::TransformVector2Ds(Vector2D& vPoint)
+	inline void TransformVector2Ds(Vector2D& vPoint)
 	{
 		double tempX = (m_matrix._11*vPoint.x) + (m_matrix._21*vPoint.y) + (m_matrix._31);
 

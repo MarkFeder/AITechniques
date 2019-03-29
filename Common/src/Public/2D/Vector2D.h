@@ -26,7 +26,7 @@ struct Vector2D
 	// Returns the length of a 2D Vector
 	//------------------------------------------------------------------
 
-	inline double Vector2D::Length() const
+	inline double Length() const
 	{
 		return sqrt(x * x + y * y);
 	}
@@ -35,7 +35,7 @@ struct Vector2D
 	// Returns the squared length of a 2D Vector
 	//--------------------------------------------------------------------
 
-	inline double Vector2D::LengthSq() const
+	inline double LengthSq() const
 	{
 		return (x * x + y * y);
 	}
@@ -44,7 +44,7 @@ struct Vector2D
 	// Normalizes a 2D Vector
 	//------------------------------------------------------------------------
 
-	inline void Vector2D::Normalize()
+	inline void Normalize()
 	{
 		double vector_length = this->Length();
 
@@ -59,7 +59,7 @@ struct Vector2D
 	// Calculates the dot product
 	//---------------------------------------------------------------
 
-	inline double Vector2D::Dot(const Vector2D& v2) const
+	inline double Dot(const Vector2D& v2) const
 	{
 		return x * v2.x + y * v2.y;
 	}
@@ -71,7 +71,7 @@ struct Vector2D
 
 	enum { clockwise = 1, anticlockwise = -1 };
 
-	inline int Vector2D::Sign(const Vector2D& v2) const
+	inline int Sign(const Vector2D& v2) const
 	{
 		return (y*v2.x > x*v2.y) ? anticlockwise : clockwise;
 	}
@@ -80,7 +80,7 @@ struct Vector2D
 	// Returns a vector perpendicular to this vector
 	//----------------------------------------------------------------
 
-	inline Vector2D Vector2D::Perp() const
+	inline Vector2D Perp() const
 	{
 		return Vector2D(-y, x);
 	}
@@ -89,7 +89,7 @@ struct Vector2D
 	// Truncates a vector so that its length does not exceed max
 	//--------------------------------------------------------------------
 
-	inline void Vector2D::Truncate(double max)
+	inline void Truncate(double max)
 	{
 		if (this->Length() > max)
 		{
@@ -102,7 +102,7 @@ struct Vector2D
 	// Calculates the euclidean distance between two vectors
 	//--------------------------------------------------------------------
 
-	inline double Vector2D::Distance(const Vector2D& v2) const
+	inline double Distance(const Vector2D& v2) const
 	{
 		double xSeparation = v2.x - x;
 		double ySeparation = v2.y - y;
@@ -115,7 +115,7 @@ struct Vector2D
 	// Calculates the euclidean distance squared between two vectors
 	//----------------------------------------------------------------------
 
-	inline double Vector2D::DistanceSq(const Vector2D& v2) const
+	inline double DistanceSq(const Vector2D& v2) const
 	{
 		double xSeparation = v2.x - x;
 		double ySeparation = v2.y - y;
@@ -129,7 +129,7 @@ struct Vector2D
 	// is operating upon. (like the path of a ball bouncing off a wall)
 	//-------------------------------------------------------------------
 
-	inline void Vector2D::Reflect(const Vector2D& norm)
+	inline void Reflect(const Vector2D& norm)
 	{
 		*this += 2.0 * this->Dot(norm) * norm.GetReverse();
 	}
@@ -138,7 +138,7 @@ struct Vector2D
 	// Returns the vector that is the reverse of this vector
 	//---------------------------------------------------------------------------
 
-	inline Vector2D Vector2D::GetReverse() const
+	inline Vector2D GetReverse() const
 	{
 		return Vector2D(-this->x, -this->y);
 	}

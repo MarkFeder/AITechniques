@@ -1,6 +1,6 @@
-#include "Steering-Behaviours/Public/SteeringBehaviors.h"
-#include "Steering-Behaviours/Public/Vehicle.h"
-#include "Steering-Behaviours/Public/GameWorld.h"
+#include "Public/SteeringBehaviors.h"
+#include "Public/Vehicle.h"
+#include "Public/GameWorld.h"
 
 #include "Public/2D/Wall2D.h"
 #include "Public/2D/Transformations.h"
