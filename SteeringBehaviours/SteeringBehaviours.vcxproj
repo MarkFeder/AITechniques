@@ -73,6 +73,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)src;$(SolutionDir)Common\src;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)bin\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)bin\Intermediate\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
