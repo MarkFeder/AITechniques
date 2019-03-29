@@ -674,7 +674,7 @@ Vector2D SteeringBehavior::GetHidingPosition(const Vector2D& posObstacle, const 
 // the agent towards the target
 //---------------------------------------------------------------------------------
 
-Vector2D SteeringBehavior::Seek(Vector2D& targetPos)
+Vector2D SteeringBehavior::Seek(const Vector2D& targetPos)
 {
 	Vector2D desiredVelocity = Vec2DNormalize(targetPos - m_pVehicle->Pos()) * m_pVehicle->MaxSpeed();
 	return (desiredVelocity - m_pVehicle->Velocity());
@@ -684,7 +684,7 @@ Vector2D SteeringBehavior::Seek(Vector2D& targetPos)
 // Does the opposite of Seek
 //---------------------------------------------------------------------------------
 
-Vector2D SteeringBehavior::Flee(Vector2D& targetPos)
+Vector2D SteeringBehavior::Flee(const Vector2D& targetPos)
 {
 	Vector2D desiredVelocity = Vec2DNormalize(m_pVehicle->Pos() - targetPos) * m_pVehicle->MaxSpeed();
 	return (desiredVelocity - m_pVehicle->Velocity());

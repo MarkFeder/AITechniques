@@ -198,9 +198,9 @@ inline void InPlaceVectorToWorldSpace(Vector2D& vec,
 // --------------------------------------------------------------------------
 
 inline Vector2D PointToLocalSpace(const Vector2D& point,
-	Vector2D& agentHeading,
-	Vector2D& agentSide,
-	Vector2D& agentPosition)
+	const Vector2D& agentHeading,
+	const Vector2D& agentSide,
+	const Vector2D& agentPosition)
 {
 	// Make a copy of the point
 	Vector2D transPoint = point;

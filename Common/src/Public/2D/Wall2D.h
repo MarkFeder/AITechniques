@@ -35,9 +35,9 @@ public:
 	const Vector2D& Center() const { (m_vA + m_vB) / 2.0; }
 
 	// Setters
-	void SetFrom(Vector2D& v) { m_vA = v; CalculateNormal(); }
-	void SetTo(Vector2D& v) { m_vB = v; CalculateNormal(); }
-	void SetNormal(Vector2D& v) { m_vN = v; }
+	void SetFrom(const Vector2D& v) { m_vA = v; CalculateNormal(); }
+	void SetTo(const Vector2D& v) { m_vB = v; CalculateNormal(); }
+	void SetNormal(const Vector2D& v) { m_vN = v; }
 
 	// Render wall along with its info
 	virtual void Render(bool renderNormals = false) const

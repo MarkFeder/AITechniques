@@ -169,11 +169,11 @@ private:
 	//--------------------------------------------------------------------------
 
 	// This behaviour moves the agent towards a target position
-	Vector2D Seek(Vector2D& targetPos);
+	Vector2D Seek(const Vector2D& targetPos);
 
 	// This behaviour returns a vector that moves the agent away
 	// from a target position
-	Vector2D Flee(Vector2D& targetPos);
+	Vector2D Flee(const Vector2D& targetPos);
 
 	// This behaviour is similar to seek but it attempts to arrive at
 	// the target position with a zero velocity

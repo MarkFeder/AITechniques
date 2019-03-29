@@ -152,10 +152,10 @@ public:
 	// target's neighborhood region. If they are added to neighbor list
 	//----------------------------------------------------------------------
 
-	inline void CalculateNeighbors(Vector2D& targetPos, double queryRadius)
+	inline void CalculateNeighbors(const Vector2D& targetPos, double queryRadius)
 	{
 		// Create an iterator and set it to the beginning of the neighbor vector
-		std::vector<Entity>::iterator curNeighbor = m_neighbors.begin();
+		typename std::vector<Entity>::iterator curNeighbor = m_neighbors.begin();
 
 		// Create the query box that is the bounding box of the target's query area
 		InvertedAABox2D queryBox(
@@ -165,15 +165,14 @@ public:
 
 		// Iterate through each cell and test to see if its bounding box overlaps with the query box. 
 		// If it does and it also contains entities then make further proximity tests
-		std::vector<Cell<Entity>>::iterator curCell;
+		typename std::vector<Cell<Entity>>::iterator curCell;
 		for (curCell = m_cells.begin(); curCell != m_cells.end(); ++curCell)
 		{
 			// Test to see if this cell contains members and if it overlaps the query box
 			if ((*curCell).m_bBox.IsOverlappedWith(queryBox) && !(*curCell).m_members.empty())
 			{
 				// Add any entities found within query radius to the neighbor list
-				std::list<Entity>::iterator it = curCell->m_members.begin();
-				for (it; it != curCell->m_members.end(); ++it)
+				for (typename std::list<Entity>::iterator it = curCell->m_members.begin(); it != curCell->m_members.end(); ++it)
 				{
 					if (Vec2DDistanceSq((*it)->Pos(), targetPos) < (queryRadius * queryRadius))
 					{
@@ -193,7 +192,7 @@ public:
 
 	inline void EmptyCells()
 	{
-		std::vector<Cell<Entity>>::iterator it = m_cells.begin();
+		typename std::vector<Cell<Entity>>::iterator it = m_cells.begin();
 
 		for (it; it != m_cells.end(); ++it)
 		{
@@ -206,7 +205,7 @@ public:
 
 	inline void RenderCells() const
 	{
-		std::vector<Cell<Entity>>::const_iterator curCell;
+		typename std::vector<Cell<Entity>>::const_iterator curCell;
 		for (curCell = m_cells.cbegin(); curCell != m_cells.cend(); ++curCell)
 		{
 			(*curCell).m_bBox.Render(false);

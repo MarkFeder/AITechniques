@@ -15,8 +15,8 @@
 //--------------------------- Globals ------------------------------------------
 //------------------------------------------------------------------------------
 
-char* g_szApplicationName = "Steering Behaviours";
-char* g_szWindowClassName = "MyWindowClass";
+const char* g_szApplicationName = "Steering Behaviours";
+const char* g_szWindowClassName = "MyWindowClass";
 
 GameWorld* g_gameWorld;
 
@@ -174,13 +174,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine
 	winClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	winClass.hbrBackground = NULL;
 	winClass.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
-	winClass.lpszClassName = g_szWindowClassName;
+	winClass.lpszClassName = (LPCWSTR)g_szWindowClassName;
 	winClass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
 	// Register the window class
 	if (!RegisterClassEx(&winClass))
 	{
-		MessageBox(NULL, "Registration Failed!", "Error", 0);
+		MessageBox(NULL, (LPCWSTR)L"Registration Failed!", (LPCWSTR)L"Error", 0);
 
 		// Exit the application
 		return 0;
@@ -189,8 +189,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine
 	// Create the window and assign its ID to hwnd
 	hWnd = CreateWindowEx(
 		NULL, // Extended style
-		g_szWindowClassName, // Window class name
-		g_szApplicationName, // Window caption
+		(LPCWSTR)g_szWindowClassName, // Window class name
+		(LPCWSTR)g_szApplicationName, // Window caption
 		WS_OVERLAPPED | WS_VISIBLE | WS_CAPTION | WS_SYSMENU,
 		GetSystemMetrics(SM_CXSCREEN) / 2 - CONST_WINDOW_WIDTH / 2,
 		GetSystemMetrics(SM_CYSCREEN) / 2 - CONST_WINDOW_HEIGHT / 2,
@@ -205,7 +205,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine
 	// Make sure the window creation has gone OK
 	if (!hWnd)
 	{
-		MessageBox(NULL, "CreateWindowEx Failed!", "Error!", 0);
+		MessageBox(NULL, (LPCWSTR)L"CreateWindowEx Failed!", (LPCWSTR)L"Error!", 0);
 	}
 
 	// Make the window visible
@@ -255,7 +255,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine
 
 	delete g_gameWorld;
 
-	UnregisterClass(g_szWindowClassName, winClass.hInstance);
+	UnregisterClass((LPCWSTR)g_szWindowClassName, winClass.hInstance);
 
 	return msg.wParam;
 }

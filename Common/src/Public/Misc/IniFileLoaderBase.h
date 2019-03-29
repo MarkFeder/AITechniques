@@ -41,7 +41,7 @@ private:
 
 public:
 
-	IniFileLoaderBase(char* filename)
+	IniFileLoaderBase(const char* filename)
 		:m_file(filename),
 		m_currentLine(""),
 		m_delims(" \; =,"),
