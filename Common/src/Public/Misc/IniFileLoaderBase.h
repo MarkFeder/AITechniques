@@ -41,14 +41,12 @@ private:
 
 public:
 
-	IniFileLoaderBase(const char* filename)
-		:m_file(filename),
-		m_currentLine(""),
+	IniFileLoaderBase(const std::string& filename)
+		:m_currentLine(""),
 		m_delims(" \; =,"),
 		m_bGoodFile(true)
 	{
-		fs::perms p(fs::status(filename).permissions());
-		const char* permissions = ((p & fs::perms::owner_read) != fs::perms::none ? "r" : "-");
+		m_file.open(filename, std::ifstream::in);
 
 		if (!m_file.is_open())
 		{

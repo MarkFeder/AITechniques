@@ -101,7 +101,7 @@ Cgdi::~Cgdi()
 
 void Cgdi::StartDrawing(HDC hdc)
 {
-	assert(m_hdc != nullptr);
+	assert(m_hdc == nullptr);
 
 	m_hdc = hdc;
 
